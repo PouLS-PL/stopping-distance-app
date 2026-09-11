@@ -20,5 +20,8 @@ export default defineConfig([
       },
       parserOptions: { ecmaFeatures: { jsx: true } },
     },
+    rules: {
+      'linebreak-style': ['error', 'windows'],
+    },
   },
 ])
