@@ -36,6 +36,11 @@ strong {
   color: #646cff;
 }
 
+.incline {
+  display: flex;
+  align-items: center;
+}
+
 /* Light mode overrides */
 @media (prefers-color-scheme: light) {
   :root {
