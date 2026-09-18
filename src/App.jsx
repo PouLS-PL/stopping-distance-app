@@ -6,6 +6,8 @@ function App() {
   const [speed, setSpeed] = useState(40);
   const [isFocusedSpeed, setIsFocusedSpeed] = useState(false);
   const [isFocusedIncline, setIsFocusedIncline] = useState(false);
+  
+  const buttonOptions = [-15, -10, -7, 0, 6, 8, 15]
 
   const queryBackend = () => {
     fetch("/api/hello")
@@ -48,11 +50,17 @@ function App() {
         />
         <input
           type={isFocusedIncline ? "number" : "text"}
-          value={isFocusedIncline ? incline : `${incline}°`}
+          value={isFocusedIncline ? incline : `${incline}%`}
           onFocus={() => setIsFocusedIncline(true)}
           onBlur={() => setIsFocusedIncline(false)}
           onChange={(e) => setIncline(Number(e.target.value))}
         />
+      </div>
+      <div className="inclineQuickButtons">
+        {buttonOptions.map((num) =>
+        (<button onClick={() => setIncline(num)}>
+          {num}%
+        </button>))}
       </div>
     </div>
   );

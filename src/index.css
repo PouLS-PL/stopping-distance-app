@@ -10,15 +10,15 @@
 body {
   margin: 0;
   display: flex;
-  place-items: center;
-  min-width: 320px;
+  place-items: top;
+  min-width: 225px;
   min-height: 100vh;
 }
 
 #root {
   max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
+  margin: 0;
+  padding: 6px;
   text-align: center;
 }
 
@@ -49,6 +49,13 @@ strong {
 
 :is(.incline, .speed) input:is([type="text"], [type="number"]) {
   width: 80px;
+}
+
+.inclineQuickButtons button
+{
+  box-sizing: content-box;
+  padding: 10px;
+  text-align: center;
 }
 
 /* Light mode overrides */
