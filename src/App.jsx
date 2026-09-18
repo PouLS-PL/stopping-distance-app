@@ -6,12 +6,19 @@ function App() {
   const [speed, setSpeed] = useState(40);
   const [isFocusedSpeed, setIsFocusedSpeed] = useState(false);
   const [isFocusedIncline, setIsFocusedIncline] = useState(false);
-  
-  const buttonOptions = [-15, -10, -7, 0, 6, 8, 15]
+
+  const buttonOptions = [-15, -10, -7, 0, 6, 8, 15];
 
   const queryBackend = () => {
-    fetch("/api/hello")
-      .then((res) => res.json())
+    fetch("/api/measure", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ speed: 1 }),
+    })
+    .then((res) => {
+      if (!res.ok) throw new Error(`HTTP error! ${res}`);
+      return res.json();
+    })
       .then((data) => setMessage(data.message));
   };
 
@@ -57,10 +64,11 @@ function App() {
         />
       </div>
       <div className="inclineQuickButtons">
-        {buttonOptions.map((num) =>
-        (<button onClick={() => setIncline(num)}>
-          {num}%
-        </button>))}
+        {buttonOptions.map((num) => (
+          <button key={num} onClick={() => setIncline(num)}>
+            {num}%
+          </button>
+        ))}
       </div>
     </div>
   );
