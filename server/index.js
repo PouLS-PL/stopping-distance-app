@@ -15,3 +15,66 @@ app.get('/api/hello', (req, res) => {
 app.listen(PORT, () => {
     console.log(`Server running on http://localhost:${PORT}`);
 });
+
+const g = 9.80665; // standard gravity in m/s/s
+const k_dry = 0.9; // friction coefficient on dry asphalt
+const sand = 0.55; // friction coefficient on asphalt covered in sand
+const wet = 0.45; // friction coefficient on wet asphalt
+const snow = 0.25; // friction coefficient asphalt covered in snow
+const ice = 0.1; // friction coefficient on black ice 
+
+v = kmh_to_ms(100.0); // temp hardcoded value
+a = 8.0; // temp hardcoded value
+t = 1.35; // temp hardcoded value
+
+// converts km/h to m/s
+function kmh_to_ms(v) {
+    return (1000 * v) / 3600;
+}
+function ms_to_kmh(v) {
+    return v * 1000 * 3600;
+}
+
+
+
+// v - speed in m/s
+// a - deceleration in m/s/s (do not use negative values)
+function braking_distance(v, a) {
+    return (v * v) / (2 * a);
+}
+
+// v - speed in m/s
+// t - total reaction time in seconds
+// returns reaction distance in meters
+function reaction_distance(v, t) {
+    return v * t;
+}
+
+// v - speed in m/s
+// a - deceleration in m/s/s (do not use negative values)
+// t - total reaction time in seconds
+function stopping_distance(v, a, t) {
+    return reaction_distance(v, t) + braking_distance(v, a);
+}
+
+// F - total braking force in Newtons
+// m - total mass in kg
+// returns deceleration in m/s/s
+function calculate_deceleration(F, m) {
+    return F / m;
+}
+
+// v - speed in m/s
+// a - deceleration in m/s/s on a level road with dry surface (do not use negative values) 
+// t - total reaction time in seconds
+// k - friction coefficient (0.9 for dry surface)
+// incline - incline in slope % (positive = car goes up)
+// displays stopping distance=
+function display_stopping_distance(v, a, t, k = 0.9, incline = 0.0) {
+    a = a / 0.9;
+    a = a * k;
+    a = a - g * Math.sin(Math.atan(incline / 100)); // todo: check if this is correct
+
+    return stopping_distance(v, a, t); //in the future, it displays it instead of returning it
+}
+
