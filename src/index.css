@@ -22,6 +22,11 @@ body {
   text-align: center;
 }
 
+#main {
+  display: flex;
+  justify-content: center;
+}
+
 h1 {
   font-size: 2.2rem;
   margin-bottom: 0.5rem;
@@ -36,9 +41,14 @@ strong {
   color: #646cff;
 }
 
-.incline {
+.incline, .speed {
   display: flex;
   align-items: center;
+  justify-content: center;
+}
+
+:is(.incline, .speed) input:is([type="text"], [type="number"]) {
+  width: 80px;
 }
 
 /* Light mode overrides */
