@@ -13,7 +13,7 @@ function App() {
     fetch("/api/measure", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ speed: 1 }),
+      body: JSON.stringify({ speed: speed }),
     })
     .then((res) => {
       if (!res.ok) throw new Error(`HTTP error! ${res}`);
