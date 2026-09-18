@@ -28,16 +28,27 @@ const wet = 0.45; // friction coefficient on wet asphalt
 const snow = 0.25; // friction coefficient asphalt covered in snow
 const ice = 0.1; // friction coefficient on black ice 
 
-v = kmh_to_ms(100.0); // temp hardcoded value
-a = 8.0; // temp hardcoded value
-t = 1.35; // temp hardcoded value
+let v = kmh_to_ms(100.0); // temp hardcoded value
+let a = 8.0; // temp hardcoded value
+let t = 1.35; // temp hardcoded value
 
 // converts km/h to m/s
 function kmh_to_ms(v) {
     return (1000 * v) / 3600;
 }
+// converts m/s to km/h
 function ms_to_kmh(v) {
     return v * 1000 * 3600;
+}
+
+// converts fraction of g to m/s^2
+function g_to_ms2(ag) {
+    return ag * g;
+}
+
+// converts m/s^2 to fraction of g
+function ms2_to_g(a) {
+    return a / g;
 }
 
 
@@ -74,7 +85,7 @@ function calculate_deceleration(F, m) {
 // t - total reaction time in seconds
 // k - friction coefficient (0.9 for dry surface)
 // incline - incline in slope % (positive = car goes up)
-// displays stopping distance=
+// displays stopping distanc
 function display_stopping_distance(v, a, t, k = 0.9, incline = 0.0) {
     a = a / 0.9;
     a = a * k;
