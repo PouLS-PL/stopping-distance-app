@@ -29,6 +29,8 @@ const snow = 0.25; // friction coefficient asphalt covered in snow
 const ice = 0.1; // friction coefficient on black ice
 
 app.post('/api/measure', (req, res) => {
+    let a = 8.0; // temp hardcoded value
+    let t = 1.35; // temp hardcoded value
     // Extract speed from req.body and ensure it's a number
     const speed = parseFloat(req.body.speed);
 
@@ -40,13 +42,15 @@ app.post('/api/measure', (req, res) => {
     let v = kmh_to_ms(speed);
 
     // Perform any physics calculations using v here...
-
-    res.json({ message: `Received ${speed}` });
+    console.log(`v = ${v}`);
+    console.log(`a = ${a}`);
+    console.log(`t = ${t}`);
+    res.json({ message: `Droga zatzymania: ${display_stopping_distance(v, a, t)} m` });
 });
 
 //let v = kmh_to_ms(100.0); // temp hardcoded value
-let a = 8.0; // temp hardcoded value
-let t = 1.35; // temp hardcoded value
+//let a = 8.0; // temp hardcoded value
+//let t = 1.35; // temp hardcoded value
 
 // converts km/h to m/s
 function kmh_to_ms(v) {
@@ -106,6 +110,9 @@ function display_stopping_distance(v, a, t, k = 0.9, incline = 0.0) {
     a = a / 0.9;
     a = a * k;
     a = a - g * Math.sin(Math.atan(incline / 100)); // todo: check if this is correct
+    console.log(`after deceleration calculation: a = ${a}`);
+    console.log(`reaction distance = ${reaction_distance(v, t)}`);
+    console.log(`braking distance = ${braking_distance(v, a)}`);
 
     return stopping_distance(v, a, t); //in the future, it displays it instead of returning it
 }
