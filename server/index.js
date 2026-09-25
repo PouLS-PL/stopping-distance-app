@@ -17,20 +17,46 @@ app.listen(PORT, () => {
     console.log(`Server running on http://localhost:${PORT}`);
 });
 
-app.post('/api/measure', (req, res) => {
-  res.json({ message: `Received ${req.body.speed}` });
-});
+//app.post('/api/measure', (req, res) => {
+//  res.json({ message: `Received ${req.body.speed}` });
+//});
 
 const g = 9.80665; // standard gravity in m/s/s
 const k_dry = 0.9; // friction coefficient on dry asphalt
 const sand = 0.55; // friction coefficient on asphalt covered in sand
 const wet = 0.45; // friction coefficient on wet asphalt
 const snow = 0.25; // friction coefficient asphalt covered in snow
-const ice = 0.1; // friction coefficient on black ice 
+const ice = 0.1; // friction coefficient on black ice
 
-let v = kmh_to_ms(100.0); // temp hardcoded value
-let a = 8.0; // temp hardcoded value
-let t = 1.35; // temp hardcoded value
+app.post('/api/measure', (req, res) => {
+    let a = 8.0; // temp hardcoded value
+    let t = 1.35; // temp hardcoded value
+    // Extract speed and incline from req.body and ensure it's a number
+    const speed = parseFloat(req.body.speed);
+    //const _incline = parseFloat(req.body.incline);
+
+    if (isNaN(speed)) {
+        return res.status(400).json({ error: 'Invalid speed value provided' });
+    }
+
+    /*if (isNaN(_incline)) {
+        return res.status(400).json({ error: 'Invalid incline value provided' });
+    }*/
+
+    // Automatically set v based on the request
+    let v = kmh_to_ms(speed);
+
+    // Perform any physics calculations using v here...
+    console.log(`v = ${v}`);
+    console.log(`a = ${a}`);
+    console.log(`t = ${t}`);
+   // console.log(`incline = ${_incline}`)
+    res.json({ message: `Droga zatzymania: ${display_stopping_distance(v, a, t)} m` });
+});
+
+//let v = kmh_to_ms(100.0); // temp hardcoded value
+//let a = 8.0; // temp hardcoded value
+//let t = 1.35; // temp hardcoded value
 
 // converts km/h to m/s
 function kmh_to_ms(v) {
@@ -85,12 +111,15 @@ function calculate_deceleration(F, m) {
 // t - total reaction time in seconds
 // k - friction coefficient (0.9 for dry surface)
 // incline - incline in slope % (positive = car goes up)
-// displays stopping distanc
+// returns stopping distance rounded up
 function display_stopping_distance(v, a, t, k = 0.9, incline = 0.0) {
     a = a / 0.9;
     a = a * k;
     a = a - g * Math.sin(Math.atan(incline / 100)); // todo: check if this is correct
+    console.log(`after deceleration calculation: a = ${a}`);
+    console.log(`reaction distance = ${reaction_distance(v, t)}`);
+    console.log(`braking distance = ${braking_distance(v, a)}`);
 
-    return stopping_distance(v, a, t); //in the future, it displays it instead of returning it
+    return Math.ceil(stopping_distance(v, a, t));
 }
 
