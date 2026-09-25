@@ -29,10 +29,12 @@ const snow = 0.25; // friction coefficient asphalt covered in snow
 const ice = 0.1; // friction coefficient on black ice
 
 app.post('/api/measure', (req, res) => {
-    let a = 8.0; // temp hardcoded value
-    let t = 1.35; // temp hardcoded value
+    //let a = 8.0; // temp hardcoded value
+    //let t = 1.35; // temp hardcoded value
     // Extract speed and incline from req.body and ensure it's a number
     const speed = parseFloat(req.body.speed);
+    let a = parseFloat(req.body.deceleration);
+    let t = parseFloat(req.body.reactionTime);
     //const _incline = parseFloat(req.body.incline);
 
     if (isNaN(speed)) {
