@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 
-function Settings({ initialDelay, initialReactionTime, onSaveAndBack }) {
-  const [localDelay, setLocalDelay] = useState(initialDelay);
+function Settings({ initialDeceleration, initialReactionTime, onSaveAndBack }) {
+  const [localDeceleration, setLocalDeceleration] = useState(initialDeceleration);
   const [localReactionTime, setLocalReactionTime] = useState(initialReactionTime);
 
   const handleSaveAndBack = () => {
-    onSaveAndBack(localDelay, localReactionTime);
+    onSaveAndBack(localDeceleration, localReactionTime);
   };
 
   return (
@@ -13,12 +13,12 @@ function Settings({ initialDelay, initialReactionTime, onSaveAndBack }) {
       <h2>Ustawienia aplikacji</h2>
       
       <p>
-        <label htmlFor="delay">Opóźnienie (m/s^2) </label>
+        <label htmlFor="deceleration">Opóźnienie (m/s^2) </label>
         <input 
           type="number" 
-          id="delay" 
-          value={localDelay} 
-          onChange={(e) => setLocalDelay(Number(e.target.value))}
+          id="deceleration" 
+          value={localDeceleration} 
+          onChange={(e) => setLocalDeceleration(Number(e.target.value))}
         />
       </p>
       
@@ -39,7 +39,7 @@ function Settings({ initialDelay, initialReactionTime, onSaveAndBack }) {
 
 function App() {
   const [page, setPage] = useState(1); 
-  const [delay, setDelay] = useState(0);
+  const [deceleration, setDeceleration] = useState(0);
   const [reactionTime, setReactionTime] = useState(0);
   const [message, setMessage] = useState("");
   const [incline, setIncline] = useState(0);
@@ -56,7 +56,7 @@ function App() {
       body: JSON.stringify({ 
         speed: speed,
         incline: incline,
-        delay: delay,
+        deceleration: deceleration,
         reactionTime: reactionTime
       }),
     })
@@ -127,10 +127,10 @@ function App() {
         </>
       ) : (
         <Settings 
-          initialDelay={delay} 
+          initialDeceleration={deceleration} 
           initialReactionTime={reactionTime} 
-          onSaveAndBack={(newDelay, newReactionTime) => {
-            setDelay(newDelay);
+          onSaveAndBack={(newDeceleration, newReactionTime) => {
+            setDeceleration(newDeceleration);
             setReactionTime(newReactionTime);
             setPage(1);
           }} 
