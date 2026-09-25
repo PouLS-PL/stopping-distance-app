@@ -126,20 +126,40 @@ function App() {
               </button>
             ))}
           </div>
-          <div className="Conditions">
-            <button className="condition-button" onClick={() => setCondition("Dry")}>
+<div className="Conditions">
+            <button 
+              className={`condition-button ${condition === "Sun" ? "active" : ""}`} 
+              style={{ border: condition === "Sun" ? "2px solid black" : "1px solid gray" }}
+              onClick={() => setCondition("Sun")}
+            >
               Słońce
             </button>
-            <button className="condition-button" onClick={() => setCondition("Wet")}>
+<button 
+              className={`condition-button ${condition === "Rain" ? "active" : ""}`} 
+              style={{ border: condition === "Rain" ? "2px solid black" : "1px solid gray" }}
+              onClick={() => setCondition("Rain")}
+            >
               Deszcz
             </button>
-            <button className="condition-button" onClick={() => setCondition("Sand")}>
+            <button 
+              className={`condition-button ${condition === "Sand" ? "active" : ""}`} 
+              style={{ border: condition === "Sand" ? "2px solid black" : "1px solid gray" }}
+              onClick={() => setCondition("Sand")}
+            >
               Piasek
             </button>
-            <button className="condition-button" onClick={() => setCondition("Snow")}>
+            <button 
+              className={`condition-button ${condition === "Snow" ? "active" : ""}`} 
+              style={{ border: condition === "Snow" ? "2px solid black" : "1px solid gray" }}
+              onClick={() => setCondition("Snow")}
+            >
               Śnieg
             </button>
-            <button className="condition-button" onClick={() => setCondition("Ice")}>
+            <button 
+              className={`condition-button ${condition === "Ice" ? "active" : ""}`} 
+              style={{ border: condition === "Ice" ? "2px solid black" : "1px solid gray" }}
+              onClick={() => setCondition("Ice")}
+            >
               Lód
             </button>
           </div>
