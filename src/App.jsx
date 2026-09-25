@@ -39,9 +39,9 @@ function Settings({ initialDeceleration, initialReactionTime, onSaveAndBack }) {
 
 function App() {
   const [page, setPage] = useState(1); 
-  const [condition, setCondition] = useState("Sun");
-  const [deceleration, setDeceleration] = useState(0);
-  const [reactionTime, setReactionTime] = useState(0);
+  const [condition, setCondition] = useState("Dry");
+  const [deceleration, setDeceleration] = useState(8.0);
+  const [reactionTime, setReactionTime] = useState(1.35);
   const [message, setMessage] = useState("");
   const [incline, setIncline] = useState(0);
   const [speed, setSpeed] = useState(40);
@@ -58,7 +58,8 @@ function App() {
         speed: speed,
         incline: incline,
         deceleration: deceleration,
-        reactionTime: reactionTime
+        reactionTime: reactionTime,
+        condition: condition
       }),
     })
     .then((res) => {
@@ -126,10 +127,10 @@ function App() {
             ))}
           </div>
           <div className="Conditions">
-            <button className="condition-button" onClick={() => setCondition("Sun")}>
+            <button className="condition-button" onClick={() => setCondition("Dry")}>
               Słońce
             </button>
-            <button className="condition-button" onClick={() => setCondition("Rain")}>
+            <button className="condition-button" onClick={() => setCondition("Wet")}>
               Deszcz
             </button>
             <button className="condition-button" onClick={() => setCondition("Sand")}>

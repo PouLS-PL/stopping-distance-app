@@ -31,6 +31,27 @@ const ice = 0.1; // friction coefficient on black ice
 app.post('/api/measure', (req, res) => {
     //let a = 8.0; // temp hardcoded value
     //let t = 1.35; // temp hardcoded value
+    console.log(`condition: ${req.body.condition}`);
+    let k = k_dry;
+    switch (req.body.condition) {
+        case "Dry":
+            k = k_dry;
+            break;
+        case "Sand":
+            k = sand;
+            break;
+        case "Wet":
+            k = wet;
+            break;
+        case "Snow":
+            k = snow;
+            break;
+        case "Ice":
+            k = ice;
+            break;
+
+    }
+    console.log(`k = ${k}`);
     // Extract speed and incline from req.body and ensure it's a number
     const speed = parseFloat(req.body.speed);
     const incline = parseFloat(req.body.incline) || 0;
@@ -54,7 +75,7 @@ app.post('/api/measure', (req, res) => {
     console.log(`a = ${a}`);
     console.log(`t = ${t}`);
     console.log(`incline = ${incline}`)
-    res.json({ message: `Droga zatzymania: ${display_stopping_distance(v, a, t, k_dry, incline)} m` });
+    res.json({ message: `Droga zatzymania: ${display_stopping_distance(v, a, t, k, incline)} m` });
 });
 
 //let v = kmh_to_ms(100.0); // temp hardcoded value
