@@ -39,6 +39,7 @@ function Settings({ initialDeceleration, initialReactionTime, onSaveAndBack }) {
 
 function App() {
   const [page, setPage] = useState(1); 
+  const [condition, setCondition] = useState("Sun");
   const [deceleration, setDeceleration] = useState(0);
   const [reactionTime, setReactionTime] = useState(0);
   const [message, setMessage] = useState("");
@@ -123,6 +124,23 @@ function App() {
                 {num}%
               </button>
             ))}
+          </div>
+          <div className="Conditions">
+            <button className="condition-button" onClick={() => setCondition("Sun")}>
+              Słońce
+            </button>
+            <button className="condition-button" onClick={() => setCondition("Rain")}>
+              Deszcz
+            </button>
+            <button className="condition-button" onClick={() => setCondition("Sand")}>
+              Piasek
+            </button>
+            <button className="condition-button" onClick={() => setCondition("Snow")}>
+              Śnieg
+            </button>
+            <button className="condition-button" onClick={() => setCondition("Ice")}>
+              Lód
+            </button>
           </div>
         </>
       ) : (
