@@ -33,6 +33,7 @@ app.post('/api/measure', (req, res) => {
     //let t = 1.35; // temp hardcoded value
     // Extract speed and incline from req.body and ensure it's a number
     const speed = parseFloat(req.body.speed);
+    const incline = parseFloat(req.body.incline) || 0;
     let a = parseFloat(req.body.deceleration);
     let t = parseFloat(req.body.reactionTime);
     //const _incline = parseFloat(req.body.incline);
@@ -52,8 +53,8 @@ app.post('/api/measure', (req, res) => {
     console.log(`v = ${v}`);
     console.log(`a = ${a}`);
     console.log(`t = ${t}`);
-   // console.log(`incline = ${_incline}`)
-    res.json({ message: `Droga zatzymania: ${display_stopping_distance(v, a, t)} m` });
+    console.log(`incline = ${incline}`)
+    res.json({ message: `Droga zatzymania: ${display_stopping_distance(v, a, t, k_dry, incline)} m` });
 });
 
 //let v = kmh_to_ms(100.0); // temp hardcoded value
@@ -117,7 +118,7 @@ function calculate_deceleration(F, m) {
 function display_stopping_distance(v, a, t, k = 0.9, incline = 0.0) {
     a = a / 0.9;
     a = a * k;
-    a = a - g * Math.sin(Math.atan(incline / 100)); // todo: check if this is correct
+    a = a + g * Math.sin(Math.atan(incline / 100)); // todo: check if this is correct
     console.log(`after deceleration calculation: a = ${a}`);
     console.log(`reaction distance = ${reaction_distance(v, t)}`);
     console.log(`braking distance = ${braking_distance(v, a)}`);
