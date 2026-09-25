@@ -68,3 +68,10 @@ strong {
     color: #555;
   }
 }
+
+.condition-button  {
+  margin: 10px;
+  height: 8em;
+  width:5em;
+  text-align: center;
+}

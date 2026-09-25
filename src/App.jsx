@@ -124,6 +124,13 @@ function App() {
               </button>
             ))}
           </div>
+          <div className="Conditions">
+            <button className="condition-button">Słońce</button>
+            <button className="condition-button">Deszcz</button>
+            <button className="condition-button">Piasek</button>
+            <button className="condition-button">Śnieg</button>
+            <button className="condition-button">Lód</button>
+          </div>
         </>
       ) : (
         <Settings 
