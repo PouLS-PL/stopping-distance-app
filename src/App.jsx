@@ -1,4 +1,5 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import { calculateMeasure } from "./stoppingDistance";
 
 function Settings({ initialDeceleration, initialReactionTime, onSaveAndBack }) {
   const [localDeceleration, setLocalDeceleration] = useState(initialDeceleration);
@@ -50,24 +51,19 @@ function App() {
 
   const buttonOptions = [-15, -10, -7, 0, 6, 8, 15];
 
-  const queryBackend = () => {
-    fetch("/api/measure", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ 
-        speed: speed,
-        incline: incline,
-        deceleration: deceleration,
-        reactionTime: reactionTime,
-        condition: condition
-      }),
-    })
-    .then((res) => {
-      if (!res.ok) throw new Error(`HTTP error! ${res}`);
-      return res.json();
-    })
-    .then((data) => setMessage(data.message))
-    .catch((err) => console.error(err));
+  const handleMeasure = () => {
+    const result = calculateMeasure({
+      speed,
+      incline,
+      deceleration,
+      reactionTime,
+      condition,
+    });
+    if (result.error) {
+      setMessage(result.error);
+    } else {
+      setMessage(result.message);
+    }
   };
 
   return (
@@ -76,7 +72,7 @@ function App() {
       
       {page === 1 ? (
         <>
-          <button onClick={() => queryBackend()}>Zmierz</button>
+          <button onClick={handleMeasure}>Zmierz</button>
           <button onClick={() => setPage(2)}>Ustawienia</button>
           
           <p>
@@ -126,7 +122,7 @@ function App() {
               </button>
             ))}
           </div>
-<div className="Conditions">
+          <div className="Conditions">
             <button 
               className={`condition-button ${condition === "Sun" ? "active" : ""}`} 
               style={{ border: condition === "Sun" ? "2px solid black" : "1px solid gray" }}
@@ -134,7 +130,7 @@ function App() {
             >
               Słońce
             </button>
-<button 
+            <button
               className={`condition-button ${condition === "Rain" ? "active" : ""}`} 
               style={{ border: condition === "Rain" ? "2px solid black" : "1px solid gray" }}
               onClick={() => setCondition("Rain")}

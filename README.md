@@ -22,11 +22,9 @@ npm install
 
 ### 3. Run the Application
 
-Start the backend and the frontend:
+Start the app:
 ```bash
 npm run dev
 ```
 
 Open your browser and navigate to `http://localhost:5173/` (or the URL displayed in your terminal) to use the showcase.
-
-test

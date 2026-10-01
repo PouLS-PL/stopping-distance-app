@@ -7,8 +7,5 @@ export default defineConfig({
     watch: {
       ignored: ['**/.vs/**'],
     },
-    proxy: {
-      '/api': 'http://localhost:5000',
-    },
   },
 });
