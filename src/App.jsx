@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { calculateMeasure } from "./stoppingDistance";
 
 function Settings({ initialDeceleration, initialReactionTime, onSaveAndBack }) {
@@ -50,6 +50,8 @@ function App() {
   const [isFocusedIncline, setIsFocusedIncline] = useState(false);
 
   const buttonOptions = [-15, -10, -7, 0, 6, 8, 15];
+
+  useEffect(() => {handleMeasure();}, [speed, incline, deceleration, reactionTime, condition]);
 
   const handleMeasure = () => {
     const result = calculateMeasure({
