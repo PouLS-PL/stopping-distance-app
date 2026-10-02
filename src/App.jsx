@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { calculateMeasure } from "./stoppingDistance";
+import SpeedTracker from "./SpeedMeasurement";
 
 function Settings({ initialDeceleration, initialReactionTime, onSaveAndBack }) {
   const [localDeceleration, setLocalDeceleration] = useState(initialDeceleration);
@@ -165,6 +166,7 @@ function App() {
               Lód
             </button>
           </div>
+          <SpeedTracker />
         </>
       ) : (
         <Settings 
