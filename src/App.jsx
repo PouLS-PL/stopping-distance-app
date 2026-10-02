@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { calculateMeasure } from "./stoppingDistance";
-import SpeedTracker from "./SpeedMeasurement";
+import { SpeedTracker, useSpeedTracker } from "./SpeedMeasurement";
 
 // ==========================================
 // WSPÓLNE STYLES DLA ZNAKÓW ZAPYTANIA I TOOLTIPÓW
@@ -130,8 +130,11 @@ function App() {
   const [message, setMessage] = useState("");
   const [incline, setIncline] = useState(0);
   const [speed, setSpeed] = useState(40);
+  const [speedFromGPS, setSpeedFromGPS] = useState(false);
   const [isFocusedSpeed, setIsFocusedSpeed] = useState(false);
   const [isFocusedIncline, setIsFocusedIncline] = useState(false);
+
+  const { speedGPS, status } = useSpeedTracker();
 
   const [hoverSpeedInfo, setHoverSpeedInfo] = useState(false);
   const [hoverInclineInfo, setHoverInclineInfo] = useState(false);
@@ -139,7 +142,13 @@ function App() {
   const buttonOptions = [-15, -10, -7, 0, 6, 8, 15];
 
   useEffect(() => {handleMeasure();}, [speed, incline, deceleration, reactionTime, condition]);
-
+  useEffect(() => {
+    if (speedFromGPS && page === 1) {
+      if (speedGPS !== null && speedGPS > 0) {
+        setSpeed(speedGPS);
+      }
+    }
+  }, [speedGPS, status, speedFromGPS, page]);
   const handleMeasure = () => {
     const result = calculateMeasure({
       speed,
@@ -161,7 +170,9 @@ function App() {
       
       {page === 1 ? (
         <>
-          <button onClick={handleMeasure}>Zmierz</button>
+          <button onClick={() => {setSpeedFromGPS(!speedFromGPS); if (speedGPS !== null && speedGPS > 0 && speedFromGPS) {
+        setSpeed(speedGPS);
+      } }}>{speedFromGPS ? "GPS ✓" : "GPS ✗"}</button>
           <button onClick={() => setPage(2)}>Ustawienia</button>
           
           <p>
