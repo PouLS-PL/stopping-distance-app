@@ -251,39 +251,40 @@ function App() {
           </div>
           <div className="Conditions">
             <button 
-              className={`condition-button ${condition === "Sun" ? "active" : ""}`} 
-              style={{ border: condition === "Sun" ? "2px solid black" : "1px solid gray" }}
-              onClick={() => setCondition("Sun")}
+              className={`condition-button ${condition === "Dry" ? "active" : ""}`} 
+              style={{ border: condition === "Dry" ? "2px solid black" : "1px solid gray" }}
+              onClick={() => setCondition("Dry")}
             >
-              Słońce
-            </button>
-            <button
-              className={`condition-button ${condition === "Rain" ? "active" : ""}`} 
-              style={{ border: condition === "Rain" ? "2px solid black" : "1px solid gray" }}
-              onClick={() => setCondition("Rain")}
-            >
-              Deszcz
-            </button>
+                          <img src="public/weather_symbols_sunny.png" height="50%"/>
+                      </button>
             <button 
               className={`condition-button ${condition === "Sand" ? "active" : ""}`} 
               style={{ border: condition === "Sand" ? "2px solid black" : "1px solid gray" }}
               onClick={() => setCondition("Sand")}
             >
-              Piasek
+                          <img src="public/heap-of-sand.png" height="50%" />
             </button>
+            <button
+              className={`condition-button ${condition === "Wet" ? "active" : ""}`} 
+              style={{ border: condition === "Wet" ? "2px solid black" : "1px solid gray" }}
+                          onClick={() => setCondition("Wet")}
+            >
+                          <img src="public/weather_symbols_rain.png" height="50%" />
+            </button>
+            
             <button 
               className={`condition-button ${condition === "Snow" ? "active" : ""}`} 
               style={{ border: condition === "Snow" ? "2px solid black" : "1px solid gray" }}
               onClick={() => setCondition("Snow")}
             >
-              Śnieg
+                          <img src="public/weather_symbols_snow.png" height="50%" />
             </button>
             <button 
               className={`condition-button ${condition === "Ice" ? "active" : ""}`} 
               style={{ border: condition === "Ice" ? "2px solid black" : "1px solid gray" }}
               onClick={() => setCondition("Ice")}
             >
-              Lód
+                          <img src="public/A-32.png" height="50%" />
             </button>
           </div>
           <SpeedTracker />
