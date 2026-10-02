@@ -2,9 +2,51 @@ import { useState, useEffect } from "react";
 import { calculateMeasure } from "./stoppingDistance";
 import SpeedTracker from "./SpeedMeasurement";
 
+// ==========================================
+// WSPÓLNE STYLES DLA ZNAKÓW ZAPYTANIA I TOOLTIPÓW
+// ==========================================
+const questionMarkStyle = {
+  display: "inline-flex",
+  alignItems: "center",
+  justifyContent: "center",
+  width: "18px",
+  height: "18px",
+  borderRadius: "50%",
+  backgroundColor: "#ccc",
+  color: "#333",
+  fontSize: "12px",
+  fontWeight: "bold",
+  cursor: "help",
+  marginLeft: "8px",
+  position: "relative" // Służy jako kotwica pozycjonowania dla duszka
+};
+
+const tooltipStyle = {
+  position: "absolute",
+  bottom: "125%", // Nad znakiem zapytania
+  left: "50%",
+  transform: "translateX(-50%)",
+  backgroundColor: "#333",
+  color: "#fff",
+  padding: "6px 10px",
+  borderRadius: "4px",
+  fontSize: "12px",
+  whiteSpace: "nowrap",
+  zIndex: 10,
+  boxShadow: "0 2px 5px rgba(0,0,0,0.3)",
+  fontWeight: "normal"
+};
+
+// ==========================================
+// KOMPONENT: SETTINGS (USTAWIENIA)
+// ==========================================
 function Settings({ initialDeceleration, initialReactionTime, onSaveAndBack }) {
   const [localDeceleration, setLocalDeceleration] = useState(initialDeceleration);
   const [localReactionTime, setLocalReactionTime] = useState(initialReactionTime);
+
+  // NOWE STANY: Dla każdego znaku zapytania w ustawieniach osobny stan hoveru
+  const [hoverDecelerationInfo, setHoverDecelerationInfo] = useState(false);
+  const [hoverReactionTimeInfo, setHoverReactionTimeInfo] = useState(false);
 
   const handleSaveAndBack = () => {
     onSaveAndBack(localDeceleration, localReactionTime);
@@ -22,6 +64,19 @@ function Settings({ initialDeceleration, initialReactionTime, onSaveAndBack }) {
           value={localDeceleration} 
           onChange={(e) => setLocalDeceleration(Number(e.target.value))}
         />
+        {/* ZNAK ZAPYTANIA DLA OPÓŹNIENIA */}
+        <span 
+          style={questionMarkStyle}
+          onMouseEnter={() => setHoverDecelerationInfo(true)}
+          onMouseLeave={() => setHoverDecelerationInfo(false)}
+        >
+          ?
+          {hoverDecelerationInfo && (
+            <div style={tooltipStyle}>
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Quibusdam, esse.
+            </div>
+          )}
+        </span>
       </p>
       
       <p>
@@ -32,6 +87,19 @@ function Settings({ initialDeceleration, initialReactionTime, onSaveAndBack }) {
           value={localReactionTime} 
           onChange={(e) => setLocalReactionTime(Number(e.target.value))}
         />
+        {/* ZNAK ZAPYTANIA DLA CZASU REAKCJI */}
+        <span 
+          style={questionMarkStyle}
+          onMouseEnter={() => setHoverReactionTimeInfo(true)}
+          onMouseLeave={() => setHoverReactionTimeInfo(false)}
+        >
+          ?
+          {hoverReactionTimeInfo && (
+            <div style={tooltipStyle}>
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Nihil, expedita!
+            </div>
+          )}
+        </span>
       </p>
 
       <p><button onClick={handleSaveAndBack}>Powrót</button></p>
@@ -39,6 +107,9 @@ function Settings({ initialDeceleration, initialReactionTime, onSaveAndBack }) {
   );
 }
 
+// ==========================================
+// KOMPONENT: APP (GŁÓWNY)
+// ==========================================
 function App() {
   const [page, setPage] = useState(1); 
   const [condition, setCondition] = useState("Dry");
@@ -50,7 +121,6 @@ function App() {
   const [isFocusedSpeed, setIsFocusedSpeed] = useState(false);
   const [isFocusedIncline, setIsFocusedIncline] = useState(false);
 
-  // NOWE STANY: Dla każdego znaku zapytania osobny stan hoveru
   const [hoverSpeedInfo, setHoverSpeedInfo] = useState(false);
   const [hoverInclineInfo, setHoverInclineInfo] = useState(false);
 
@@ -71,40 +141,6 @@ function App() {
     } else {
       setMessage(result.message);
     }
-  };
-
-  // Wspólny styl dla ikony znaku zapytania "?"
-  const questionMarkStyle = {
-    display: "inline-flex",
-    alignItems: "center",
-    justifyContent: "center",
-    width: "18px",
-    height: "18px",
-    borderRadius: "50%",
-    backgroundColor: "#ccc",
-    color: "#333",
-    fontSize: "12px",
-    fontWeight: "bold",
-    cursor: "help",
-    marginLeft: "8px",
-    position: "relative" // Potrzebne jako kotwica dla tooltipa
-  };
-
-  // Wspólny styl dla wyskakującego pola tekstowego
-  const tooltipStyle = {
-    position: "absolute",
-    bottom: "125%", // Nad znakiem zapytania
-    left: "50%",
-    transform: "translateX(-50%)",
-    backgroundColor: "#333",
-    color: "#fff",
-    padding: "6px 10px",
-    borderRadius: "4px",
-    fontSize: "12px",
-    whiteSpace: "nowrap",
-    zIndex: 10,
-    boxShadow: "0 2px 5px rgba(0,0,0,0.3)",
-    fontWeight: "normal"
   };
 
   return (
