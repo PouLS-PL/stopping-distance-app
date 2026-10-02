@@ -76,6 +76,42 @@ function App() {
         <>
           <button onClick={handleMeasure}>Zmierz</button>
           <button onClick={() => setPage(2)}>Ustawienia</button>
+              <div 
+        onMouseEnter={() => setShowText(true)}
+        onMouseLeave={() => setShowText(false)}
+        style={{ 
+          position: 'relative', 
+          display: 'inline-block',
+          border: '1px solid #ccc',
+          padding: '10px 20px',
+          borderRadius: '4px',
+          cursor: 'pointer'
+        }}
+      >
+        ?
+
+        {showText && (
+          <div style={{
+            position: 'absolute',
+            bottom: '100%',        /* Nad elementem */
+            left: '50%',          
+            transform: 'translateX(-50%)',
+            marginBottom: '8px',   /* Odstęp od tekstu głównego */
+            
+            backgroundColor: '#333',
+            color: '#fff',
+            padding: '6px 12px',
+            borderRadius: '4px',
+            fontSize: '14px',
+            whiteSpace: 'nowrap',   
+            zIndex: 10
+          }}>
+            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Dolores, sequi?
+          </div>
+        )}
+
+      </div>
+
           
           <p>
             Odpowiedź: <strong>{message || "Click the button"}</strong>
