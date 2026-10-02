@@ -23,7 +23,7 @@ export function calculateMeasure({ speed, incline = 0, deceleration, reactionTim
 
   return {
     distance,
-    message: `Droga zatzymania: ${display_stopping_distance(v, a, t, k, numericIncline)} m`,
+    message: `Droga zatrzymania: ${display_stopping_distance(v, a, t, k, numericIncline)} m`,
   };
 }
 

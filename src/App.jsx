@@ -73,7 +73,15 @@ function Settings({ initialDeceleration, initialReactionTime, onSaveAndBack }) {
           ?
           {hoverDecelerationInfo && (
             <div style={tooltipStyle}>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Quibusdam, esse.
+                          Opóźnienie: Opóźnienie pojazdu na drodze poziomej o nawierzchni twardej, suchej i czystej.<br/>
+                          <br />
+
+                          0,4g ≈ 3,92 m/s/s - minimalna wartość dla maksymalnie obciążonego pojazdu samochodowego w Polsce<br />
+                          <br />0,58g ≈ 5,68 m/s/s - minimalna wartość dla maksymalnie obciążonego pojazdu kat. M1 (osobówka) zarejestrowanego po 2010 r. w Polsce
+                          <br />8 m/s/s ≈ 0,81g - nowoczesny samochód
+                          <br />9 m/s/s ≈ 0,91g - samochód sportowy
+                        
+                          
             </div>
           )}
         </span>
@@ -96,7 +104,11 @@ function Settings({ initialDeceleration, initialReactionTime, onSaveAndBack }) {
           ?
           {hoverReactionTimeInfo && (
             <div style={tooltipStyle}>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Nihil, expedita!
+                          <br />Czas reakcji: Suma czasu reakcji kierującego na bodziec, czasu potrzebny na aktywowanie hamulca i czas reakcji układu hamulcowego.
+                          <br />
+                          <br />Czas reakcji trzeźwego kierującego to około 0,6—0,85 s
+                          <br />Reakcja układu hamulcowego to około 0,2—0,5 s
+                          <br />Zalecana wartość: 1,35 s
             </div>
           )}
         </span>
@@ -212,7 +224,19 @@ function App() {
               ?
               {hoverInclineInfo && (
                 <div style={tooltipStyle}>
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Excepturi, modi.
+                                  Nachylenie: Nachylenie podłużne w procentach (dodatnie wartości: spadek; ujemne wartości: wzniesienie).<br/>
+                                  <br />
+                                  -37,45%: najbardziej stromy zjazd na świecie<br />
+                                  -10%: minimalny spadek w terenie górzystym do umieszczenia znaku A-22 w Polsce<br />
+                                  -7%: minimalny spadek poza terenem górzystym do umieszczenia znaku A-22 w Polsce<br />
+                                  0%: droga pozioma<br />
+                                  ±3%: jeśli wartość nachylenia jest większa, na szlaku rowerowym umieszcza się tabliczkę informującą o nachyleniu (w Polsce)<br />
+                                  6%: minimalne wzniesienie poza terenem górzystym do umieszczenia znaku A-23 w Polsce<br />
+                                  8%: minimalne wzniesienie w terenie górzystym do umieszczenia znaku A-23 w Polsce<br />
+                                  5,5° ≈ 9,6%: maksymalne wzniesienie na egzaminie w Polsce<br />
+                                  12%: zespół pojazdów składający się z samochodu osobowego i przyczepy, obciążonych do wartości maksymalnych mas całkowitych, powinien ruszyć z miejsca co najmniej 5 razy w czasie 5 minut pod wzniesienie o tym nachyleniu (w Polsce)<br />
+                                  ±28%: najbardziej stromy podjazd/zjazd w Polsce<br />
+                                  35%: najbardziej stromy podjazd na świecie<br />
                 </div>
               )}
             </span>
