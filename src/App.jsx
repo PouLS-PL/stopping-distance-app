@@ -185,18 +185,7 @@ function App() {
               onChange={(e) => setSpeed(Number(e.target.value))}
             />
 
-            <span 
-              style={questionMarkStyle}
-              onMouseEnter={() => setHoverSpeedInfo(true)}
-              onMouseLeave={() => setHoverSpeedInfo(false)}
-            >
-              ?
-              {hoverSpeedInfo && (
-                <div style={tooltipStyle}>
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Qui, quisquam?
-                </div>
-              )}
-            </span>
+            
           </div>
           
           <div className="incline">
@@ -285,7 +274,24 @@ function App() {
               onClick={() => setCondition("Ice")}
             >
                           <img src="public/A-32.png" height="50%" />
-            </button>
+                      </button>
+                      <span
+                          style={questionMarkStyle}
+                          onMouseEnter={() => setHoverSpeedInfo(true)}
+                          onMouseLeave={() => setHoverSpeedInfo(false)}
+                      >
+                          ?
+                          {hoverSpeedInfo && (
+                              <div style={tooltipStyle}>
+                                  <b>Stan nawierzchni</b><br/>
+                                  <img src="public/weather_symbols_sunny.png" height="20px" /> suchy i czysty asfalt<br />
+                                  <img src="public/heap-of-sand.png" height="20px" /> zabrudzony piachem asfalt<br />
+                                  <img src="public/weather_symbols_rain.png" height="20px" /> mokry asfalt<br />
+                                  <img src="public/weather_symbols_snow.png" height="20px" /> pokryty śniegiem asfalt<br />
+                                  <img src="public/A-32.png" height="20px" /> bardzo śliski asfalt, oblodzony asfalt, gołoledź<br />
+                              </div>
+                          )}
+                      </span>
           </div>
           <SpeedTracker />
         </>
