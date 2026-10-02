@@ -30,10 +30,8 @@ export function calculateMeasure({ speed, incline = 0, deceleration, reactionTim
 // Friction coefficients based on surface conditions
 export const FRICTION_COEFFICIENTS = {
   Dry: 0.9,
-  Sun: 0.9,
   Sand: 0.55,
   Wet: 0.45,
-  Rain: 0.45,
   Snow: 0.25,
   Ice: 0.1,
 };

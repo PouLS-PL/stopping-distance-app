@@ -222,8 +222,6 @@ function App() {
                                   ±3%: jeśli wartość nachylenia jest większa, na szlaku rowerowym umieszcza się tabliczkę informującą o nachyleniu (w Polsce)<br />
                                   6%: minimalne wzniesienie poza terenem górzystym do umieszczenia znaku A-23 w Polsce<br />
                                   8%: minimalne wzniesienie w terenie górzystym do umieszczenia znaku A-23 w Polsce<br />
-                                  5,5° ≈ 9,6%: maksymalne wzniesienie na egzaminie w Polsce<br />
-                                  12%: zespół pojazdów składający się z samochodu osobowego i przyczepy, obciążonych do wartości maksymalnych mas całkowitych, powinien ruszyć z miejsca co najmniej 5 razy w czasie 5 minut pod wzniesienie o tym nachyleniu (w Polsce)<br />
                                   ±28%: najbardziej stromy podjazd/zjazd w Polsce<br />
                                   35%: najbardziej stromy podjazd na świecie<br />
                 </div>
