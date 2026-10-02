@@ -49,6 +49,10 @@ function App() {
   const [isFocusedSpeed, setIsFocusedSpeed] = useState(false);
   const [isFocusedIncline, setIsFocusedIncline] = useState(false);
 
+  // NOWE STANY: Dla każdego znaku zapytania osobny stan hoveru
+  const [hoverSpeedInfo, setHoverSpeedInfo] = useState(false);
+  const [hoverInclineInfo, setHoverInclineInfo] = useState(false);
+
   const buttonOptions = [-15, -10, -7, 0, 6, 8, 15];
 
   useEffect(() => {handleMeasure();}, [speed, incline, deceleration, reactionTime, condition]);
@@ -68,6 +72,40 @@ function App() {
     }
   };
 
+  // Wspólny styl dla ikony znaku zapytania "?"
+  const questionMarkStyle = {
+    display: "inline-flex",
+    alignItems: "center",
+    justifyContent: "center",
+    width: "18px",
+    height: "18px",
+    borderRadius: "50%",
+    backgroundColor: "#ccc",
+    color: "#333",
+    fontSize: "12px",
+    fontWeight: "bold",
+    cursor: "help",
+    marginLeft: "8px",
+    position: "relative" // Potrzebne jako kotwica dla tooltipa
+  };
+
+  // Wspólny styl dla wyskakującego pola tekstowego
+  const tooltipStyle = {
+    position: "absolute",
+    bottom: "125%", // Nad znakiem zapytania
+    left: "50%",
+    transform: "translateX(-50%)",
+    backgroundColor: "#333",
+    color: "#fff",
+    padding: "6px 10px",
+    borderRadius: "4px",
+    fontSize: "12px",
+    whiteSpace: "nowrap",
+    zIndex: 10,
+    boxShadow: "0 2px 5px rgba(0,0,0,0.3)",
+    fontWeight: "normal"
+  };
+
   return (
     <div className="main">
       <h1>Aplikacja mierząca drogę hamowania</h1>
@@ -76,10 +114,6 @@ function App() {
         <>
           <button onClick={handleMeasure}>Zmierz</button>
           <button onClick={() => setPage(2)}>Ustawienia</button>
-
-
-
-
           
           <p>
             Odpowiedź: <strong>{message || "Click the button"}</strong>
@@ -101,6 +135,19 @@ function App() {
               onBlur={() => setIsFocusedSpeed(false)}
               onChange={(e) => setSpeed(Number(e.target.value))}
             />
+
+            <span 
+              style={questionMarkStyle}
+              onMouseEnter={() => setHoverSpeedInfo(true)}
+              onMouseLeave={() => setHoverSpeedInfo(false)}
+            >
+              ?
+              {hoverSpeedInfo && (
+                <div style={tooltipStyle}>
+                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Qui, quisquam?
+                </div>
+              )}
+            </span>
           </div>
           
           <div className="incline">
@@ -119,6 +166,19 @@ function App() {
               onBlur={() => setIsFocusedIncline(false)}
               onChange={(e) => setIncline(Number(e.target.value))}
             />
+
+            <span 
+              style={questionMarkStyle}
+              onMouseEnter={() => setHoverInclineInfo(true)}
+              onMouseLeave={() => setHoverInclineInfo(false)}
+            >
+              ?
+              {hoverInclineInfo && (
+                <div style={tooltipStyle}>
+                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Excepturi, modi.
+                </div>
+              )}
+            </span>
           </div>
           
           <div className="inclineQuickButtons">
