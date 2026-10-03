@@ -28,3 +28,4 @@ npm run dev
 ```
 
 Open your browser and navigate to `http://localhost:5173/` (or the URL displayed in your terminal) to use the showcase.
+ 
