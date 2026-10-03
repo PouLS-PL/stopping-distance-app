@@ -351,12 +351,12 @@ function App() {
 
           {activeModal === "condition" && (
             <Modal onClose={() => setActiveModal(null)}>
-               <b>Stan nawierzchni</b><br/>
-              <img src="/weather_symbols_sunny.png" height="20px" /> suchy i czysty asfalt<br />
-              <img src="/heap-of-sand.png" height="20px" /> zabrudzony piachem asfalt<br />
-              <img src="/weather_symbols_rain.png" height="20px" /> mokry asfalt<br />
-              <img src="/weather_symbols_snow.png" height="20px" /> pokryty śniegiem asfalt<br />
-              <img src="/A-32.png" height="20px" /> bardzo śliski asfalt, oblodzony asfalt, gołoledź<br />
+               <b>Stan nawierzchni</b> (μ — współczynnik tarcia)<br/>
+              <img src="/weather_symbols_sunny.png" height="20px" /> suchy i szorstki asfalt (μ = 0,9)<br />
+              <img src="/heap-of-sand.png" height="20px" /> zabrudzony piachem asfalt (μ = 0,55)<br />
+              <img src="/weather_symbols_rain.png" height="20px" /> mokry asfalt (μ = 0,45)<br />
+              <img src="/weather_symbols_snow.png" height="20px" /> pokryty śniegiem asfalt (μ = 0,25)<br />
+              <img src="/A-32.png" height="20px" /> bardzo śliski asfalt, oblodzony asfalt, gołoledź (μ = 0,1)<br />
 
             </Modal>
           )}
