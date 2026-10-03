@@ -185,7 +185,7 @@ function App() {
             <input
               type="range"
               min="0"
-              max="100"
+              max="160"
               value={speed}
               onChange={(e) => setSpeed(e.target.value)}
             />
@@ -250,60 +250,72 @@ function App() {
               </button>
             ))}
           </div>
-          <div className="Conditions">
-            <button 
-              className={`condition-button ${condition === "Dry" ? "active" : ""}`} 
-              style={{ border: condition === "Dry" ? "2px solid black" : "1px solid gray" }}
-              onClick={() => setCondition("Dry")}
-            >
-                          <img src="/weather_symbols_sunny.png" height="50%"/>
-                      </button>
-            <button 
-              className={`condition-button ${condition === "Sand" ? "active" : ""}`} 
-              style={{ border: condition === "Sand" ? "2px solid black" : "1px solid gray" }}
-              onClick={() => setCondition("Sand")}
-            >
-                          <img src="/heap-of-sand.png" height="30%" />
-            </button>
-            <button
-              className={`condition-button ${condition === "Wet" ? "active" : ""}`} 
-              style={{ border: condition === "Wet" ? "2px solid black" : "1px solid gray" }}
-                          onClick={() => setCondition("Wet")}
-            >
-                          <img src="/weather_symbols_rain.png" height="50%" />
-            </button>
-            
-            <button 
-              className={`condition-button ${condition === "Snow" ? "active" : ""}`} 
-              style={{ border: condition === "Snow" ? "2px solid black" : "1px solid gray" }}
-              onClick={() => setCondition("Snow")}
-            >
-                          <img src="/weather_symbols_snow.png" height="50%" />
-            </button>
-            <button 
-              className={`condition-button ${condition === "Ice" ? "active" : ""}`} 
-              style={{ border: condition === "Ice" ? "2px solid black" : "1px solid gray" }}
-              onClick={() => setCondition("Ice")}
-            >
-                          <img src="/A-32.png" height="50%" />
-                      </button>
-                      <span
-                          style={questionMarkStyle}
-                          onMouseEnter={() => setHoverSpeedInfo(true)}
-                          onMouseLeave={() => setHoverSpeedInfo(false)}
-                      >
-                          ?
-                          {hoverSpeedInfo && (
-                              <div style={tooltipStyle}>
-                                  <b>Stan nawierzchni</b><br/>
-                                  <img src="/weather_symbols_sunny.png" height="20px" /> suchy i czysty asfalt<br />
-                                  <img src="/heap-of-sand.png" height="20px" /> zabrudzony piachem asfalt<br />
-                                  <img src="/weather_symbols_rain.png" height="20px" /> mokry asfalt<br />
-                                  <img src="/weather_symbols_snow.png" height="20px" /> pokryty śniegiem asfalt<br />
-                                  <img src="/A-32.png" height="20px" /> bardzo śliski asfalt, oblodzony asfalt, gołoledź<br />
-                              </div>
-                          )}
-                      </span>
+          <div className="Conditions" style={{ marginTop: "15px" }}>
+
+            {/* Tooltip Icon Container - Aligned to the top right */}
+            <div style={{ display: "flex", justifyContent: "flex-end", marginBottom: "8px" }}>
+              <span
+                style={{ ...questionMarkStyle, flexShrink: 0, marginLeft: 0 }}
+                onMouseEnter={() => setHoverSpeedInfo(true)}
+                onMouseLeave={() => setHoverSpeedInfo(false)}
+              >
+                ?
+                {hoverSpeedInfo && (
+                  <div style={{ ...tooltipStyle, left: "auto", right: 0, transform: "none" }}>
+                    <b>Stan nawierzchni</b><br/>
+                    <img src="/weather_symbols_sunny.png" height="20px" /> suchy i czysty asfalt<br />
+                    <img src="/heap-of-sand.png" height="20px" /> zabrudzony piachem asfalt<br />
+                    <img src="/weather_symbols_rain.png" height="20px" /> mokry asfalt<br />
+                    <img src="/weather_symbols_snow.png" height="20px" /> pokryty śniegiem asfalt<br />
+                    <img src="/A-32.png" height="20px" /> bardzo śliski asfalt, oblodzony asfalt, gołoledź<br />
+                  </div>
+                )}
+              </span>
+            </div>
+
+            {/* Buttons Container - Uninterrupted full width */}
+            <div style={{ display: "flex", width: "100%", alignItems: "center" }}>
+              <button
+                className={`condition-button ${condition === "Dry" ? "active" : ""}`}
+                style={{ flex: "1 1 0", minWidth: 0, margin: 0, border: condition === "Dry" ? "2px solid black" : "1px solid gray" }}
+                onClick={() => setCondition("Dry")}
+              >
+                <img src="/weather_symbols_sunny.png" style={{ height: "50%", maxWidth: "100%" }} />
+              </button>
+
+              <button
+                className={`condition-button ${condition === "Sand" ? "active" : ""}`}
+                style={{ flex: "1 1 0", minWidth: 0, margin: 0, border: condition === "Sand" ? "2px solid black" : "1px solid gray", borderLeft: "none" }}
+                onClick={() => setCondition("Sand")}
+              >
+                <img src="/heap-of-sand.png" style={{ height: "30%", maxWidth: "100%" }} />
+              </button>
+
+              <button
+                className={`condition-button ${condition === "Wet" ? "active" : ""}`}
+                style={{ flex: "1 1 0", minWidth: 0, margin: 0, border: condition === "Wet" ? "2px solid black" : "1px solid gray", borderLeft: "none" }}
+                onClick={() => setCondition("Wet")}
+              >
+                <img src="/weather_symbols_rain.png" style={{ height: "50%", maxWidth: "100%" }} />
+              </button>
+
+              <button
+                className={`condition-button ${condition === "Snow" ? "active" : ""}`}
+                style={{ flex: "1 1 0", minWidth: 0, margin: 0, border: condition === "Snow" ? "2px solid black" : "1px solid gray", borderLeft: "none" }}
+                onClick={() => setCondition("Snow")}
+              >
+                <img src="/weather_symbols_snow.png" style={{ height: "50%", maxWidth: "100%" }} />
+              </button>
+
+              <button
+                className={`condition-button ${condition === "Ice" ? "active" : ""}`}
+                style={{ flex: "1 1 0", minWidth: 0, margin: 0, border: condition === "Ice" ? "2px solid black" : "1px solid gray", borderLeft: "none" }}
+                onClick={() => setCondition("Ice")}
+              >
+                <img src="/A-32.png" style={{ height: "50%", maxWidth: "100%" }} />
+              </button>
+            </div>
+
           </div>
           
         </>
