@@ -265,6 +265,7 @@ function App() {
             >
               ?
             </span>
+
           </div>
 
           <div className="inclineQuickButtons">
@@ -274,7 +275,10 @@ function App() {
               </button>
             ))}
           </div>
-
+<div style={{ display: "flex", justifyContent: "space-between", marginTop: "10px", padding: "0 10px" }}>
+                        <img src="/A-22.png" style={{ height: "80px" }} />
+                        <img src="/A-23.png" style={{ height: "80px" }} />
+                      </div>
           <div className="Conditions" style={{ marginTop: "15px" }}>
             {/* Tooltip Icon Container */}
             <div style={{ display: "flex", justifyContent: "flex-end", marginBottom: "8px" }}>
@@ -333,7 +337,7 @@ function App() {
           {/* RENDEROWANIE MODALI */}
           {activeModal === "incline" && (
             <Modal onClose={() => setActiveModal(null)}>
-               Nachylenie: Nachylenie podłużne w procentach (dodatnie wartości: spadek; ujemne wartości: wzniesienie).<br/>
+               Nachylenie: Nachylenie podłużne w procentach (dodatnie wartości: wzniesienie; ujemne wartości: spadek).<br/>
               <br />
               -37,45%: najbardziej stromy zjazd na świecie<br />
               -10%: minimalny spadek w terenie górzystym do umieszczenia znaku A-22 w Polsce<br />
