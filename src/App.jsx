@@ -263,7 +263,7 @@ function App() {
               style={{ border: condition === "Sand" ? "2px solid black" : "1px solid gray" }}
               onClick={() => setCondition("Sand")}
             >
-                          <img src="public/heap-of-sand.png" height="50%" />
+                          <img src="public/heap-of-sand.png" height="30%" />
             </button>
             <button
               className={`condition-button ${condition === "Wet" ? "active" : ""}`} 
