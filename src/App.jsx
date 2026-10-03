@@ -57,7 +57,7 @@ function Settings({ initialDeceleration, initialReactionTime, onSaveAndBack }) {
       <h2>Ustawienia aplikacji</h2>
       
       <p>
-        <label htmlFor="deceleration">Opóźnienie (m/s^2) </label>
+              <label htmlFor="deceleration">Opóźnienie (m/s<sup>2</sup>) </label>
         <input 
           type="number" 
           id="deceleration" 
@@ -166,7 +166,7 @@ function App() {
 
   return (
     <div className="main">
-      <h1>Aplikacja mierząca drogę hamowania</h1>
+      {/* <h1>Aplikacja mierząca drogę hamowania</h1> */}
       
       {page === 1 ? (
         <>
@@ -175,9 +175,10 @@ function App() {
       } }}>{speedFromGPS ? "GPS ✓" : "GPS ✗"}</button>
           <button onClick={() => setPage(2)}>Ustawienia</button>
           
-          <p>
-            Odpowiedź: <strong>{message || "Click the button"}</strong>
-          </p>
+          <h1>
+           <strong>{message || "Click the button"}</strong>
+                  </h1>
+                  <SpeedTracker />
           
           <div className="incline">
             <span>Prędkość: </span>
@@ -203,8 +204,8 @@ function App() {
             <span>Nachylenie: </span>
             <input
               type="range"
-              min="-30"
-              max="30"
+              min="-15"
+              max="15"
               value={incline}
               onChange={(e) => setIncline(e.target.value)}
             />
@@ -304,7 +305,7 @@ function App() {
                           )}
                       </span>
           </div>
-          <SpeedTracker />
+          
         </>
       ) : (
         <Settings 

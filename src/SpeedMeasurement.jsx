@@ -67,7 +67,7 @@ export function SpeedTracker() {
   return (
     <div>
       <p>GPS Status: {status}</p>
-      <h1>{speed.toFixed(1)} km/h</h1>
+      <h2>{speed.toFixed(1)} km/h</h2>
     </div>
   );
 }
