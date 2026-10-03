@@ -185,7 +185,7 @@ function App() {
             <input
               type="range"
               min="0"
-              max="200"
+              max="100"
               value={speed}
               onChange={(e) => setSpeed(e.target.value)}
             />
@@ -256,21 +256,21 @@ function App() {
               style={{ border: condition === "Dry" ? "2px solid black" : "1px solid gray" }}
               onClick={() => setCondition("Dry")}
             >
-                          <img src="public/weather_symbols_sunny.png" height="50%"/>
+                          <img src="/weather_symbols_sunny.png" height="50%"/>
                       </button>
             <button 
               className={`condition-button ${condition === "Sand" ? "active" : ""}`} 
               style={{ border: condition === "Sand" ? "2px solid black" : "1px solid gray" }}
               onClick={() => setCondition("Sand")}
             >
-                          <img src="public/heap-of-sand.png" height="30%" />
+                          <img src="/heap-of-sand.png" height="30%" />
             </button>
             <button
               className={`condition-button ${condition === "Wet" ? "active" : ""}`} 
               style={{ border: condition === "Wet" ? "2px solid black" : "1px solid gray" }}
                           onClick={() => setCondition("Wet")}
             >
-                          <img src="public/weather_symbols_rain.png" height="50%" />
+                          <img src="/weather_symbols_rain.png" height="50%" />
             </button>
             
             <button 
@@ -278,14 +278,14 @@ function App() {
               style={{ border: condition === "Snow" ? "2px solid black" : "1px solid gray" }}
               onClick={() => setCondition("Snow")}
             >
-                          <img src="public/weather_symbols_snow.png" height="50%" />
+                          <img src="/weather_symbols_snow.png" height="50%" />
             </button>
             <button 
               className={`condition-button ${condition === "Ice" ? "active" : ""}`} 
               style={{ border: condition === "Ice" ? "2px solid black" : "1px solid gray" }}
               onClick={() => setCondition("Ice")}
             >
-                          <img src="public/A-32.png" height="50%" />
+                          <img src="/A-32.png" height="50%" />
                       </button>
                       <span
                           style={questionMarkStyle}
@@ -296,11 +296,11 @@ function App() {
                           {hoverSpeedInfo && (
                               <div style={tooltipStyle}>
                                   <b>Stan nawierzchni</b><br/>
-                                  <img src="public/weather_symbols_sunny.png" height="20px" /> suchy i czysty asfalt<br />
-                                  <img src="public/heap-of-sand.png" height="20px" /> zabrudzony piachem asfalt<br />
-                                  <img src="public/weather_symbols_rain.png" height="20px" /> mokry asfalt<br />
-                                  <img src="public/weather_symbols_snow.png" height="20px" /> pokryty śniegiem asfalt<br />
-                                  <img src="public/A-32.png" height="20px" /> bardzo śliski asfalt, oblodzony asfalt, gołoledź<br />
+                                  <img src="/weather_symbols_sunny.png" height="20px" /> suchy i czysty asfalt<br />
+                                  <img src="/heap-of-sand.png" height="20px" /> zabrudzony piachem asfalt<br />
+                                  <img src="/weather_symbols_rain.png" height="20px" /> mokry asfalt<br />
+                                  <img src="/weather_symbols_snow.png" height="20px" /> pokryty śniegiem asfalt<br />
+                                  <img src="/A-32.png" height="20px" /> bardzo śliski asfalt, oblodzony asfalt, gołoledź<br />
                               </div>
                           )}
                       </span>
