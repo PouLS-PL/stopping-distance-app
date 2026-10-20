@@ -168,7 +168,7 @@ function App() {
   const [message, setMessage] = useState("");
   const [incline, setIncline] = useState(0);
   const [speed, setSpeed] = useState(40);
-  const [speedFromGPS, setSpeedFromGPS] = useState(false);
+  const [speedFromGPS, setSpeedFromGPS] = useState(true);
   const [isFocusedSpeed, setIsFocusedSpeed] = useState(false);
   const [isFocusedIncline, setIsFocusedIncline] = useState(false);
 
@@ -179,18 +179,24 @@ function App() {
 
   const buttonOptions = [-15, -10, -7, 0, 6, 8, 15];
 
-  useEffect(() => {handleMeasure();}, [speed, incline, deceleration, reactionTime, condition]);
+  const activeSpeed = speedFromGPS ? (typeof speedGPS === "number" ? speedGPS : speed) : speed;
+
+  useEffect(() => {
+    handleMeasure();
+  }, [speed, speedGPS, speedFromGPS, incline, deceleration, reactionTime, condition]);
+
   useEffect(() => {
     if (speedFromGPS && page === 1) {
-      if (speedGPS !== null && speedGPS > 0) {
+      if (typeof speedGPS === "number") {
         setSpeed(speedGPS);
       }
     }
-  }, [speedGPS, status, speedFromGPS, page]);
+  }, [speedGPS, speedFromGPS, page]);
 
   const handleMeasure = () => {
+    const currentSpeed = speedFromGPS ? (typeof speedGPS === "number" ? speedGPS : speed) : speed;
     const result = calculateMeasure({
-      speed,
+      speed: currentSpeed,
       incline,
       deceleration,
       reactionTime,
@@ -209,8 +215,9 @@ function App() {
         <>
           <button
             onClick={() => {
-              setSpeedFromGPS(!speedFromGPS);
-              if (speedGPS !== null && speedGPS > 0 && !speedFromGPS) {
+              const nextGPS = !speedFromGPS;
+              setSpeedFromGPS(nextGPS);
+              if (nextGPS && typeof speedGPS === "number") {
                 setSpeed(speedGPS);
               }
             }}
@@ -230,15 +237,25 @@ function App() {
               type="range"
               min="0"
               max="160"
-              value={speed}
-              onChange={(e) => setSpeed(e.target.value)}
+              value={speedFromGPS ? Math.round(activeSpeed) : speed}
+              onChange={(e) => {
+                setSpeed(Number(e.target.value));
+                setSpeedFromGPS(false);
+              }}
             />
             <input
               type={isFocusedSpeed ? "number" : "text"}
-              value={isFocusedSpeed ? speed : `${speed} km/h`}
+              value={
+                isFocusedSpeed
+                  ? (speedFromGPS ? Math.round(activeSpeed) : speed)
+                  : `${speedFromGPS ? (typeof activeSpeed === 'number' ? activeSpeed.toFixed(1) : activeSpeed) : speed} km/h`
+              }
               onFocus={() => setIsFocusedSpeed(true)}
               onBlur={() => setIsFocusedSpeed(false)}
-              onChange={(e) => setSpeed(Number(e.target.value))}
+              onChange={(e) => {
+                setSpeed(Number(e.target.value));
+                setSpeedFromGPS(false);
+              }}
             />
           </div>
 

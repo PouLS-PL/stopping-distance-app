@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Geolocation } from '@capacitor/geolocation';
 
 export function useSpeedTracker() {
@@ -34,7 +34,7 @@ export function useSpeedTracker() {
 
             if (position) {
               const speedNormal = position.coords.speed ?? 0;
-              // I think this is  m/s, so convert to km/h
+              // position.coords.speed is in m/s, so convert to km/h
               const speedKmh = speedNormal > 0 ? speedNormal * 3.6 : 0;
               setSpeed(speedKmh);
             }
@@ -54,11 +54,11 @@ export function useSpeedTracker() {
       }
     };
   }, []);
-  return { speed, status };
+  return { speed, speedGPS: speed, status };
 }
 
 export function SpeedKm_h() {
-  const { speed, status } = useSpeedTracker();
+  const { speed } = useSpeedTracker();
   return (speed).toFixed(1);
 }
 
