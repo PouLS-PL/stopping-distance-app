@@ -171,12 +171,12 @@ strong {
 .condition-button {
   flex: 1 1 0;
   min-width: 0;
-  margin: 0;
-  border: 1px solid gray;
+  margin: 1em ;
+  border: 1px solid gray !important;
 }
 
 .condition-button.active {
-  border: 2px solid black;
+  background-color: #646cff;
 }
 
 .condition-button + .condition-button {
