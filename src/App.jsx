@@ -3,7 +3,7 @@ import { calculateMeasure } from "./stoppingDistance";
 import { SpeedTracker, useSpeedTracker } from "./SpeedMeasurement";
 
 // ==========================================
-// WSPÓLNE STYLES DLA ZNAKÓW ZAPYTANIA I TOOLTIPÓW
+// WSPÓLNE STYLES DLA ZNAKÓW ZAPYTANIA
 // ==========================================
 const questionMarkStyle = {
   display: "inline-flex",
@@ -16,26 +16,67 @@ const questionMarkStyle = {
   color: "#333",
   fontSize: "12px",
   fontWeight: "bold",
-  cursor: "help",
+  cursor: "pointer", // Zmiana na pointer (kliknięcie)
   marginLeft: "8px",
-  position: "relative" // Służy jako kotwica pozycjonowania dla duszka
 };
 
-const tooltipStyle = {
-  position: "absolute",
-  bottom: "125%", // Nad znakiem zapytania
-  left: "50%",
-  transform: "translateX(-50%)",
-  backgroundColor: "#333",
-  color: "#fff",
-  padding: "6px 10px",
-  borderRadius: "4px",
-  fontSize: "12px",
-  whiteSpace: "nowrap",
-  zIndex: 10,
-  boxShadow: "0 2px 5px rgba(0,0,0,0.3)",
-  fontWeight: "normal"
-};
+// ==========================================
+// KOMPONENT: MODAL (OKNO INFORMACYJNE)
+// ==========================================
+function Modal({ onClose, children }) {
+  return (
+    <div
+      style={{
+        position: "fixed",
+        top: 0,
+        left: 0,
+        width: "100vw",
+        height: "100vh",
+        backgroundColor: "rgba(0,0,0,0.6)",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        zIndex: 9999,
+      }}
+      onClick={onClose} // Zamknięcie po kliknięciu w tło
+    >
+      <div
+        style={{
+          backgroundColor: "#333",
+          color: "#fff",
+          padding: "20px 25px",
+          borderRadius: "8px",
+          maxWidth: "90%",
+          maxHeight: "85vh",
+          overflowY: "auto", // Przewijanie na małych ekranach
+          position: "relative",
+          fontSize: "14px",
+          lineHeight: "1.5",
+          boxShadow: "0 4px 15px rgba(0,0,0,0.5)",
+        }}
+        onClick={(e) => e.stopPropagation()} // Zatrzymanie zamykania przy kliknięciu w treść
+      >
+        <button
+          onClick={onClose}
+          style={{
+            position: "absolute",
+            top: "10px",
+            right: "10px",
+            background: "none",
+            border: "none",
+            color: "#fff",
+            fontSize: "18px",
+            cursor: "pointer",
+            fontWeight: "bold",
+          }}
+        >
+          ✕
+        </button>
+        {children}
+      </div>
+    </div>
+  );
+}
 
 // ==========================================
 // KOMPONENT: SETTINGS (USTAWIENIA)
@@ -44,9 +85,8 @@ function Settings({ initialDeceleration, initialReactionTime, onSaveAndBack }) {
   const [localDeceleration, setLocalDeceleration] = useState(initialDeceleration);
   const [localReactionTime, setLocalReactionTime] = useState(initialReactionTime);
 
-  // NOWE STANY: Dla każdego znaku zapytania w ustawieniach osobny stan hoveru
-  const [hoverDecelerationInfo, setHoverDecelerationInfo] = useState(false);
-  const [hoverReactionTimeInfo, setHoverReactionTimeInfo] = useState(false);
+  // Stan przechowujący informację, który modal ma być otwarty
+  const [activeModal, setActiveModal] = useState(null);
 
   const handleSaveAndBack = () => {
     onSaveAndBack(localDeceleration, localReactionTime);
@@ -55,66 +95,64 @@ function Settings({ initialDeceleration, initialReactionTime, onSaveAndBack }) {
   return (
     <div className="settings" style={{ padding: "20px", background: "#f0f0f0", color: "#000" }}>
       <h2>Ustawienia aplikacji</h2>
-      
+
       <p>
-        <label htmlFor="deceleration">Opóźnienie (m/s^2) </label>
-        <input 
-          type="number" 
-          id="deceleration" 
-          value={localDeceleration} 
+        <label htmlFor="deceleration">Opóźnienie [m/s<sup>2</sup>] </label>
+        <input
+          type="number"
+          id="deceleration"
+          value={localDeceleration}
           onChange={(e) => setLocalDeceleration(Number(e.target.value))}
         />
         {/* ZNAK ZAPYTANIA DLA OPÓŹNIENIA */}
-        <span 
+        <span
           style={questionMarkStyle}
-          onMouseEnter={() => setHoverDecelerationInfo(true)}
-          onMouseLeave={() => setHoverDecelerationInfo(false)}
+          onClick={() => setActiveModal("deceleration")}
         >
           ?
-          {hoverDecelerationInfo && (
-            <div style={tooltipStyle}>
-                          Opóźnienie: Opóźnienie pojazdu na drodze poziomej o nawierzchni twardej, suchej i czystej.<br/>
-                          <br />
-
-                          0,4g ≈ 3,92 m/s/s - minimalna wartość dla maksymalnie obciążonego pojazdu samochodowego w Polsce<br />
-                          <br />0,58g ≈ 5,68 m/s/s - minimalna wartość dla maksymalnie obciążonego pojazdu kat. M1 (osobówka) zarejestrowanego po 2010 r. w Polsce
-                          <br />8 m/s/s ≈ 0,81g - nowoczesny samochód
-                          <br />9 m/s/s ≈ 0,91g - samochód sportowy
-                        
-                          
-            </div>
-          )}
         </span>
       </p>
-      
+
       <p>
-        <label htmlFor="reactionTime">Czas reakcji (s) </label>
-        <input 
-          type="number" 
-          id="reactionTime" 
-          value={localReactionTime} 
+        <label htmlFor="reactionTime">Czas reakcji [s] </label>
+        <input
+          type="number"
+          id="reactionTime"
+          value={localReactionTime}
           onChange={(e) => setLocalReactionTime(Number(e.target.value))}
         />
         {/* ZNAK ZAPYTANIA DLA CZASU REAKCJI */}
-        <span 
+        <span
           style={questionMarkStyle}
-          onMouseEnter={() => setHoverReactionTimeInfo(true)}
-          onMouseLeave={() => setHoverReactionTimeInfo(false)}
+          onClick={() => setActiveModal("reactionTime")}
         >
           ?
-          {hoverReactionTimeInfo && (
-            <div style={tooltipStyle}>
-                          <br />Czas reakcji: Suma czasu reakcji kierującego na bodziec, czasu potrzebny na aktywowanie hamulca i czas reakcji układu hamulcowego.
-                          <br />
-                          <br />Czas reakcji trzeźwego kierującego to około 0,6—0,85 s
-                          <br />Reakcja układu hamulcowego to około 0,2—0,5 s
-                          <br />Zalecana wartość: 1,35 s
-            </div>
-          )}
         </span>
       </p>
 
       <p><button onClick={handleSaveAndBack}>Powrót</button></p>
+
+      {/* RENDEROWANIE MODALI */}
+      {activeModal === "deceleration" && (
+        <Modal onClose={() => setActiveModal(null)}>
+           Opóźnienie: Opóźnienie pojazdu na drodze poziomej o nawierzchni twardej, suchej i czystej.<br/>
+          <br />
+          0,4g ≈ 3,92 m/s/s - minimalna wartość dla maksymalnie obciążonego pojazdu samochodowego w Polsce<br />
+          <br />0,58g ≈ 5,68 m/s/s - minimalna wartość dla maksymalnie obciążonego pojazdu kat. M1 (osobówka) zarejestrowanego po 2010 r. w Polsce
+          <br />8 m/s/s ≈ 0,81g - nowoczesny samochód
+          <br />9 m/s/s ≈ 0,91g - samochód sportowy
+        </Modal>
+      )}
+
+      {activeModal === "reactionTime" && (
+        <Modal onClose={() => setActiveModal(null)}>
+          Czas reakcji: Suma czasu reakcji kierującego na bodziec, czasu potrzebny na aktywowanie hamulca i czas reakcji układu hamulcowego.
+          <br />
+          <br />Czas reakcji trzeźwego kierującego to około 0,6—0,85 s
+          <br />Reakcja układu hamulcowego to około 0,2—0,5 s
+          <br />Zalecana wartość: 1,35 s
+        </Modal>
+      )}
     </div>
   );
 }
@@ -123,35 +161,42 @@ function Settings({ initialDeceleration, initialReactionTime, onSaveAndBack }) {
 // KOMPONENT: APP (GŁÓWNY)
 // ==========================================
 function App() {
-  const [page, setPage] = useState(1); 
+  const [page, setPage] = useState(1);
   const [condition, setCondition] = useState("Dry");
   const [deceleration, setDeceleration] = useState(8.0);
   const [reactionTime, setReactionTime] = useState(1.35);
   const [message, setMessage] = useState("");
   const [incline, setIncline] = useState(0);
   const [speed, setSpeed] = useState(40);
-  const [speedFromGPS, setSpeedFromGPS] = useState(false);
+  const [speedFromGPS, setSpeedFromGPS] = useState(true);
   const [isFocusedSpeed, setIsFocusedSpeed] = useState(false);
   const [isFocusedIncline, setIsFocusedIncline] = useState(false);
 
   const { speedGPS, status } = useSpeedTracker();
 
-  const [hoverSpeedInfo, setHoverSpeedInfo] = useState(false);
-  const [hoverInclineInfo, setHoverInclineInfo] = useState(false);
+  // Stan przechowujący informację o otwartym oknie informacyjnym na głównej stronie
+  const [activeModal, setActiveModal] = useState(null);
 
   const buttonOptions = [-15, -10, -7, 0, 6, 8, 15];
 
-  useEffect(() => {handleMeasure();}, [speed, incline, deceleration, reactionTime, condition]);
+  const activeSpeed = speedFromGPS ? (typeof speedGPS === "number" ? speedGPS : speed) : speed;
+
+  useEffect(() => {
+    handleMeasure();
+  }, [speed, speedGPS, speedFromGPS, incline, deceleration, reactionTime, condition]);
+
   useEffect(() => {
     if (speedFromGPS && page === 1) {
-      if (speedGPS !== null && speedGPS > 0) {
+      if (typeof speedGPS === "number") {
         setSpeed(speedGPS);
       }
     }
-  }, [speedGPS, status, speedFromGPS, page]);
+  }, [speedGPS, speedFromGPS, page]);
+
   const handleMeasure = () => {
+    const currentSpeed = speedFromGPS ? (typeof speedGPS === "number" ? speedGPS : speed) : speed;
     const result = calculateMeasure({
-      speed,
+      speed: currentSpeed,
       incline,
       deceleration,
       reactionTime,
@@ -166,45 +211,60 @@ function App() {
 
   return (
     <div className="main">
-      <h1>Aplikacja mierząca drogę hamowania</h1>
-      
       {page === 1 ? (
         <>
-          <button onClick={() => {setSpeedFromGPS(!speedFromGPS); if (speedGPS !== null && speedGPS > 0 && speedFromGPS) {
-        setSpeed(speedGPS);
-      } }}>{speedFromGPS ? "GPS ✓" : "GPS ✗"}</button>
+          <button
+            onClick={() => {
+              const nextGPS = !speedFromGPS;
+              setSpeedFromGPS(nextGPS);
+              if (nextGPS && typeof speedGPS === "number") {
+                setSpeed(speedGPS);
+              }
+            }}
+          >
+            {speedFromGPS ? "GPS ✓" : "GPS ✗"}
+          </button>
           <button onClick={() => setPage(2)}>Ustawienia</button>
-          
-          <p>
-            Odpowiedź: <strong>{message || "Click the button"}</strong>
-          </p>
-          
+
+          <h1>
+            <strong>{message || "Click the button"}</strong>
+          </h1>
+          <SpeedTracker />
+
           <div className="incline">
             <span>Prędkość: </span>
             <input
               type="range"
               min="0"
-              max="200"
-              value={speed}
-              onChange={(e) => setSpeed(e.target.value)}
+              max="160"
+              value={speedFromGPS ? Math.round(activeSpeed) : speed}
+              onChange={(e) => {
+                setSpeed(Number(e.target.value));
+                setSpeedFromGPS(false);
+              }}
             />
             <input
               type={isFocusedSpeed ? "number" : "text"}
-              value={isFocusedSpeed ? speed : `${speed} km/h`}
+              value={
+                isFocusedSpeed
+                  ? (speedFromGPS ? Math.round(activeSpeed) : speed)
+                  : `${speedFromGPS ? (typeof activeSpeed === 'number' ? activeSpeed.toFixed(1) : activeSpeed) : speed} km/h`
+              }
               onFocus={() => setIsFocusedSpeed(true)}
               onBlur={() => setIsFocusedSpeed(false)}
-              onChange={(e) => setSpeed(Number(e.target.value))}
+              onChange={(e) => {
+                setSpeed(Number(e.target.value));
+                setSpeedFromGPS(false);
+              }}
             />
-
-            
           </div>
-          
+
           <div className="incline">
             <span>Nachylenie: </span>
             <input
               type="range"
-              min="-30"
-              max="30"
+              min="-15"
+              max="15"
               value={incline}
               onChange={(e) => setIncline(e.target.value)}
             />
@@ -216,30 +276,15 @@ function App() {
               onChange={(e) => setIncline(Number(e.target.value))}
             />
 
-            <span 
+            <span
               style={questionMarkStyle}
-              onMouseEnter={() => setHoverInclineInfo(true)}
-              onMouseLeave={() => setHoverInclineInfo(false)}
+              onClick={() => setActiveModal("incline")}
             >
               ?
-              {hoverInclineInfo && (
-                <div style={tooltipStyle}>
-                                  Nachylenie: Nachylenie podłużne w procentach (dodatnie wartości: spadek; ujemne wartości: wzniesienie).<br/>
-                                  <br />
-                                  -37,45%: najbardziej stromy zjazd na świecie<br />
-                                  -10%: minimalny spadek w terenie górzystym do umieszczenia znaku A-22 w Polsce<br />
-                                  -7%: minimalny spadek poza terenem górzystym do umieszczenia znaku A-22 w Polsce<br />
-                                  0%: droga pozioma<br />
-                                  ±3%: jeśli wartość nachylenia jest większa, na szlaku rowerowym umieszcza się tabliczkę informującą o nachyleniu (w Polsce)<br />
-                                  6%: minimalne wzniesienie poza terenem górzystym do umieszczenia znaku A-23 w Polsce<br />
-                                  8%: minimalne wzniesienie w terenie górzystym do umieszczenia znaku A-23 w Polsce<br />
-                                  ±28%: najbardziej stromy podjazd/zjazd w Polsce<br />
-                                  35%: najbardziej stromy podjazd na świecie<br />
-                </div>
-              )}
             </span>
+
           </div>
-          
+
           <div className="inclineQuickButtons">
             {buttonOptions.map((num) => (
               <button key={num} onClick={() => setIncline(num)}>
@@ -247,72 +292,105 @@ function App() {
               </button>
             ))}
           </div>
-          <div className="Conditions">
-            <button 
-              className={`condition-button ${condition === "Dry" ? "active" : ""}`} 
-              style={{ border: condition === "Dry" ? "2px solid black" : "1px solid gray" }}
-              onClick={() => setCondition("Dry")}
-            >
-                          <img src="public/weather_symbols_sunny.png" height="50%"/>
-                      </button>
-            <button 
-              className={`condition-button ${condition === "Sand" ? "active" : ""}`} 
-              style={{ border: condition === "Sand" ? "2px solid black" : "1px solid gray" }}
-              onClick={() => setCondition("Sand")}
-            >
-                          <img src="public/heap-of-sand.png" height="50%" />
-            </button>
-            <button
-              className={`condition-button ${condition === "Wet" ? "active" : ""}`} 
-              style={{ border: condition === "Wet" ? "2px solid black" : "1px solid gray" }}
-                          onClick={() => setCondition("Wet")}
-            >
-                          <img src="public/weather_symbols_rain.png" height="50%" />
-            </button>
-            
-            <button 
-              className={`condition-button ${condition === "Snow" ? "active" : ""}`} 
-              style={{ border: condition === "Snow" ? "2px solid black" : "1px solid gray" }}
-              onClick={() => setCondition("Snow")}
-            >
-                          <img src="public/weather_symbols_snow.png" height="50%" />
-            </button>
-            <button 
-              className={`condition-button ${condition === "Ice" ? "active" : ""}`} 
-              style={{ border: condition === "Ice" ? "2px solid black" : "1px solid gray" }}
-              onClick={() => setCondition("Ice")}
-            >
-                          <img src="public/A-32.png" height="50%" />
-                      </button>
-                      <span
-                          style={questionMarkStyle}
-                          onMouseEnter={() => setHoverSpeedInfo(true)}
-                          onMouseLeave={() => setHoverSpeedInfo(false)}
-                      >
-                          ?
-                          {hoverSpeedInfo && (
-                              <div style={tooltipStyle}>
-                                  <b>Stan nawierzchni</b><br/>
-                                  <img src="public/weather_symbols_sunny.png" height="20px" /> suchy i czysty asfalt<br />
-                                  <img src="public/heap-of-sand.png" height="20px" /> zabrudzony piachem asfalt<br />
-                                  <img src="public/weather_symbols_rain.png" height="20px" /> mokry asfalt<br />
-                                  <img src="public/weather_symbols_snow.png" height="20px" /> pokryty śniegiem asfalt<br />
-                                  <img src="public/A-32.png" height="20px" /> bardzo śliski asfalt, oblodzony asfalt, gołoledź<br />
-                              </div>
-                          )}
-                      </span>
+<div style={{ display: "flex", justifyContent: "space-between", marginTop: "10px", padding: "0 10px" }}>
+                        <img src="/A-22.png" style={{ height: "80px" }} />
+                        <img src="/A-23.png" style={{ height: "80px" }} />
+                      </div>
+          <div className="Conditions" style={{ marginTop: "15px" }}>
+            {/* Tooltip Icon Container */}
+            <div style={{ display: "flex", justifyContent: "flex-end", marginBottom: "8px" }}>
+              <span
+                style={{ ...questionMarkStyle, flexShrink: 0, marginLeft: 0 }}
+                onClick={() => setActiveModal("condition")}
+              >
+                ?
+              </span>
+            </div>
+
+            {/* Buttons Container */}
+            <div style={{ display: "flex", width: "100%", alignItems: "center" }}>
+              <button
+                className={`condition-button ${condition === "Dry" ? "active" : ""}`}
+                style={{ flex: "1 1 0", minWidth: 0, margin: 0, border: condition === "Dry" ? "2px solid black" : "1px solid gray" }}
+                onClick={() => setCondition("Dry")}
+              >
+                <img src="/weather_symbols_sunny.png" style={{ height: "50%", maxWidth: "100%" }} />
+              </button>
+
+              <button
+                className={`condition-button ${condition === "Sand" ? "active" : ""}`}
+                style={{ flex: "1 1 0", minWidth: 0, margin: 0, border: condition === "Sand" ? "2px solid black" : "1px solid gray", borderLeft: "none" }}
+                onClick={() => setCondition("Sand")}
+              >
+                <img src="/heap-of-sand.png" style={{ height: "30%", maxWidth: "100%" }} />
+              </button>
+
+              <button
+                className={`condition-button ${condition === "Wet" ? "active" : ""}`}
+                style={{ flex: "1 1 0", minWidth: 0, margin: 0, border: condition === "Wet" ? "2px solid black" : "1px solid gray", borderLeft: "none" }}
+                onClick={() => setCondition("Wet")}
+              >
+                <img src="/weather_symbols_rain.png" style={{ height: "50%", maxWidth: "100%" }} />
+              </button>
+
+              <button
+                className={`condition-button ${condition === "Snow" ? "active" : ""}`}
+                style={{ flex: "1 1 0", minWidth: 0, margin: 0, border: condition === "Snow" ? "2px solid black" : "1px solid gray", borderLeft: "none" }}
+                onClick={() => setCondition("Snow")}
+              >
+                <img src="/weather_symbols_snow.png" style={{ height: "50%", maxWidth: "100%" }} />
+              </button>
+
+              <button
+                className={`condition-button ${condition === "Ice" ? "active" : ""}`}
+                style={{ flex: "1 1 0", minWidth: 0, margin: 0, border: condition === "Ice" ? "2px solid black" : "1px solid gray", borderLeft: "none" }}
+                onClick={() => setCondition("Ice")}
+              >
+                <img src="/A-32.png" style={{ height: "50%", maxWidth: "100%" }} />
+              </button>
+            </div>
           </div>
-          <SpeedTracker />
+
+          {/* RENDEROWANIE MODALI */}
+          {activeModal === "incline" && (
+            <Modal onClose={() => setActiveModal(null)}>
+               Nachylenie: Nachylenie podłużne w procentach (dodatnie wartości: wzniesienie; ujemne wartości: spadek).<br/>
+              <br />
+              -37,45%: najbardziej stromy zjazd na świecie<br />
+              -10%: minimalny spadek w terenie górzystym do umieszczenia znaku A-22 w Polsce<br />
+              -7%: minimalny spadek poza terenem górzystym do umieszczenia znaku A-22 w Polsce<br />
+              0%: droga pozioma<br />
+              ±3%: jeśli wartość nachylenia jest większa, na szlaku rowerowym umieszcza się tabliczkę informującą o nachyleniu (w Polsce)<br />
+              6%: minimalne wzniesienie poza terenem górzystym do umieszczenia znaku A-23 w Polsce<br />
+              8%: minimalne wzniesienie w terenie górzystym do umieszczenia znaku A-23 w Polsce<br />
+              5,5° ≈ 9,6%: maksymalne wzniesienie na egzaminie w Polsce<br />
+              12%: zespół pojazdów składający się z samochodu osobowego i przyczepy, obciążonych do wartości maksymalnych mas całkowitych, powinien ruszyć z miejsca co najmniej 5 razy w czasie 5 minut pod wzniesienie o tym nachyleniu (w Polsce)<br />
+              ±28%: najbardziej stromy podjazd/zjazd w Polsce<br />
+              35%: najbardziej stromy podjazd na świecie<br />
+            </Modal>
+          )}
+
+          {activeModal === "condition" && (
+            <Modal onClose={() => setActiveModal(null)}>
+               <b>Stan nawierzchni</b> (μ — współczynnik tarcia)<br/>
+              <img src="/weather_symbols_sunny.png" height="20px" /> suchy i szorstki asfalt (μ = 0,9)<br />
+              <img src="/heap-of-sand.png" height="20px" /> zabrudzony piachem asfalt (μ = 0,55)<br />
+              <img src="/weather_symbols_rain.png" height="20px" /> mokry asfalt (μ = 0,45)<br />
+              <img src="/weather_symbols_snow.png" height="20px" /> pokryty śniegiem asfalt (μ = 0,25)<br />
+              <img src="/A-32.png" height="20px" /> bardzo śliski asfalt, oblodzony asfalt, gołoledź (μ = 0,1)<br />
+
+            </Modal>
+          )}
         </>
       ) : (
-        <Settings 
-          initialDeceleration={deceleration} 
-          initialReactionTime={reactionTime} 
+        <Settings
+          initialDeceleration={deceleration}
+          initialReactionTime={reactionTime}
           onSaveAndBack={(newDeceleration, newReactionTime) => {
             setDeceleration(newDeceleration);
             setReactionTime(newReactionTime);
             setPage(1);
-          }} 
+          }}
         />
       )}
     </div>
