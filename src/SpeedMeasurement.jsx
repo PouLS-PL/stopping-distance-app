@@ -65,9 +65,9 @@ export function SpeedKm_h() {
 export function SpeedTracker() {
   const { speed, status } = useSpeedTracker();
   return (
-    <div>
+    <section>
       <p>GPS Status: {status}</p>
       <h2>{speed.toFixed(1)} km/h</h2>
-    </div>
+    </section>
   );
 }

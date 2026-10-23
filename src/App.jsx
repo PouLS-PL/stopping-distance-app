@@ -24,11 +24,11 @@ export function useLocalStorage(key, initialValue) {
 // ==========================================
 function Modal({ onClose, children }) {
   return (
-    <div
+    <section
       className="modal-backdrop"
       onClick={onClose} // Zamknięcie po kliknięciu w tło
     >
-      <div
+      <section
         className="modal-content"
         onClick={(e) => e.stopPropagation()} // Zatrzymanie zamykania przy kliknięciu w treść
       >
@@ -36,8 +36,8 @@ function Modal({ onClose, children }) {
           ✕
         </button>
         {children}
-      </div>
-    </div>
+      </section>
+    </section>
   );
 }
 
@@ -56,7 +56,7 @@ function Settings({ initialDeceleration, initialReactionTime, onSaveAndBack }) {
   };
 
   return (
-    <div className="settings">
+    <section className="settings">
       <h2>Ustawienia aplikacji</h2>
 
       <p>
@@ -110,7 +110,7 @@ function Settings({ initialDeceleration, initialReactionTime, onSaveAndBack }) {
           <br />Zalecana wartość: 1,35 s
         </Modal>
       )}
-    </div>
+    </section>
   );
 }
 
@@ -174,7 +174,7 @@ function App() {
   };
 
   return (
-    <div className="main">
+    <section className="main">
       {page === 1 ? (
         <>
           <button
@@ -195,7 +195,7 @@ function App() {
           </h1>
           <SpeedTracker />
 
-          <div className="incline">
+          <section className="incline">
             <span>Prędkość: </span>
             <input
               type="range"
@@ -221,9 +221,9 @@ function App() {
                 setSpeedFromGPS(false);
               }}
             />
-          </div>
+          </section>
 
-          <div className="incline">
+          <section className="incline">
             <span>Nachylenie: </span>
             <input
               type="range"
@@ -244,32 +244,32 @@ function App() {
               ?
             </span>
 
-          </div>
+          </section>
 
-          <div className="inclineQuickButtons">
+          <section className="inclineQuickButtons">
             {buttonOptions.map((num) => (
               <button key={num} onClick={() => setIncline(num)}>
                 {num}%
               </button>
             ))}
-          </div>
-          <div className="road-signs">
+          </section>
+          <section className="road-signs">
             <img src="/A-22.png" />
             <img src="/A-23.png" />
-                      </div>
-          <div className="Conditions">
+                      </section>
+          <section className="Conditions">
             {/* Tooltip Icon Container */}
-            <div className="conditions-tooltip-row">
+            <section className="conditions-tooltip-row">
               <span
                 className="info-icon conditions-info-icon"
                 onClick={() => setActiveModal("condition")}
               >
                 ?
               </span>
-            </div>
+            </section>
 
             {/* Buttons Container */}
-            <div className="conditions-buttons">
+            <section className="conditions-buttons">
               <button
                 className={`condition-button ${condition === "Dry" ? "active" : ""}`}
                 onClick={() => setCondition("Dry")}
@@ -304,8 +304,8 @@ function App() {
               >
                 <img className="condition-icon" src="/A-32.png" />
               </button>
-            </div>
-          </div>
+            </section>
+          </section>
 
           {/* RENDEROWANIE MODALI */}
           {activeModal === "incline" && (
@@ -328,7 +328,7 @@ function App() {
 
           {activeModal === "condition" && (
             <Modal onClose={() => setActiveModal(null)}>
-               <b>Stan nawierzchni</b> (μ — współczynnik tarcia)<br/>
+               <strong>Stan nawierzchni</strong> (μ — współczynnik tarcia)<br/>
               <img className="modal-condition-icon" src="/weather_symbols_sunny.png" /> suchy i szorstki asfalt (μ = 0,9)<br />
               <img className="modal-condition-icon" src="/heap-of-sand.png" /> zabrudzony piachem asfalt (μ = 0,55)<br />
               <img className="modal-condition-icon" src="/weather_symbols_rain.png" /> mokry asfalt (μ = 0,45)<br />
@@ -345,7 +345,7 @@ function App() {
           onSaveAndBack={handleSaveSettings} 
         />
       )}
-    </div>
+    </section>
   );
 }
 
