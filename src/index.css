@@ -175,7 +175,7 @@ strong {
   border: 1px solid gray !important;
 }
 
-.condition-button.active {
+.condition-button.active, .InclineButton_active {
   background-color: #646cff;
 }
 

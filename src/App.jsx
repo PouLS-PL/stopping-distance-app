@@ -247,11 +247,15 @@ function App() {
           </section>
 
           <section className="inclineQuickButtons">
-            {buttonOptions.map((num) => (
-              <button key={num} onClick={() => setIncline(num)}>
-                {num}%
-              </button>
-            ))}
+ {buttonOptions.map((num) => (
+  <button 
+    key={num} 
+    onClick={() => setIncline(num)}
+    className={`InclineButton_${incline === num ? "active" : ""}`}
+  >
+    {num}%
+  </button>
+  ))}
           </section>
           <section className="road-signs">
             <img src="/A-22.png" />
