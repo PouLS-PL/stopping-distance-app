@@ -144,19 +144,7 @@ function App() {
   const buttonOptions = [-15, -10, -7, 0, 6, 8, 15];
 
   const activeSpeed = speedFromGPS ? (typeof speedGPS === "number" ? speedGPS : speed) : speed;
-
-  useEffect(() => {
-    handleMeasure();
-  }, [speed, speedGPS, speedFromGPS, incline, deceleration, reactionTime, condition]);
-
-  useEffect(() => {
-    if (speedFromGPS && page === 1) {
-      if (typeof speedGPS === "number") {
-        setSpeed(speedGPS);
-      }
-    }
-  }, [speedGPS, speedFromGPS, page]);
-
+  
   const handleMeasure = () => {
     const currentSpeed = speedFromGPS ? (typeof speedGPS === "number" ? speedGPS : speed) : speed;
     const result = calculateMeasure({
@@ -172,6 +160,18 @@ function App() {
       setMessage(result.message);
     }
   };
+
+  useEffect(() => {
+    handleMeasure();
+  }, [speed, speedGPS, speedFromGPS, incline, deceleration, reactionTime, condition]);
+
+  useEffect(() => {
+    if (speedFromGPS && page === 1) {
+      if (typeof speedGPS === "number") {
+        setSpeed(speedGPS);
+      }
+    }
+  }, [speedGPS, speedFromGPS, page]);
 
   return (
     <section className="main">
