@@ -57,6 +57,11 @@ strong {
   padding: 10px;
   text-align: center;
 }
+.inclineQuickButtons  {
+
+  display: flex;
+  justify-content: space-between;
+}
 
 /* Light mode overrides */
 @media (prefers-color-scheme: light) {
@@ -172,9 +177,11 @@ strong {
   flex: 1 1 0;
   min-width: 0;
   margin: 1em ;
-  border: 1px solid gray !important;
 }
-
+button{
+    border: 1px solid gray !important;
+    border-radius: 5px;
+}
 .condition-button.active, .InclineButton_active {
   background-color: #646cff;
 }
