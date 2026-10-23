@@ -2,6 +2,23 @@ import { useState, useEffect } from "react";
 import { calculateMeasure } from "./stoppingDistance";
 import { SpeedTracker, useSpeedTracker } from "./SpeedMeasurement";
 
+
+export function useLocalStorage(key, initialValue) {
+  const [value, setValue] = useState(() => {
+    const savedValue = localStorage.getItem(key);
+    if (savedValue !== null) {
+      return JSON.parse(savedValue);
+    }
+    return typeof initialValue === 'function' ? initialValue() : initialValue;
+  });
+
+
+  useEffect(() => {
+    localStorage.setItem(key, JSON.stringify(value));
+  }, [key, value]);
+
+  return [value, setValue];
+}
 // ==========================================
 // KOMPONENT: MODAL (OKNO INFORMACYJNE)
 // ==========================================
@@ -103,8 +120,9 @@ function Settings({ initialDeceleration, initialReactionTime, onSaveAndBack }) {
 function App() {
   const [page, setPage] = useState(1);
   const [condition, setCondition] = useState("Dry");
-  const [deceleration, setDeceleration] = useState(8.0);
-  const [reactionTime, setReactionTime] = useState(1.35);
+  const [deceleration, setDeceleration] = useLocalStorage("app_deceleration", 8.0);
+  const [reactionTime, setReactionTime] = useLocalStorage("app_reactionTime", 1.35);
+
   const [message, setMessage] = useState("");
   const [incline, setIncline] = useState(0);
   const [speed, setSpeed] = useState(40);
@@ -113,6 +131,12 @@ function App() {
   const [isFocusedIncline, setIsFocusedIncline] = useState(false);
 
   const { speedGPS, status } = useSpeedTracker();
+
+    const handleSaveSettings = (newDeceleration, newReactionTime) => {
+    setDeceleration(newDeceleration);
+    setReactionTime(newReactionTime);
+    setPage(1); // Powrót na stronę główną
+  };
 
   // Stan przechowujący informację o otwartym oknie informacyjnym na głównej stronie
   const [activeModal, setActiveModal] = useState(null);
@@ -315,14 +339,10 @@ function App() {
           )}
         </>
       ) : (
-        <Settings
-          initialDeceleration={deceleration}
-          initialReactionTime={reactionTime}
-          onSaveAndBack={(newDeceleration, newReactionTime) => {
-            setDeceleration(newDeceleration);
-            setReactionTime(newReactionTime);
-            setPage(1);
-          }}
+        <Settings 
+          initialDeceleration={deceleration} 
+          initialReactionTime={reactionTime} 
+          onSaveAndBack={handleSaveSettings} 
         />
       )}
     </div>
