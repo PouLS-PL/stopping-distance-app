@@ -3,73 +3,19 @@ import { calculateMeasure } from "./stoppingDistance";
 import { SpeedTracker, useSpeedTracker } from "./SpeedMeasurement";
 
 // ==========================================
-// WSPÓLNE STYLES DLA ZNAKÓW ZAPYTANIA
-// ==========================================
-const questionMarkStyle = {
-  display: "inline-flex",
-  alignItems: "center",
-  justifyContent: "center",
-  width: "18px",
-  height: "18px",
-  borderRadius: "50%",
-  backgroundColor: "#ccc",
-  color: "#333",
-  fontSize: "12px",
-  fontWeight: "bold",
-  cursor: "pointer", // Zmiana na pointer (kliknięcie)
-  marginLeft: "8px",
-};
-
-// ==========================================
 // KOMPONENT: MODAL (OKNO INFORMACYJNE)
 // ==========================================
 function Modal({ onClose, children }) {
   return (
     <div
-      style={{
-        position: "fixed",
-        top: 0,
-        left: 0,
-        width: "100vw",
-        height: "100vh",
-        backgroundColor: "rgba(0,0,0,0.6)",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        zIndex: 9999,
-      }}
+      className="modal-backdrop"
       onClick={onClose} // Zamknięcie po kliknięciu w tło
     >
       <div
-        style={{
-          backgroundColor: "#333",
-          color: "#fff",
-          padding: "20px 25px",
-          borderRadius: "8px",
-          maxWidth: "90%",
-          maxHeight: "85vh",
-          overflowY: "auto", // Przewijanie na małych ekranach
-          position: "relative",
-          fontSize: "14px",
-          lineHeight: "1.5",
-          boxShadow: "0 4px 15px rgba(0,0,0,0.5)",
-        }}
+        className="modal-content"
         onClick={(e) => e.stopPropagation()} // Zatrzymanie zamykania przy kliknięciu w treść
       >
-        <button
-          onClick={onClose}
-          style={{
-            position: "absolute",
-            top: "10px",
-            right: "10px",
-            background: "none",
-            border: "none",
-            color: "#fff",
-            fontSize: "18px",
-            cursor: "pointer",
-            fontWeight: "bold",
-          }}
-        >
+        <button className="modal-close" onClick={onClose}>
           ✕
         </button>
         {children}
@@ -93,7 +39,7 @@ function Settings({ initialDeceleration, initialReactionTime, onSaveAndBack }) {
   };
 
   return (
-    <div className="settings" style={{ padding: "20px", background: "#f0f0f0", color: "#000" }}>
+    <div className="settings">
       <h2>Ustawienia aplikacji</h2>
 
       <p>
@@ -105,10 +51,7 @@ function Settings({ initialDeceleration, initialReactionTime, onSaveAndBack }) {
           onChange={(e) => setLocalDeceleration(Number(e.target.value))}
         />
         {/* ZNAK ZAPYTANIA DLA OPÓŹNIENIA */}
-        <span
-          style={questionMarkStyle}
-          onClick={() => setActiveModal("deceleration")}
-        >
+        <span className="info-icon" onClick={() => setActiveModal("deceleration")}>
           ?
         </span>
       </p>
@@ -122,10 +65,7 @@ function Settings({ initialDeceleration, initialReactionTime, onSaveAndBack }) {
           onChange={(e) => setLocalReactionTime(Number(e.target.value))}
         />
         {/* ZNAK ZAPYTANIA DLA CZASU REAKCJI */}
-        <span
-          style={questionMarkStyle}
-          onClick={() => setActiveModal("reactionTime")}
-        >
+        <span className="info-icon" onClick={() => setActiveModal("reactionTime")}>
           ?
         </span>
       </p>
@@ -276,10 +216,7 @@ function App() {
               onChange={(e) => setIncline(Number(e.target.value))}
             />
 
-            <span
-              style={questionMarkStyle}
-              onClick={() => setActiveModal("incline")}
-            >
+            <span className="info-icon" onClick={() => setActiveModal("incline")}>
               ?
             </span>
 
@@ -292,15 +229,15 @@ function App() {
               </button>
             ))}
           </div>
-<div style={{ display: "flex", justifyContent: "space-between", marginTop: "10px", padding: "0 10px" }}>
-                        <img src="/A-22.png" style={{ height: "80px" }} />
-                        <img src="/A-23.png" style={{ height: "80px" }} />
+          <div className="road-signs">
+            <img src="/A-22.png" />
+            <img src="/A-23.png" />
                       </div>
-          <div className="Conditions" style={{ marginTop: "15px" }}>
+          <div className="Conditions">
             {/* Tooltip Icon Container */}
-            <div style={{ display: "flex", justifyContent: "flex-end", marginBottom: "8px" }}>
+            <div className="conditions-tooltip-row">
               <span
-                style={{ ...questionMarkStyle, flexShrink: 0, marginLeft: 0 }}
+                className="info-icon conditions-info-icon"
                 onClick={() => setActiveModal("condition")}
               >
                 ?
@@ -308,45 +245,40 @@ function App() {
             </div>
 
             {/* Buttons Container */}
-            <div style={{ display: "flex", width: "100%", alignItems: "center" }}>
+            <div className="conditions-buttons">
               <button
                 className={`condition-button ${condition === "Dry" ? "active" : ""}`}
-                style={{ flex: "1 1 0", minWidth: 0, margin: 0, border: condition === "Dry" ? "2px solid black" : "1px solid gray" }}
                 onClick={() => setCondition("Dry")}
               >
-                <img src="/weather_symbols_sunny.png" style={{ height: "50%", maxWidth: "100%" }} />
+                <img className="condition-icon" src="/weather_symbols_sunny.png" />
               </button>
 
               <button
                 className={`condition-button ${condition === "Sand" ? "active" : ""}`}
-                style={{ flex: "1 1 0", minWidth: 0, margin: 0, border: condition === "Sand" ? "2px solid black" : "1px solid gray", borderLeft: "none" }}
                 onClick={() => setCondition("Sand")}
               >
-                <img src="/heap-of-sand.png" style={{ height: "30%", maxWidth: "100%" }} />
+                <img className="condition-icon condition-icon-sand" src="/heap-of-sand.png" />
               </button>
 
               <button
                 className={`condition-button ${condition === "Wet" ? "active" : ""}`}
-                style={{ flex: "1 1 0", minWidth: 0, margin: 0, border: condition === "Wet" ? "2px solid black" : "1px solid gray", borderLeft: "none" }}
                 onClick={() => setCondition("Wet")}
               >
-                <img src="/weather_symbols_rain.png" style={{ height: "50%", maxWidth: "100%" }} />
+                <img className="condition-icon" src="/weather_symbols_rain.png" />
               </button>
 
               <button
                 className={`condition-button ${condition === "Snow" ? "active" : ""}`}
-                style={{ flex: "1 1 0", minWidth: 0, margin: 0, border: condition === "Snow" ? "2px solid black" : "1px solid gray", borderLeft: "none" }}
                 onClick={() => setCondition("Snow")}
               >
-                <img src="/weather_symbols_snow.png" style={{ height: "50%", maxWidth: "100%" }} />
+                <img className="condition-icon" src="/weather_symbols_snow.png" />
               </button>
 
               <button
                 className={`condition-button ${condition === "Ice" ? "active" : ""}`}
-                style={{ flex: "1 1 0", minWidth: 0, margin: 0, border: condition === "Ice" ? "2px solid black" : "1px solid gray", borderLeft: "none" }}
                 onClick={() => setCondition("Ice")}
               >
-                <img src="/A-32.png" style={{ height: "50%", maxWidth: "100%" }} />
+                <img className="condition-icon" src="/A-32.png" />
               </button>
             </div>
           </div>
@@ -373,11 +305,11 @@ function App() {
           {activeModal === "condition" && (
             <Modal onClose={() => setActiveModal(null)}>
                <b>Stan nawierzchni</b> (μ — współczynnik tarcia)<br/>
-              <img src="/weather_symbols_sunny.png" height="20px" /> suchy i szorstki asfalt (μ = 0,9)<br />
-              <img src="/heap-of-sand.png" height="20px" /> zabrudzony piachem asfalt (μ = 0,55)<br />
-              <img src="/weather_symbols_rain.png" height="20px" /> mokry asfalt (μ = 0,45)<br />
-              <img src="/weather_symbols_snow.png" height="20px" /> pokryty śniegiem asfalt (μ = 0,25)<br />
-              <img src="/A-32.png" height="20px" /> bardzo śliski asfalt, oblodzony asfalt, gołoledź (μ = 0,1)<br />
+              <img className="modal-condition-icon" src="/weather_symbols_sunny.png" /> suchy i szorstki asfalt (μ = 0,9)<br />
+              <img className="modal-condition-icon" src="/heap-of-sand.png" /> zabrudzony piachem asfalt (μ = 0,55)<br />
+              <img className="modal-condition-icon" src="/weather_symbols_rain.png" /> mokry asfalt (μ = 0,45)<br />
+              <img className="modal-condition-icon" src="/weather_symbols_snow.png" /> pokryty śniegiem asfalt (μ = 0,25)<br />
+              <img className="modal-condition-icon" src="/A-32.png" /> bardzo śliski asfalt, oblodzony asfalt, gołoledź (μ = 0,1)<br />
 
             </Modal>
           )}
