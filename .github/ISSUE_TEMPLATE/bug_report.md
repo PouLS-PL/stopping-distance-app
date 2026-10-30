@@ -1,6 +1,6 @@
 ---
 name: Bug Report
-about: Report a problem with the web-llm-showcase
+about: Report a problem with stopping-distance-app
 title: "[BUG] "
 labels: bug
 ---
