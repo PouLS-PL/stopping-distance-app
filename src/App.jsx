@@ -81,15 +81,18 @@ function Modal({ onClose, children }) {
 // ==========================================
 // KOMPONENT: SETTINGS (USTAWIENIA)
 // ==========================================
-function Settings({ initialDeceleration, initialReactionTime, onSaveAndBack }) {
+function Settings({ initialDeceleration, initialReactionTime, initialBrakingForce, initialMass, initialUseBrakingForce, onSaveAndBack }) {
   const [localDeceleration, setLocalDeceleration] = useState(initialDeceleration);
-  const [localReactionTime, setLocalReactionTime] = useState(initialReactionTime);
+    const [localReactionTime, setLocalReactionTime] = useState(initialReactionTime);
+    const [localBrakingForce, setLocalBrakingForce] = useState(initialBrakingForce);
+    const [localMass, setLocalMass] = useState(initialMass);
+    const [localUseBrakingForce, setLocalUseBrakingForce] = useState(initialUseBrakingForce);
 
   // Stan przechowujący informację, który modal ma być otwarty
   const [activeModal, setActiveModal] = useState(null);
 
   const handleSaveAndBack = () => {
-    onSaveAndBack(localDeceleration, localReactionTime);
+    onSaveAndBack(localDeceleration, localReactionTime, localBrakingForce, localMass, localUseBrakingForce);
   };
 
   return (
@@ -128,7 +131,43 @@ function Settings({ initialDeceleration, initialReactionTime, onSaveAndBack }) {
         >
           ?
         </span>
-      </p>
+          </p>
+          <p><input
+              type="checkbox"
+              id="useBrakingForce"
+              checked={localUseBrakingForce}
+              onChange={(e) => setLocalUseBrakingForce(e.target.checked)}
+          />
+              <label htmlFor="useBrakingForce">Oblicz opóźnienie na podstawie siły hamowania i RMC</label>         </p>
+          <p><label htmlFor="brakingForce">Siła hamowania [N] </label>
+              <input
+                  type="number"
+                  id="brakingForce"
+                  value={localBrakingForce}
+                  onChange={(e) => setLocalBrakingForce(Number(e.target.value))}
+              />
+              {/* ZNAK ZAPYTANIA */}
+              <span
+                  style={questionMarkStyle}
+                  onClick={() => setActiveModal("brakingForce")}
+              >
+                  ?
+              </span>          </p>
+
+          <p><label htmlFor="mass">Rzeczywista masa całkowita [kg] </label>
+              <input
+                  type="number"
+                  id="mass"
+                  value={localMass}
+                  onChange={(e) => setLocalMass(Number(e.target.value))}
+              />
+              {/* ZNAK ZAPYTANIA */}
+              <span
+                  style={questionMarkStyle}
+                  onClick={() => setActiveModal("mass")}
+              >
+                  ?
+              </span>          </p>
 
       <p><button onClick={handleSaveAndBack}>Powrót</button></p>
 
@@ -152,7 +191,24 @@ function Settings({ initialDeceleration, initialReactionTime, onSaveAndBack }) {
           <br />Reakcja układu hamulcowego to około 0,2—0,5 s
           <br />Zalecana wartość: 1,35 s
         </Modal>
-      )}
+          )}
+
+          {activeModal === "brakingForce" && (
+              <Modal onClose={() => setActiveModal(null)}>
+                  Siła hamowania: Siła hamowania pojazdu na drodze poziomej o nawierzchni twardej, suchej i czystej.<br />
+                  <br />
+                  14 210—14 500 N: minimalna wartość dla pojazdu o kat. M1 (osobówka) o DMC 2,5 t zarejestrowanego po 2010 r.  w Polsce
+              </Modal>
+          )}
+
+          {activeModal === "mass" && (
+              <Modal onClose={() => setActiveModal(null)}>
+                  Rzeczywista masa całkowita: masa pojazdu łącznie z masą znajdujących się na nim rzeczy i osób.<br />
+                  <br />
+                  1179 kg — pusty Hyundai i30 GDH
+                  1820 kg — maksymalnie obciążony Hyundai i30 GDH
+              </Modal>
+          )}
     </div>
   );
 }
@@ -165,12 +221,15 @@ function App() {
   const [condition, setCondition] = useState("Dry");
   const [deceleration, setDeceleration] = useState(8.0);
   const [reactionTime, setReactionTime] = useState(1.35);
+  const [brakingForce, setBrakingForce] = useState(0.0);
+  const [mass, setMass] = useState(0.0);
   const [message, setMessage] = useState("");
   const [incline, setIncline] = useState(0);
   const [speed, setSpeed] = useState(40);
   const [speedFromGPS, setSpeedFromGPS] = useState(true);
   const [isFocusedSpeed, setIsFocusedSpeed] = useState(false);
   const [isFocusedIncline, setIsFocusedIncline] = useState(false);
+  const [useBrakingForce, setUseBrakingForce] = useState(false);
 
   const { speedGPS, status } = useSpeedTracker();
 
@@ -183,7 +242,7 @@ function App() {
 
   useEffect(() => {
     handleMeasure();
-  }, [speed, speedGPS, speedFromGPS, incline, deceleration, reactionTime, condition]);
+  }, [speed, speedGPS, speedFromGPS, incline, deceleration, reactionTime, condition, brakingForce, mass, useBrakingForce]);
 
   useEffect(() => {
     if (speedFromGPS && page === 1) {
@@ -201,6 +260,9 @@ function App() {
       deceleration,
       reactionTime,
       condition,
+        brakingForce,
+        mass,
+        useBrakingForce,
     });
     if (result.error) {
       setMessage(result.error);
@@ -386,9 +448,15 @@ function App() {
         <Settings
           initialDeceleration={deceleration}
           initialReactionTime={reactionTime}
-          onSaveAndBack={(newDeceleration, newReactionTime) => {
+          initialBrakingForce={brakingForce}
+                      initialMass={mass}
+                      initialUseBrakingForce={useBrakingForce}
+          onSaveAndBack={(newDeceleration, newReactionTime, newBrakingForce, newMass, newUseBrakingForce) => {
             setDeceleration(newDeceleration);
             setReactionTime(newReactionTime);
+              setBrakingForce(newBrakingForce);
+              setMass(newMass);
+              setUseBrakingForce(newUseBrakingForce);
             setPage(1);
           }}
         />

@@ -1,13 +1,21 @@
 // Standard gravity in m/s^2
 export const g = 9.80665;
 
-export function calculateMeasure({ speed, incline = 0, deceleration, reactionTime, condition }) {
+export function calculateMeasure({ speed, incline = 0, deceleration, reactionTime, condition, brakingForce, mass, useBrakingForce = false }) {
+   // const useBrakingForce = false; //temporarily hardcoded to false
+    
   const k = FRICTION_COEFFICIENTS[condition] ?? FRICTION_COEFFICIENTS.Dry;
 
   const numericSpeed = parseFloat(speed);
   const numericIncline = parseFloat(incline) || 0;
-  const a = parseFloat(deceleration);
+  let a = parseFloat(deceleration);
   const t = parseFloat(reactionTime);
+    const F = parseFloat(brakingForce);
+    const m = parseFloat(mass);
+
+    if (useBrakeForce) {
+        a = calculate_deceleration(F, m);
+    }
 
   if (isNaN(numericSpeed)) {
     return { error: 'Invalid speed value provided' };
