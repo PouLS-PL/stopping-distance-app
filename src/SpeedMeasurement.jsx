@@ -1,10 +1,9 @@
-import { useEffect, useState } from 'react';
-import { Geolocation } from '@capacitor/geolocation';
+import { useEffect, useState } from "react";
+import { Geolocation } from "@capacitor/geolocation";
 
 export function useSpeedTracker() {
-
   const [speed, setSpeed] = useState(0);
-  const [status, setStatus] = useState('Initializing GPS...');
+  const [status, setStatus] = useState("Initializing GPS...");
 
   useEffect(() => {
     let watchId = null;
@@ -12,12 +11,12 @@ export function useSpeedTracker() {
     const initGeolocation = async () => {
       try {
         const permission = await Geolocation.requestPermissions();
-        if (permission.location !== 'granted') {
-          setStatus('Location permission denied');
+        if (permission.location !== "granted") {
+          setStatus("Location permission denied");
           return;
         }
 
-        setStatus('Watching position...');
+        setStatus("Watching position...");
 
         watchId = await Geolocation.watchPosition(
           {
@@ -27,7 +26,7 @@ export function useSpeedTracker() {
           },
           (position, err) => {
             if (err) {
-              console.error('GPS Error:', err);
+              console.error("GPS Error:", err);
               setStatus(`Error: ${err.message}`);
               return;
             }
@@ -38,10 +37,10 @@ export function useSpeedTracker() {
               const speedKmh = speedNormal > 0 ? speedNormal * 3.6 : 0;
               setSpeed(speedKmh);
             }
-          }
+          },
         );
       } catch (error) {
-        console.error('Geolocation setup failed:', error);
+        console.error("Geolocation setup failed:", error);
         setStatus(`Failed: ${error.message}`);
       }
     };
@@ -59,15 +58,15 @@ export function useSpeedTracker() {
 
 export function SpeedKm_h() {
   const { speed } = useSpeedTracker();
-  return (speed).toFixed(1);
+  return speed.toFixed(1);
 }
 
 export function SpeedTracker() {
   const { speed, status } = useSpeedTracker();
   return (
-    <div>
+    <section>
       <p>GPS Status: {status}</p>
       <h2>{speed.toFixed(1)} km/h</h2>
-    </div>
+    </section>
   );
 }
