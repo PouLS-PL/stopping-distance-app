@@ -1,33 +1,42 @@
 // Standard gravity in m/s^2
 export const g = 9.80665;
 
-export function calculateMeasure({ speed, incline = 0, deceleration, reactionTime, condition, brakingForce, mass, useBrakingForce = false }) {
-   // const useBrakingForce = false; //temporarily hardcoded to false
-    
+export function calculateMeasure({
+  speed,
+  incline = 0,
+  deceleration,
+  reactionTime,
+  condition,
+  brakingForce,
+  mass,
+  useBrakingForce = false,
+}) {
+  // const useBrakingForce = false; //temporarily hardcoded to false
+
   const k = FRICTION_COEFFICIENTS[condition] ?? FRICTION_COEFFICIENTS.Dry;
 
   const numericSpeed = parseFloat(speed);
   const numericIncline = parseFloat(incline) || 0;
   let a = parseFloat(deceleration);
   const t = parseFloat(reactionTime);
-    const F = parseFloat(brakingForce);
-    const m = parseFloat(mass);
+  const F = parseFloat(brakingForce);
+  const m = parseFloat(mass);
 
-    if (useBrakeForce) {
-        a = calculate_deceleration(F, m);
-    }
-
-  if (isNaN(numericSpeed)) {
-    return { error: 'Invalid speed value provided' };
+  if (useBrakingForce) {
+    a = calculate_deceleration(F, m);
   }
 
-  const v = kmh_to_ms(numericSpeed);;
+  if (isNaN(numericSpeed)) {
+    return { error: "Invalid speed value provided" };
+  }
+
+  const v = kmh_to_ms(numericSpeed);
   const distance = display_stopping_distance(v, a, t, k, numericIncline);
 
   console.log(`v = ${v}`);
   console.log(`a = ${a}`);
   console.log(`t = ${t}`);
-  console.log(`incline = ${incline}`)
+  console.log(`incline = ${incline}`);
 
   return {
     distance,
