@@ -21,8 +21,8 @@ export function useSpeedTracker() {
         watchId = await Geolocation.watchPosition(
           {
             enableHighAccuracy: true,
-            timeout: 10000,
-            maximumAge: 0,
+            timeout: 100,
+            maximumAge: 10000,
           },
           (position, err) => {
             if (err) {
