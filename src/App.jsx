@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { calculateMeasure } from "./stoppingDistance";
 import { SpeedTracker, useSpeedTracker } from "./SpeedMeasurement";
+import { translations } from "./translations";
 
 export function useLocalStorage(key, initialValue) {
   const [value, setValue] = useState(() => {
@@ -17,6 +18,18 @@ export function useLocalStorage(key, initialValue) {
 
   return [value, setValue];
 }
+
+// const translations = {
+//     en: {
+//         test: "English text",
+//         settingsTitle: "Settings",
+
+//     },
+//     pl: {
+//         test: "polski tekst",
+//         settingsTitle: "Ustawienia",
+//     }
+// };
 // ==========================================
 // KOMPONENT: MODAL (OKNO INFORMACYJNE)
 // ==========================================
@@ -49,6 +62,7 @@ function Settings({
   initialMass,
   initialUseBrakingForce,
   onSaveAndBack,
+  t,
 }) {
   const [localDeceleration, setLocalDeceleration] =
     useState(initialDeceleration);
@@ -76,12 +90,11 @@ function Settings({
 
   return (
     <section className="settings">
-      <h2>Ustawienia aplikacji</h2>
+      <h2>{t.appSettings}</h2>
+      {/* <h2>{t.test}</h2> */}
 
       <p>
-        <label htmlFor="deceleration">
-          Opóźnienie [m/s<sup>2</sup>]{" "}
-        </label>
+        <label htmlFor="deceleration">{t.deceleration} </label>
         <input
           type="number"
           id="deceleration"
@@ -98,7 +111,7 @@ function Settings({
       </p>
 
       <p>
-        <label htmlFor="reactionTime">Czas reakcji [s] </label>
+        <label htmlFor="reactionTime">{t.reactionTime}</label>
         <input
           type="number"
           id="reactionTime"
@@ -120,12 +133,10 @@ function Settings({
           checked={localUseBrakingForce}
           onChange={(e) => setLocalUseBrakingForce(e.target.checked)}
         />
-        <label htmlFor="useBrakingForce">
-          Oblicz opóźnienie na podstawie siły hamowania i RMC
-        </label>{" "}
+        <label htmlFor="useBrakingForce">{t.altCalcMethod}</label>{" "}
       </p>
       <p>
-        <label htmlFor="brakingForce">Siła hamowania [N] </label>
+        <label htmlFor="brakingForce">{t.brakingForce}</label>
         <input
           type="number"
           id="brakingForce"
@@ -142,7 +153,7 @@ function Settings({
       </p>
 
       <p>
-        <label htmlFor="mass">Rzeczywista masa całkowita [kg] </label>
+        <label htmlFor="mass">{t.mass}</label>
         <input
           type="number"
           id="mass"
@@ -156,7 +167,7 @@ function Settings({
       </p>
 
       <p>
-        <button onClick={handleSaveAndBack}>Powrót</button>
+        <button onClick={handleSaveAndBack}>{t.back}</button>
       </p>
 
       {/* RENDEROWANIE MODALI */}
@@ -220,6 +231,13 @@ function Settings({
 // KOMPONENT: APP (GŁÓWNY)
 // ==========================================
 function App() {
+  // Use your existing hook to remember the choice (defaults to "pl")
+  const [lang, setLang] = useLocalStorage("appLang", "pl");
+  const t = translations[lang];
+
+  const toggleLanguage = () => {
+    setLang(lang === "pl" ? "en" : "pl");
+  };
   const [page, setPage] = useState(1);
   const [condition, setCondition] = useState("Dry");
   const [deceleration, setDeceleration] = useState(8.0);
@@ -323,6 +341,10 @@ function App() {
     <section className="main">
       {page === 1 ? (
         <>
+          {/* Language Toggle Button */}
+          <button onClick={toggleLanguage} className="lang-toggle-btn">
+            {lang === "pl" ? "EN" : "PL"}
+          </button>
           <button
             onClick={() => {
               const nextGPS = !speedFromGPS;
@@ -334,7 +356,7 @@ function App() {
           >
             {speedFromGPS ? "GPS ✓" : "GPS ✗"}
           </button>
-          <button onClick={() => setPage(2)}>Ustawienia</button>
+          <button onClick={() => setPage(2)}>{t.settingsTitle}</button>
 
           <h1>
             <strong>{message || "Click the button"}</strong>
@@ -372,7 +394,7 @@ function App() {
           </section>
 
           <section className="incline">
-            <span>Nachylenie: </span>
+            <span>{t.incline}</span>
             <input
               type="range"
               min="-15"
@@ -476,6 +498,7 @@ function App() {
           {/* RENDEROWANIE MODALI */}
           {activeModal === "incline" && (
             <Modal onClose={() => setActiveModal(null)}>
+              {/* {t.inclineModal} */}
               Nachylenie: Nachylenie podłużne w procentach (dodatnie wartości:
               wzniesienie; ujemne wartości: spadek).
               <br />
@@ -549,6 +572,8 @@ function App() {
         </>
       ) : (
         <Settings
+          lang={lang}
+          t={t}
           initialDeceleration={deceleration}
           initialReactionTime={reactionTime}
           initialBrakingForce={brakingForce}
