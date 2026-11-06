@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { calculateMeasure } from "./stoppingDistance";
 import { SpeedTracker, useSpeedTracker } from "./SpeedMeasurement";
+import { SaveSettingsToFile, LoadSettingsFromFile } from "./Settings";
 import { translations } from "./translations";
 
 export function useLocalStorage(key, initialValue) {
@@ -259,6 +260,31 @@ function App() {
     setReactionTime(newReactionTime);
     setPage(1); // Powrót na stronę główną
   };
+
+  useEffect(() => {
+    async function fetchSettings() {
+      const args = await LoadSettingsFromFile();
+
+      // Check if we actually received settings (i.e. not empty array from web fallback)
+      if (args && args.length > 0) {
+        const [
+          newDeceleration,
+          newReactionTime,
+          newBrakingForce,
+          newMass,
+          newUseBrakingForce,
+        ] = args;
+
+        setDeceleration(newDeceleration);
+        setReactionTime(newReactionTime);
+        setBrakingForce(newBrakingForce);
+        setMass(newMass);
+        setUseBrakingForce(newUseBrakingForce);
+      }
+    }
+
+    fetchSettings();
+  }, []); // Empty dependency array ensures this runs once when the component mounts
 
   // Stan przechowujący informację o otwartym oknie informacyjnym na głównej stronie
   const [activeModal, setActiveModal] = useState(null);
@@ -579,18 +605,23 @@ function App() {
           initialBrakingForce={brakingForce}
           initialMass={mass}
           initialUseBrakingForce={useBrakingForce}
-          onSaveAndBack={(
-            newDeceleration,
-            newReactionTime,
-            newBrakingForce,
-            newMass,
-            newUseBrakingForce,
-          ) => {
+          onSaveAndBack={(...args) => {
+            const [
+              newDeceleration,
+              newReactionTime,
+              newBrakingForce,
+              newMass,
+              newUseBrakingForce,
+            ] = args;
+
             setDeceleration(newDeceleration);
             setReactionTime(newReactionTime);
             setBrakingForce(newBrakingForce);
             setMass(newMass);
             setUseBrakingForce(newUseBrakingForce);
+
+            SaveSettingsToFile(...args);
+
             setPage(1);
           }}
         />

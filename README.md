@@ -16,6 +16,7 @@ cd stopping-distance-app
 ### 2. Install Dependencies & Build
 
 Run the installation script from the root directory. This installs all dependencies:
+
 ```bash
 npm install
 ```
@@ -23,9 +24,25 @@ npm install
 ### 3. Run the Application
 
 Start the app:
+
 ```bash
 npm run dev
 ```
 
 Open your browser and navigate to `http://localhost:5173/` (or the URL displayed in your terminal) to use the showcase.
- 
+
+## Mobile Setup
+
+Build the application and sync it with Capacitor:
+
+```bash
+npm run build && npx cap sync
+```
+
+Open the Android project in Android Studio:
+
+```bash
+npx cap open android
+```
+
+You can also open Android Studio, select **Open**, and choose the `android` directory in the project.

@@ -17,6 +17,7 @@
     "@capacitor/android": "^8.5.2",
     "@capacitor/cli": "^9.0.0-alpha.7",
     "@capacitor/core": "^8.5.2",
+    "@capacitor/filesystem": "^8.1.5",
     "@capacitor/geolocation": "^8.2.2",
     "react": "^19.2.8",
     "react-dom": "^19.2.8"
