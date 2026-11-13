@@ -14,34 +14,30 @@ export const translations = {
     back: "Back",
     unitNames: {
       speed: {
-        "km/h": "kilometers per hour (km/h)",
-        mph: "miles per hour (mi/h)",
-        "m/s": "meters per second (m/s)",
+        "km/h": "kilometres per hour (km/h)",
+        "m/s": "metres per second (m/s)",
       },
       stoppingDistance: {
-        m: "meters (m)",
-        km: "kilometers (km)",
+        m: "metres (m)",
         ft: "feet (ft)",
-        mi: "miles (mi)",
         sv: "seconds at current speed (s)",
         cars: "4-meter car lengths (cars)",
       },
       incline: {
-        "%": "percent (%)",
+        "%": "percentage (%)",
         "°": "degrees (°)",
       },
       deceleration: {
-        "m/s²": "meters per second squared (m/s²)",
+        "m/s²": "metres per second squared (m/s²)",
         g: "standard gravity (g)",
       },
       reactionTime: {
         s: "seconds (s)",
-        ms: "milliseconds (ms)",
       },
       brakingForce: {
         N: "newtons (N)",
-        kgf: "kilonewtons (kN)",
-        lbf: "pound-force (lbf)",
+        kgf: "kilograms-force (kgf)",
+        lbf: "pounds-force (lbf)",
       },
       mass: {
         kg: "kilograms (kg)",
@@ -181,13 +177,11 @@ export const translations = {
     unitNames: {
       speed: {
         "km/h": "kilometry na godzinę (km/h)",
-        mph: "mile na godzinę (mi/h)",
         "m/s": "metry na sekundę (m/s)",
       },
       stoppingDistance: {
         m: "metry (m)",
         ft: "stopy (ft)",
-        mi: "mile (mi)",
         sv: "sekundy przy obecnej prędkości (s)",
         cars: "długości 4-metrowych samochodów (sam.)",
       },
@@ -201,7 +195,6 @@ export const translations = {
       },
       reactionTime: {
         s: "sekundy (s)",
-        ms: "milisekundy (ms)",
       },
       brakingForce: {
         N: "niutony (N)",
