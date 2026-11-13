@@ -81,51 +81,53 @@ export const translations = {
     ),
     decelerationModal: (
       <>
-        Opóźnienie: Opóźnienie pojazdu na drodze poziomej o nawierzchni twardej,
-        suchej i czystej.
+        Deceleration: The deceleration of the vehicle on a level road with a
+        hard, dry and clean surface.
         <br />
         <br />
-        0,4g ≈ 3,92 m/s/s - minimalna wartość dla maksymalnie obciążonego
-        pojazdu samochodowego w Polsce
+        0.4g ≈ 3.92 m/s<sup>2</sup> - minimum value for a fully loaded motor
+        vehicle in Poland
         <br />
         <br />
-        0,58g ≈ 5,68 m/s/s - minimalna wartość dla maksymalnie obciążonego
-        pojazdu kat. M1 (osobówka) zarejestrowanego po 2010 r. w Polsce
-        <br />8 m/s/s ≈ 0,81g - nowoczesny samochód
-        <br />9 m/s/s ≈ 0,91g - samochód sportowy
+        0.58g ≈ 5.68 m/s<sup>2</sup> - minimum value for a fully loaded category
+        M1 vehicle (passenger car) registered after 2010 in Poland
+        <br />8 m/s<sup>2</sup> ≈ 0.81g - modern car
+        <br />9 m/s<sup>2</sup> ≈ 0.91g - sports car
       </>
     ),
     reactionTimeModal: (
       <>
-        Czas reakcji: Suma czasu reakcji kierującego na bodziec, czasu potrzebny
-        na aktywowanie hamulca i czas reakcji układu hamulcowego.
+        Reaction time: The sum of the driver's reaction time to a stimulus, the
+        time required to apply the brake, and the response time of the braking
+        system.
         <br />
         <br />
-        Czas reakcji trzeźwego kierującego to około 0,6—0,85 s
+        The reaction time of a sober driver is about 0.6—0.85 s
         <br />
-        Reakcja układu hamulcowego to około 0,2—0,5 s
+        The braking system response time is about 0.2—0.5 s
         <br />
-        Zalecana wartość: 1,35 s
+        Recommended value: 1.35 s
       </>
     ),
     brakingForceModal: (
       <>
-        Siła hamowania: Siła hamowania pojazdu na drodze poziomej o nawierzchni
-        twardej, suchej i czystej.
+        Braking force: The braking force of the vehicle on a level road with a
+        hard, dry and clean surface.
         <br />
         <br />
-        14 210—14 500 N: minimalna wartość dla pojazdu o kat. M1 (osobówka) o
-        DMC 2,5 t zarejestrowanego po 2010 r. w Polsce
+        14 210—14 500 N: minimum value for a category M1 (passenger car) with a
+        maximum weight of 2.5 tonnes registered after 2010 in Poland
       </>
     ),
     massModal: (
       <>
-        Rzeczywista masa całkowita: masa pojazdu łącznie z masą znajdujących się
-        na nim rzeczy i osób.
+        Total vehicle mass: the mass of the vehicle including the mass of the
+        things and people carried on it.
         <br />
         <br />
-        1179 kg — pusty Hyundai i30 GDH 1820 kg — maksymalnie obciążony Hyundai
-        i30 GDH{" "}
+        1179 kg — empty Hyundai i30 GDH
+        <br />
+        1820 kg — fully loaded Hyundai i30 GDH{" "}
       </>
     ),
   },
@@ -214,14 +216,15 @@ export const translations = {
         suchej i czystej.
         <br />
         <br />
-        0,4g ≈ 3,92 m/s/s - minimalna wartość dla maksymalnie obciążonego
-        pojazdu samochodowego w Polsce
+        0,4g ≈ 3,92 m/s<sup>2</sup> - minimalna wartość dla maksymalnie
+        obciążonego pojazdu samochodowego w Polsce
         <br />
         <br />
-        0,58g ≈ 5,68 m/s/s - minimalna wartość dla maksymalnie obciążonego
-        pojazdu kat. M1 (osobówka) zarejestrowanego po 2010 r. w Polsce
-        <br />8 m/s/s ≈ 0,81g - nowoczesny samochód
-        <br />9 m/s/s ≈ 0,91g - samochód sportowy
+        0,58g ≈ 5,68 m/s<sup>2</sup> - minimalna wartość dla maksymalnie
+        obciążonego pojazdu kat. M1 (osobówka) zarejestrowanego po 2010 r. w
+        Polsce
+        <br />8 m/s<sup>2</sup> ≈ 0,81g - nowoczesny samochód
+        <br />9 m/s<sup>2</sup> ≈ 0,91g - samochód sportowy
       </>
     ),
     reactionTimeModal: (
@@ -253,8 +256,8 @@ export const translations = {
         na nim rzeczy i osób.
         <br />
         <br />
-        1179 kg — pusty Hyundai i30 GDH 1820 kg — maksymalnie obciążony Hyundai
-        i30 GDH{" "}
+        1179 kg — pusty Hyundai i30 GDH
+        <br /> 1820 kg — maksymalnie obciążony Hyundai i30 GDH{" "}
       </>
     ),
   },
