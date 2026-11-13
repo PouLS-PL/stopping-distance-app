@@ -13,69 +13,69 @@ export const translations = {
     back: "Back",
     inclineModal: (
       <>
-        Nachylenie: Nachylenie podłużne w procentach (dodatnie wartości:
-        wzniesienie; ujemne wartości: spadek).
+        Incline: Longitudinal gradient in percent (positive values: ascent;
+        negative values: descent).
         <br />
         <br />
-        -37,45%: najbardziej stromy zjazd na świecie
+        -37.45%: steepest descent in the world
         <br />
-        -10%: minimalny spadek w terenie górzystym do umieszczenia znaku A-22 w
-        Polsce
+        -10%: minimum descent in mountainous terrain to place the A-22 sign in
+        Poland
         <br />
-        -7%: minimalny spadek poza terenem górzystym do umieszczenia znaku A-22
-        w Polsce
+        -7%: minimum descent outside mountainous terrain to place the A-22 sign
+        in Poland
         <br />
-        0%: droga pozioma
+        0%: level road
         <br />
-        ±3%: jeśli wartość nachylenia jest większa, na szlaku rowerowym
-        umieszcza się tabliczkę informującą o nachyleniu (w Polsce)
+        ±3%: if the gradient value is greater, a sign informing about the
+        incline is placed on the bicycle route (in Poland)
         <br />
-        6%: minimalne wzniesienie poza terenem górzystym do umieszczenia znaku
-        A-23 w Polsce
+        6%: minimum ascent outside mountainous terrain to place the A-23 sign in
+        Poland
         <br />
-        8%: minimalne wzniesienie w terenie górzystym do umieszczenia znaku A-23
-        w Polsce
+        8%: minimum ascent in mountainous terrain to place the A-23 sign in
+        Poland
         <br />
-        5,5° ≈ 9,6%: maksymalne wzniesienie na egzaminie w Polsce
+        5.5° ≈ 9.6%: maximum ascent on the driving exam in Poland
         <br />
-        12%: zespół pojazdów składający się z samochodu osobowego i przyczepy,
-        obciążonych do wartości maksymalnych mas całkowitych, powinien ruszyć z
-        miejsca co najmniej 5 razy w czasie 5 minut pod wzniesienie o tym
-        nachyleniu (w Polsce)
+        12%: a vehicle combination consisting of a passenger car and a trailer,
+        loaded to their maximum total masses, should start from a standstill at
+        least 5 times within 5 minutes on an ascent with this gradient (in
+        Poland)
         <br />
-        ±28%: najbardziej stromy podjazd/zjazd w Polsce
+        ±28%: steepest ascent/descent in Poland
         <br />
-        35%: najbardziej stromy podjazd na świecie
+        35%: steepest ascent in the world
         <br />
       </>
     ),
     surfaceModal: (
       <>
-        <strong>Stan nawierzchni</strong> (μ — współczynnik tarcia)
+        <strong>Surface condition</strong> (μ — coefficient of friction)
         <br />
         <img
           className="modal-condition-icon"
           src="/weather_symbols_sunny.png"
         />{" "}
-        suchy i szorstki asfalt (μ = 0,9)
+        dry and rough asphalt (μ = 0.9)
         <br />
         <img className="modal-condition-icon" src="/heap-of-sand.png" />{" "}
-        zabrudzony piachem asfalt (μ = 0,55)
+        sand-covered asphalt (μ = 0.55)
         <br />
         <img
           className="modal-condition-icon"
           src="/weather_symbols_rain.png"
         />{" "}
-        mokry asfalt (μ = 0,45)
+        wet asphalt (μ = 0.45)
         <br />
         <img
           className="modal-condition-icon"
           src="/weather_symbols_snow.png"
         />{" "}
-        pokryty śniegiem asfalt (μ = 0,25)
+        snow-covered asphalt (μ = 0.25)
         <br />
-        <img className="modal-condition-icon" src="/A-32.png" /> bardzo śliski
-        asfalt, oblodzony asfalt, gołoledź (μ = 0,1)
+        <img className="modal-condition-icon" src="/A-32.png" /> very slippery
+        asphalt, icy asphalt, black ice (μ = 0.1)
         <br />
       </>
     ),
