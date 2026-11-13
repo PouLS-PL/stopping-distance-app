@@ -1,7 +1,9 @@
 import { useState, useEffect } from "react";
 import { calculateMeasure } from "./stoppingDistance";
 import { SpeedTracker, useSpeedTracker } from "./SpeedMeasurement";
-import { SaveSettingsToFile, LoadSettingsFromFile } from "./Settings";
+import { SaveSettingsToFile, LoadSettingsFromFile } from "./SettingsStorage";
+import Units from "./Units";
+import { DEFAULT_UNITS } from "./unitSettings";
 import { translations } from "./translations.jsx";
 
 export function useLocalStorage(key, initialValue) {
@@ -63,6 +65,7 @@ function Settings({
   initialMass,
   initialUseBrakingForce,
   onSaveAndBack,
+  onOpenUnits,
   t,
 }) {
   const [localDeceleration, setLocalDeceleration] =
@@ -81,6 +84,16 @@ function Settings({
 
   const handleSaveAndBack = () => {
     onSaveAndBack(
+      localDeceleration,
+      localReactionTime,
+      localBrakingForce,
+      localMass,
+      localUseBrakingForce,
+    );
+  };
+
+  const handleOpenUnits = () => {
+    onOpenUnits(
       localDeceleration,
       localReactionTime,
       localBrakingForce,
@@ -168,6 +181,10 @@ function Settings({
       </p>
 
       <p>
+        <button onClick={handleOpenUnits}>{t.unitsTitle}</button>
+      </p>
+
+      <p>
         <button onClick={handleSaveAndBack}>{t.back}</button>
       </p>
 
@@ -221,34 +238,33 @@ function App() {
   const [isFocusedSpeed, setIsFocusedSpeed] = useState(false);
   const [isFocusedIncline, setIsFocusedIncline] = useState(false);
   const [useBrakingForce, setUseBrakingForce] = useState(false);
+  const [units, setUnits] = useState(DEFAULT_UNITS);
 
   const { speedGPS, status } = useSpeedTracker();
 
-  const handleSaveSettings = (newDeceleration, newReactionTime) => {
-    setDeceleration(newDeceleration);
-    setReactionTime(newReactionTime);
-    setPage(1); // Powrót na stronę główną
-  };
-
   useEffect(() => {
     async function fetchSettings() {
-      const args = await LoadSettingsFromFile();
+      const savedSettings = await LoadSettingsFromFile();
 
-      // Check if we actually received settings (i.e. not empty array from web fallback)
-      if (args && args.length > 0) {
-        const [
-          newDeceleration,
-          newReactionTime,
-          newBrakingForce,
-          newMass,
-          newUseBrakingForce,
-        ] = args;
-
-        setDeceleration(newDeceleration);
-        setReactionTime(newReactionTime);
-        setBrakingForce(newBrakingForce);
-        setMass(newMass);
-        setUseBrakingForce(newUseBrakingForce);
+      if (savedSettings) {
+        if (savedSettings.deceleration !== undefined) {
+          setDeceleration(savedSettings.deceleration);
+        }
+        if (savedSettings.reactionTime !== undefined) {
+          setReactionTime(savedSettings.reactionTime);
+        }
+        if (savedSettings.brakingForce !== undefined) {
+          setBrakingForce(savedSettings.brakingForce);
+        }
+        if (savedSettings.mass !== undefined) {
+          setMass(savedSettings.mass);
+        }
+        if (savedSettings.useBrakingForce !== undefined) {
+          setUseBrakingForce(savedSettings.useBrakingForce);
+        }
+        if (savedSettings.units) {
+          setUnits({ ...DEFAULT_UNITS, ...savedSettings.units });
+        }
       }
     }
 
@@ -499,7 +515,7 @@ function App() {
             <Modal onClose={() => setActiveModal(null)}>{t.surfaceModal}</Modal>
           )}
         </>
-      ) : (
+      ) : page === 2 ? (
         <Settings
           lang={lang}
           t={t}
@@ -508,6 +524,20 @@ function App() {
           initialBrakingForce={brakingForce}
           initialMass={mass}
           initialUseBrakingForce={useBrakingForce}
+          onOpenUnits={(
+            newDeceleration,
+            newReactionTime,
+            newBrakingForce,
+            newMass,
+            newUseBrakingForce,
+          ) => {
+            setDeceleration(newDeceleration);
+            setReactionTime(newReactionTime);
+            setBrakingForce(newBrakingForce);
+            setMass(newMass);
+            setUseBrakingForce(newUseBrakingForce);
+            setPage(3);
+          }}
           onSaveAndBack={(...args) => {
             const [
               newDeceleration,
@@ -523,9 +553,34 @@ function App() {
             setMass(newMass);
             setUseBrakingForce(newUseBrakingForce);
 
-            SaveSettingsToFile(...args);
+            SaveSettingsToFile({
+              deceleration: newDeceleration,
+              reactionTime: newReactionTime,
+              brakingForce: newBrakingForce,
+              mass: newMass,
+              useBrakingForce: newUseBrakingForce,
+              units,
+            });
 
             setPage(1);
+          }}
+        />
+      ) : (
+        <Units
+          initialUnits={units}
+          lang={lang}
+          t={t}
+          onSaveAndBack={(newUnits) => {
+            setUnits(newUnits);
+            SaveSettingsToFile({
+              deceleration,
+              reactionTime,
+              brakingForce,
+              mass,
+              useBrakingForce,
+              units: newUnits,
+            });
+            setPage(2);
           }}
         />
       )}

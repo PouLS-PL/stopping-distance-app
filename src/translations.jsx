@@ -2,6 +2,7 @@ export const translations = {
   en: {
     test: "English text",
     settingsTitle: "Settings",
+    unitsTitle: "Units",
     incline: "Incline: ",
     appSettings: "App settings",
     deceleration: `Deceleration [m/s²]`,
@@ -132,6 +133,7 @@ export const translations = {
   pl: {
     test: "polski tekst",
     settingsTitle: "Ustawienia",
+    unitsTitle: "Jednostki",
     incline: "Nachylenie: ",
     appSettings: "Ustawienia aplikacji",
     deceleration: `Opóźnienie [m/s²]`,
