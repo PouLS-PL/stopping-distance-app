@@ -60,7 +60,7 @@ export function kmh_to_ms(v) {
 
 // Converts m/s to km/h
 export function ms_to_kmh(v) {
-  return v * 1000 * 3600;
+  return (v * 1000) / 3600;
 }
 
 // Converts fraction of g to m/s^2
