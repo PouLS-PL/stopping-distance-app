@@ -40,11 +40,13 @@ export const translations = {
       },
       brakingForce: {
         N: "newtons (N)",
-        kgf: "kilonewtons (kN)",
+        kN: "kilonewtons (kN)",
+        kgf: "kilogram-force (kgf)",
         lbf: "pound-force (lbf)",
       },
       mass: {
         kg: "kilograms (kg)",
+        t: "tonnes (t)",
         lb: "pounds (lb)",
       },
     },
@@ -210,6 +212,7 @@ export const translations = {
       },
       mass: {
         kg: "kilogramy (kg)",
+        t: "tony (t)",
         lb: "funty (lb)",
       },
     },

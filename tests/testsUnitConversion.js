@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import {
   STANDARD_GRAVITY_METERS_PER_SECOND_SQUARED,
+  STANDARD_CAR_LENGTH_METERS,
   convertBrakingForce,
   convertDeceleration,
   convertIncline,
@@ -44,19 +45,65 @@ describe("unit conversions", () => {
   });
 
   describe("stopping distance", () => {
-    it("converts between meters, kilometers, feet, and miles", () => {
+    it("converts between meters and standard car lengths", () => {
       // Arrange
-      const distance = 1;
+      const carLength = 1;
 
       // Act
-      const metersFromKilometer = convertStoppingDistance(distance, "km", "m");
-      const metersFromFoot = convertStoppingDistance(distance, "ft", "m");
-      const kilometersFromMile = convertStoppingDistance(distance, "mi", "km");
+      const meters = convertStoppingDistance(carLength, "car", "m");
+      const carLengths = convertStoppingDistance(meters, "m", "car");
 
       // Assert
-      expect(metersFromKilometer).toBe(1000);
-      expect(metersFromFoot).toBeCloseTo(0.3048);
-      expect(kilometersFromMile).toBeCloseTo(1.609344);
+      expect(STANDARD_CAR_LENGTH_METERS).toBe(4);
+      expect(meters).toBe(4);
+      expect(carLengths).toBe(carLength);
+    });
+
+    it("converts between distance and seconds at the current speed", () => {
+      // Arrange
+      const speedMetersPerSecond = 20;
+      const seconds = 2;
+
+      // Act
+      const meters = convertStoppingDistance(
+        seconds,
+        "s",
+        "m",
+        speedMetersPerSecond,
+      );
+      const carLengths = convertStoppingDistance(
+        seconds,
+        "s",
+        "car",
+        speedMetersPerSecond,
+      );
+      const convertedSeconds = convertStoppingDistance(
+        meters,
+        "m",
+        "s",
+        speedMetersPerSecond,
+      );
+
+      // Assert
+      expect(meters).toBe(40);
+      expect(carLengths).toBe(10);
+      expect(convertedSeconds).toBe(seconds);
+      expect(convertStoppingDistance(seconds, "s", "s")).toBe(seconds);
+    });
+
+    it("requires a positive finite speed when converting seconds", () => {
+      // Arrange
+      const invalidSpeeds = [undefined, 0, -1, Infinity, NaN];
+
+      // Act
+      const conversions = invalidSpeeds.map(
+        (speed) => () => convertStoppingDistance(2, "s", "m", speed),
+      );
+
+      // Assert
+      conversions.forEach((conversion) =>
+        expect(conversion).toThrow(RangeError),
+      );
     });
   });
 
@@ -107,41 +154,49 @@ describe("unit conversions", () => {
   });
 
   describe("braking force", () => {
-    it("converts between newtons, kilonewtons, and pounds-force", () => {
+    it("converts between newtons, kilogram-force, kilonewtons, and pounds-force", () => {
       // Arrange
-      const forceInKilonewtons = 2;
+      const forceInKilogramForce = 2;
 
       // Act
-      const newtons = convertBrakingForce(forceInKilonewtons, "kN", "N");
+      const newtons = convertBrakingForce(forceInKilogramForce, "kgf", "N");
       const poundsForce = convertBrakingForce(newtons, "N", "lbf");
+      const kilonewtons = convertBrakingForce(2000, "N", "kN");
 
       // Assert
-      expect(newtons).toBe(2000);
-      expect(poundsForce).toBeCloseTo(449.6179, 3);
+      expect(newtons).toBeCloseTo(
+        forceInKilogramForce * STANDARD_GRAVITY_METERS_PER_SECOND_SQUARED,
+      );
+      expect(poundsForce).toBeCloseTo(4.40925, 4);
+      expect(kilonewtons).toBe(2);
     });
   });
 
   describe("vehicle mass", () => {
-    it("converts between kilograms and pounds", () => {
+    it("converts between kilograms, tonnes, and pounds", () => {
       // Arrange
-      const pounds = 100;
+      const tonnes = 1.5;
 
       // Act
-      const kilograms = convertVehicleMass(pounds, "lb", "kg");
+      const kilograms = convertVehicleMass(tonnes, "t", "kg");
+      const convertedTonnes = convertVehicleMass(kilograms, "kg", "t");
+      const pounds = convertVehicleMass(kilograms, "kg", "lb");
 
       // Assert
-      expect(kilograms).toBeCloseTo(45.359237);
+      expect(kilograms).toBe(1500);
+      expect(convertedTonnes).toBe(tonnes);
+      expect(pounds).toBeCloseTo(3306.934, 2);
     });
   });
 
   describe("unsupported units", () => {
     it.each([
       ["speed", () => convertSpeed(1, "km/h", "knots")],
-      ["stopping distance", () => convertStoppingDistance(1, "yd", "m")],
+      ["stopping distance", () => convertStoppingDistance(1, "km", "m")],
       ["incline", () => convertIncline(1, "radians", "%")],
       ["deceleration", () => convertDeceleration(1, "g", "ft/s²")],
       ["reaction time", () => convertReactionTime(1, "minutes", "s")],
-      ["braking force", () => convertBrakingForce(1, "N", "kgf")],
+      ["braking force", () => convertBrakingForce(1, "N", "stone")],
       ["vehicle mass", () => convertVehicleMass(1, "stone", "kg")],
     ])("rejects an unsupported %s unit", (_section, convert) => {
       // Arrange
