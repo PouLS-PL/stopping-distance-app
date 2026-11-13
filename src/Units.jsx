@@ -6,7 +6,7 @@ const UNIT_OPTIONS = {
   stoppingDistance: ["m", "sv", "cars"],
   incline: ["%", "°"],
   deceleration: ["m/s²", "g"],
-  reactionTime: ["s", "ms"],
+  reactionTime: ["s"],
   brakingForce: ["N", "kgf", "lbf"],
   mass: ["kg", "t", "lb"],
 };
