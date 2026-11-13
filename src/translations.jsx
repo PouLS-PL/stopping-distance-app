@@ -12,6 +12,40 @@ export const translations = {
     brakingForce: "Braking force [N] ",
     mass: "Total vehicle mass [kg] ",
     back: "Back",
+    unitNames: {
+      speed: {
+        "km/h": "kilometers per hour (km/h)",
+        mph: "miles per hour (mph)",
+        "m/s": "meters per second (m/s)",
+      },
+      stoppingDistance: {
+        m: "meters (m)",
+        km: "kilometers (km)",
+        ft: "feet (ft)",
+        mi: "miles (mi)",
+      },
+      incline: {
+        "%": "percent (%)",
+        "°": "degrees (°)",
+      },
+      deceleration: {
+        "m/s²": "meters per second squared (m/s²)",
+        g: "standard gravity (g)",
+      },
+      reactionTime: {
+        s: "seconds (s)",
+        ms: "milliseconds (ms)",
+      },
+      brakingForce: {
+        N: "newtons (N)",
+        kN: "kilonewtons (kN)",
+        lbf: "pound-force (lbf)",
+      },
+      mass: {
+        kg: "kilograms (kg)",
+        lb: "pounds (lb)",
+      },
+    },
     inclineModal: (
       <>
         Nachylenie: Nachylenie podłużne w procentach (dodatnie wartości:
@@ -142,6 +176,40 @@ export const translations = {
     brakingForce: "Siła hamowania [N] ",
     mass: "Rzeczywista masa całkowita [kg] ",
     back: "Powrót",
+    unitNames: {
+      speed: {
+        "km/h": "kilometry na godzinę (km/h)",
+        mph: "mile na godzinę (mph)",
+        "m/s": "metry na sekundę (m/s)",
+      },
+      stoppingDistance: {
+        m: "metry (m)",
+        km: "kilometry (km)",
+        ft: "stopy (ft)",
+        mi: "mile (mi)",
+      },
+      incline: {
+        "%": "procenty (%)",
+        "°": "stopnie (°)",
+      },
+      deceleration: {
+        "m/s²": "metry na sekundę do kwadratu (m/s²)",
+        g: "przyspieszenie ziemskie (g)",
+      },
+      reactionTime: {
+        s: "sekundy (s)",
+        ms: "milisekundy (ms)",
+      },
+      brakingForce: {
+        N: "niutony (N)",
+        kN: "kiloniutony (kN)",
+        lbf: "funt-siła (lbf)",
+      },
+      mass: {
+        kg: "kilogramy (kg)",
+        lb: "funty (lb)",
+      },
+    },
     inclineModal: (
       <>
         Nachylenie: Nachylenie podłużne w procentach (dodatnie wartości:

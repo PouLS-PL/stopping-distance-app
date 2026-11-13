@@ -62,7 +62,7 @@ export default function Units({ initialUnits, lang, t, onSaveAndBack }) {
           >
             {options.map((unit) => (
               <option key={unit} value={unit}>
-                {unit}
+                {t.unitNames?.[element]?.[unit] ?? unit}
               </option>
             ))}
           </select>
