@@ -3,12 +3,12 @@ import { DEFAULT_UNITS } from "./unitSettings";
 
 const UNIT_OPTIONS = {
   speed: ["km/h", "mph", "m/s"],
-  stoppingDistance: ["m", "km", "ft", "mi"],
+  stoppingDistance: ["m", "s", "car"],
   incline: ["%", "°"],
   deceleration: ["m/s²", "g"],
   reactionTime: ["s", "ms"],
-  brakingForce: ["N", "kN", "lbf"],
-  mass: ["kg", "lb"],
+  brakingForce: ["N", "kgf", "lbf"],
+  mass: ["kg", "t", "lb"],
 };
 
 const UNIT_LABELS = {
@@ -33,10 +33,17 @@ const UNIT_LABELS = {
 };
 
 export default function Units({ initialUnits, lang, t, onSaveAndBack }) {
-  const [units, setUnits] = useState(() => ({
-    ...DEFAULT_UNITS,
-    ...initialUnits,
-  }));
+  const [units, setUnits] = useState(() => {
+    const savedUnits = { ...DEFAULT_UNITS, ...initialUnits };
+    return Object.fromEntries(
+      Object.entries(UNIT_OPTIONS).map(([element, options]) => [
+        element,
+        options.includes(savedUnits[element])
+          ? savedUnits[element]
+          : DEFAULT_UNITS[element],
+      ]),
+    );
+  });
   const labels = UNIT_LABELS[lang] || UNIT_LABELS.en;
 
   const handleUnitChange = (element, newUnit) => {

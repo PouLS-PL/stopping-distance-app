@@ -41,6 +41,7 @@ export const translations = {
       },
       mass: {
         kg: "kilograms (kg)",
+        t: "tonnes (t)",
         lb: "pounds (lb)",
       },
     },
@@ -203,6 +204,7 @@ export const translations = {
       },
       mass: {
         kg: "kilogramy (kg)",
+        t: "tony (t)",
         lb: "funty (lb)",
       },
     },

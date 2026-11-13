@@ -3,6 +3,7 @@
 // ==========================================
 
 export const STANDARD_GRAVITY_METERS_PER_SECOND_SQUARED = 9.80665;
+export const STANDARD_CAR_LENGTH_METERS = 4;
 
 function getConversion(value, conversions, fromUnit, toUnit, section) {
   const from = conversions[fromUnit];
@@ -55,27 +56,60 @@ export function ms_to_kmh(value) {
 // ==========================================
 
 // Stopping distance conversions use meters as the base unit.
-// Convert any supported distance to meters, then to the target distance unit.
 const STOPPING_DISTANCE_CONVERSIONS = {
   m: {
     toBase: (value) => value,
     fromBase: (value) => value,
   },
-  km: {
-    toBase: (value) => value * 1000,
-    fromBase: (value) => value / 1000,
-  },
-  ft: {
-    toBase: (value) => value * 0.3048,
-    fromBase: (value) => value / 0.3048,
-  },
-  mi: {
-    toBase: (value) => value * 1609.344,
-    fromBase: (value) => value / 1609.344,
+  car: {
+    toBase: (value) => value * STANDARD_CAR_LENGTH_METERS,
+    fromBase: (value) => value / STANDARD_CAR_LENGTH_METERS,
   },
 };
 
-export function convertStoppingDistance(value, fromUnit, toUnit) {
+export function convertStoppingDistance(
+  value,
+  fromUnit,
+  toUnit,
+  speedMetersPerSecond,
+) {
+  const supportedUnits = ["m", "s", "car"];
+  if (!supportedUnits.includes(fromUnit) || !supportedUnits.includes(toUnit)) {
+    return getConversion(
+      value,
+      STOPPING_DISTANCE_CONVERSIONS,
+      fromUnit,
+      toUnit,
+      "stopping distance",
+    );
+  }
+
+  if (fromUnit === toUnit) {
+    return value;
+  }
+
+  if (fromUnit === "s" || toUnit === "s") {
+    if (!Number.isFinite(speedMetersPerSecond) || speedMetersPerSecond <= 0) {
+      throw new RangeError(
+        "A positive finite speed in meters per second is required to convert stopping distance seconds",
+      );
+    }
+
+    return getConversion(
+      value,
+      {
+        ...STOPPING_DISTANCE_CONVERSIONS,
+        s: {
+          toBase: (seconds) => seconds * speedMetersPerSecond,
+          fromBase: (meters) => meters / speedMetersPerSecond,
+        },
+      },
+      fromUnit,
+      toUnit,
+      "stopping distance",
+    );
+  }
+
   return getConversion(
     value,
     STOPPING_DISTANCE_CONVERSIONS,
@@ -186,13 +220,17 @@ const BRAKING_FORCE_CONVERSIONS = {
     toBase: (value) => value * 1000,
     fromBase: (value) => value / 1000,
   },
+  kgf: {
+    toBase: (value) => value * STANDARD_GRAVITY_METERS_PER_SECOND_SQUARED,
+    fromBase: (value) => value / STANDARD_GRAVITY_METERS_PER_SECOND_SQUARED,
+  },
   lbf: {
     toBase: (value) => value * 4.4482216152605,
     fromBase: (value) => value / 4.4482216152605,
   },
 };
 
-// Converts between newtons, kilonewtons, and pounds-force.
+// Converts between newtons, kilonewtons, kilogram-force, and pounds-force.
 export function convertBrakingForce(value, fromUnit, toUnit) {
   return getConversion(
     value,
@@ -212,6 +250,10 @@ const VEHICLE_MASS_CONVERSIONS = {
   kg: {
     toBase: (value) => value,
     fromBase: (value) => value,
+  },
+  t: {
+    toBase: (value) => value * 1000,
+    fromBase: (value) => value / 1000,
   },
   lb: {
     toBase: (value) => value * 0.45359237,
