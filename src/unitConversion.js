@@ -255,6 +255,7 @@ const VEHICLE_MASS_CONVERSIONS = {
     toBase: (value) => value * 1000,
     fromBase: (value) => value / 1000,
   },
+  // funt brytyjski (wikipedia)
   lb: {
     toBase: (value) => value * 0.45359237,
     fromBase: (value) => value / 0.45359237,
