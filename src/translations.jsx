@@ -15,7 +15,7 @@ export const translations = {
     unitNames: {
       speed: {
         "km/h": "kilometers per hour (km/h)",
-        mph: "miles per hour (mph)",
+        mph: "miles per hour (mi/h)",
         "m/s": "meters per second (m/s)",
       },
       stoppingDistance: {
@@ -23,6 +23,8 @@ export const translations = {
         km: "kilometers (km)",
         ft: "feet (ft)",
         mi: "miles (mi)",
+        sv: "seconds at current speed (s)",
+        cars: "4-meter car lengths (cars)",
       },
       incline: {
         "%": "percent (%)",
@@ -38,7 +40,7 @@ export const translations = {
       },
       brakingForce: {
         N: "newtons (N)",
-        kN: "kilonewtons (kN)",
+        kgf: "kilonewtons (kN)",
         lbf: "pound-force (lbf)",
       },
       mass: {
@@ -179,21 +181,22 @@ export const translations = {
     unitNames: {
       speed: {
         "km/h": "kilometry na godzinę (km/h)",
-        mph: "mile na godzinę (mph)",
+        mph: "mile na godzinę (mi/h)",
         "m/s": "metry na sekundę (m/s)",
       },
       stoppingDistance: {
         m: "metry (m)",
-        km: "kilometry (km)",
         ft: "stopy (ft)",
         mi: "mile (mi)",
+        sv: "sekundy przy obecnej prędkości (s)",
+        cars: "długości 4-metrowych samochodów (sam.)",
       },
       incline: {
         "%": "procenty (%)",
         "°": "stopnie (°)",
       },
       deceleration: {
-        "m/s²": "metry na sekundę do kwadratu (m/s²)",
+        "m/s²": "metry na sekundę kwadrat (m/s²)",
         g: "przyspieszenie ziemskie (g)",
       },
       reactionTime: {
@@ -202,7 +205,7 @@ export const translations = {
       },
       brakingForce: {
         N: "niutony (N)",
-        kN: "kiloniutony (kN)",
+        kgf: "kilogram-siła (kgf)",
         lbf: "funt-siła (lbf)",
       },
       mass: {

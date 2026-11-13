@@ -23,7 +23,7 @@ const UNIT_LABELS = {
   },
   pl: {
     speed: "Prędkość",
-    stoppingDistance: "Droga hamowania",
+    stoppingDistance: "Droga zatrzymania",
     incline: "Nachylenie",
     deceleration: "Opóźnienie",
     reactionTime: "Czas reakcji",
