@@ -22,20 +22,20 @@ function getConversion(value, conversions, fromUnit, toUnit, section) {
 // SPEED CONVERSIONS
 // ==========================================
 
-// Speed conversions use kilometers per hour as the base unit.
-// Convert any supported speed unit to kilometers per hour, then to the target unit.
+// Speed conversions use meters per second as the base unit.
+// Convert any supported speed unit to meters per second, then to the target unit.
 const SPEED_CONVERSIONS = {
   "km/h": {
-    toBase: (value) => value,
-    fromBase: (value) => value,
+    toBase: (value) => value / 3.6,
+    fromBase: (value) => value * 3.6,
   },
   mph: {
-    toBase: (value) => value * 1.609344,
-    fromBase: (value) => value / 1.609344,
+    toBase: (value) => value * 0.44704,
+    fromBase: (value) => value / 0.44704,
   },
   "m/s": {
-    toBase: (value) => value * 3.6,
-    fromBase: (value) => value / 3.6,
+    toBase: (value) => value,
+    fromBase: (value) => value,
   },
 };
 
