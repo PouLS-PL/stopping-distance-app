@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+npmimport { useEffect, useState } from "react";
 import { Geolocation } from "@capacitor/geolocation";
 
 export function useSpeedTracker() {
@@ -61,12 +61,12 @@ export function SpeedKm_h() {
   return speed.toFixed(1);
 }
 
-export function SpeedTracker() {
+export function SpeedTracker({ speedUnit = "km/h" }) {
   const { speed, status } = useSpeedTracker();
   return (
     <section>
       <p>GPS Status: {status}</p>
-      <h2>{speed.toFixed(1)} km/h</h2>
+      <h2>{speed.toFixed(1)} {speedUnit}</h2>
     </section>
   );
 }

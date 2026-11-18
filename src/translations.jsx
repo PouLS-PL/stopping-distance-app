@@ -3,14 +3,15 @@ export const translations = {
     test: "English text",
     settingsTitle: "Settings",
     unitsTitle: "Units",
+    speed: "Speed",
     incline: "Incline: ",
     appSettings: "App settings",
-    deceleration: `Deceleration [m/s²]`,
-    reactionTime: "Reaction time [s] ",
+    deceleration: "Deceleration",
+    reactionTime: "Reaction time",
     altCalcMethod:
       "Calculate deceleration based on braking force and vehicle mass",
-    brakingForce: "Braking force [N] ",
-    mass: "Total vehicle mass [kg] ",
+    brakingForce: "Braking force",
+    mass: "Total vehicle mass",
     back: "Back",
     unitNames: {
       speed: {
@@ -168,13 +169,14 @@ export const translations = {
     test: "polski tekst",
     settingsTitle: "Ustawienia",
     unitsTitle: "Jednostki",
+    speed: "Prędkość",
     incline: "Nachylenie: ",
     appSettings: "Ustawienia aplikacji",
-    deceleration: `Opóźnienie [m/s²]`,
-    reactionTime: "Czas reakcji [s] ",
+    deceleration: "Opóźnienie",
+    reactionTime: "Czas reakcji",
     altCalcMethod: "Oblicz opóźnienie na podstawie siły hamowania i RMC",
-    brakingForce: "Siła hamowania [N] ",
-    mass: "Rzeczywista masa całkowita [kg] ",
+    brakingForce: "Siła hamowania",
+    mass: "Rzeczywista masa całkowita",
     back: "Powrót",
     unitNames: {
       speed: {

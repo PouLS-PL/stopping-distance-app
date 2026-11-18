@@ -66,6 +66,7 @@ function Settings({
   initialUseBrakingForce,
   onSaveAndBack,
   onOpenUnits,
+  units,
   t,
 }) {
   const [localDeceleration, setLocalDeceleration] =
@@ -108,7 +109,9 @@ function Settings({
       {/* <h2>{t.test}</h2> */}
 
       <p>
-        <label htmlFor="deceleration">{t.deceleration} </label>
+        <label htmlFor="deceleration">
+          {t.deceleration} [{units.deceleration}]
+        </label>
         <input
           type="number"
           id="deceleration"
@@ -125,7 +128,9 @@ function Settings({
       </p>
 
       <p>
-        <label htmlFor="reactionTime">{t.reactionTime}</label>
+        <label htmlFor="reactionTime">
+          {t.reactionTime} [{units.reactionTime}]
+        </label>
         <input
           type="number"
           id="reactionTime"
@@ -150,7 +155,9 @@ function Settings({
         <label htmlFor="useBrakingForce">{t.altCalcMethod}</label>{" "}
       </p>
       <p>
-        <label htmlFor="brakingForce">{t.brakingForce}</label>
+        <label htmlFor="brakingForce">
+          {t.brakingForce} [{units.brakingForce}]
+        </label>
         <input
           type="number"
           id="brakingForce"
@@ -167,7 +174,9 @@ function Settings({
       </p>
 
       <p>
-        <label htmlFor="mass">{t.mass}</label>
+        <label htmlFor="mass">
+          {t.mass} [{units.mass}]
+        </label>
         <input
           type="number"
           id="mass"
@@ -372,10 +381,12 @@ function App() {
           <h1>
             <strong>{message || "Click the button"}</strong>
           </h1>
-          <SpeedTracker />
+          <SpeedTracker speedUnit={units.speed} />
 
           <section className="incline">
-            <span>Prędkość: </span>
+            <span>
+              {t.speed}: [{units.speed}]
+            </span>
             <input
               type="range"
               min="0"
@@ -393,7 +404,7 @@ function App() {
                   ? speedFromGPS
                     ? Math.round(activeSpeed)
                     : speed
-                  : `${speedFromGPS ? (typeof activeSpeed === "number" ? activeSpeed.toFixed(1) : activeSpeed) : speed} km/h`
+                  : `${speedFromGPS ? (typeof activeSpeed === "number" ? activeSpeed.toFixed(1) : activeSpeed) : speed} ${units.speed}`
               }
               onFocus={() => setIsFocusedSpeed(true)}
               onBlur={() => setIsFocusedSpeed(false)}
@@ -415,7 +426,9 @@ function App() {
             />
             <input
               type={isFocusedIncline ? "number" : "text"}
-              value={isFocusedIncline ? incline : `${incline}%`}
+              value={
+                isFocusedIncline ? incline : `${incline}${units.incline}`
+              }
               onFocus={() => setIsFocusedIncline(true)}
               onBlur={() => setIsFocusedIncline(false)}
               onChange={(e) => setIncline(Number(e.target.value))}
@@ -436,7 +449,7 @@ function App() {
                 onClick={() => setIncline(num)}
                 className={`InclineButton_${incline === num ? "active" : ""}`}
               >
-                {num}%
+                {num}{units.incline}
               </button>
             ))}
           </section>
@@ -519,6 +532,7 @@ function App() {
         <Settings
           lang={lang}
           t={t}
+          units={units}
           initialDeceleration={deceleration}
           initialReactionTime={reactionTime}
           initialBrakingForce={brakingForce}
