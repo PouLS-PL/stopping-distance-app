@@ -59,6 +59,19 @@ describe("unit conversions", () => {
       expect(carLengths).toBe(carLength);
     });
 
+    it("converts between meters and imperial feet", () => {
+      // Arrange
+      const feet = 1;
+
+      // Act
+      const meters = convertStoppingDistance(feet, "ft", "m");
+      const feetMeters = convertStoppingDistance(meters, "m", "ft");
+
+      // Assert
+      expect(meters).toBe(0.3048);
+      expect(feetMeters).toBe(feet);
+    });
+
     it("converts between distance and seconds at the current speed", () => {
       // Arrange
       const speedMetersPerSecond = 20;
