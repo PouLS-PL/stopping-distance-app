@@ -1,5 +1,6 @@
 import {
   convertSpeed,
+  convertStoppingDistance,
   STANDARD_GRAVITY_METERS_PER_SECOND_SQUARED,
 } from "./unitConversion";
 
@@ -15,6 +16,7 @@ export function calculateMeasure({
   brakingForce,
   mass,
   useBrakingForce = false,
+  stoppingDistanceUnit = "m",
 }) {
   // const useBrakingForce = false; //temporarily hardcoded to false
 
@@ -45,7 +47,7 @@ export function calculateMeasure({
 
   return {
     distance,
-    message: `${display_stopping_distance(v, a, t, k, numericIncline)} m`,
+    message: `${display_stopping_distance(v, a, t, k, numericIncline)} ${stoppingDistanceUnit}`,
   };
 }
 

@@ -304,6 +304,7 @@ function App() {
     brakingForce,
     mass,
     useBrakingForce,
+    units.stoppingDistance,
   ]);
 
   useEffect(() => {
@@ -329,6 +330,7 @@ function App() {
       brakingForce,
       mass,
       useBrakingForce,
+      stoppingDistanceUnit: units.stoppingDistance,
     });
     if (result.error) {
       setMessage(result.error);
@@ -426,9 +428,7 @@ function App() {
             />
             <input
               type={isFocusedIncline ? "number" : "text"}
-              value={
-                isFocusedIncline ? incline : `${incline}${units.incline}`
-              }
+              value={isFocusedIncline ? incline : `${incline}${units.incline}`}
               onFocus={() => setIsFocusedIncline(true)}
               onBlur={() => setIsFocusedIncline(false)}
               onChange={(e) => setIncline(Number(e.target.value))}
@@ -449,7 +449,8 @@ function App() {
                 onClick={() => setIncline(num)}
                 className={`InclineButton_${incline === num ? "active" : ""}`}
               >
-                {num}{units.incline}
+                {num}
+                {units.incline}
               </button>
             ))}
           </section>
