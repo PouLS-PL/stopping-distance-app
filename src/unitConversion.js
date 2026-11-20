@@ -65,6 +65,11 @@ const STOPPING_DISTANCE_CONVERSIONS = {
     toBase: (value) => value * STANDARD_CAR_LENGTH_METERS,
     fromBase: (value) => value / STANDARD_CAR_LENGTH_METERS,
   },
+  // International foot length (wikipedia)
+  ft: {
+    toBase: (value) => value * 0.3048,
+    fromBase: (value) => value / 0.3048,
+  },
 };
 
 export function convertStoppingDistance(
@@ -73,7 +78,7 @@ export function convertStoppingDistance(
   toUnit,
   speedMetersPerSecond,
 ) {
-  const supportedUnits = ["m", "s", "car"];
+  const supportedUnits = ["m", "s", "car", "ft"];
   if (!supportedUnits.includes(fromUnit) || !supportedUnits.includes(toUnit)) {
     return getConversion(
       value,
