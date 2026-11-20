@@ -3,7 +3,7 @@ import { DEFAULT_UNITS } from "./unitSettings";
 
 const UNIT_OPTIONS = {
   speed: ["km/h", "mi/h", "m/s"],
-  stoppingDistance: ["m", "s", "cars"],
+  stoppingDistance: ["m", "s", "cars", "ft"],
   incline: ["%", "°"],
   deceleration: ["m/s²", "g"],
   reactionTime: ["s"],
