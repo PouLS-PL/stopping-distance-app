@@ -1,4 +1,4 @@
-npmimport { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Geolocation } from "@capacitor/geolocation";
 
 export function useSpeedTracker() {
