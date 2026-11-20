@@ -29,7 +29,7 @@ const SPEED_CONVERSIONS = {
     toBase: (value) => value / 3.6,
     fromBase: (value) => value * 3.6,
   },
-  mph: {
+  "mi/h": {
     toBase: (value) => value * 0.44704,
     fromBase: (value) => value / 0.44704,
   },

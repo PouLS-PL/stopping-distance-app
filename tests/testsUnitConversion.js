@@ -17,13 +17,13 @@ import {
 
 describe("unit conversions", () => {
   describe("speed", () => {
-    it("converts between km/h, mph, and m/s", () => {
+    it("converts between km/h, mi/h, and m/s", () => {
       // Arrange
       const speed = 100;
 
       // Act
       const metersPerSecond = convertSpeed(speed, "km/h", "m/s");
-      const milesPerHour = convertSpeed(speed, "km/h", "mph");
+      const milesPerHour = convertSpeed(speed, "km/h", "mi/h");
 
       // Assert
       expect(metersPerSecond).toBeCloseTo(27.7777778);

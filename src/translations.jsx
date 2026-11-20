@@ -17,12 +17,12 @@ export const translations = {
       speed: {
         "km/h": "kilometres per hour (km/h)",
         "m/s": "metres per second (m/s)",
-        mph: "miles per hour (mi/h)",
+        "mi/h": "miles per hour (mi/h)",
       },
       stoppingDistance: {
         m: "metres (m)",
         ft: "feet (ft)",
-        sv: "seconds at current speed (s)",
+        s: "seconds at current speed (s)",
         cars: "4-metre car lengths (cars)",
       },
       incline: {
@@ -184,12 +184,12 @@ export const translations = {
       speed: {
         "km/h": "kilometry na godzinę (km/h)",
         "m/s": "metry na sekundę (m/s)",
-        mph: "mile na godzinę (mi/h)",
+        "mi/h": "mile na godzinę (mi/h)",
       },
       stoppingDistance: {
         m: "metry (m)",
         ft: "stopy (ft)",
-        sv: "sekundy przy obecnej prędkości (s)",
+        s: "sekundy przy obecnej prędkości (s)",
         cars: "długości 4-metrowych samochodów (sam.)",
       },
       incline: {

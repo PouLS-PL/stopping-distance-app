@@ -2,8 +2,8 @@ import { useState } from "react";
 import { DEFAULT_UNITS } from "./unitSettings";
 
 const UNIT_OPTIONS = {
-  speed: ["km/h", "mph", "m/s"],
-  stoppingDistance: ["m", "sv", "cars"],
+  speed: ["km/h", "mi/h", "m/s"],
+  stoppingDistance: ["m", "s", "cars"],
   incline: ["%", "°"],
   deceleration: ["m/s²", "g"],
   reactionTime: ["s"],
