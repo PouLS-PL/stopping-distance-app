@@ -38,7 +38,20 @@ export function calculateMeasure({
   }
 
   const v = convertSpeed(numericSpeed, "km/h", "m/s");
+  if (stoppingDistanceUnit === "s" && (!Number.isFinite(v) || v <= 0)) {
+    return {
+      error: "Cannot convert stopping distance to seconds at zero speed",
+    };
+  }
+
   const distance = display_stopping_distance(v, a, t, k, numericIncline);
+  const convertedDistance = convertStoppingDistance(
+    distance,
+    "m",
+    stoppingDistanceUnit,
+    v,
+  );
+  const formattedDistance = Number(convertedDistance.toFixed(2));
 
   console.log(`v = ${v}`);
   console.log(`a = ${a}`);
@@ -46,8 +59,8 @@ export function calculateMeasure({
   console.log(`incline = ${incline}`);
 
   return {
-    distance,
-    message: `${display_stopping_distance(v, a, t, k, numericIncline)} ${stoppingDistanceUnit}`,
+    distance: convertedDistance,
+    message: `${formattedDistance} ${stoppingDistanceUnit}`,
   };
 }
 
