@@ -4,6 +4,13 @@ import { SpeedTracker, useSpeedTracker } from "./SpeedMeasurement";
 import { SaveSettingsToFile, LoadSettingsFromFile } from "./SettingsStorage";
 import Units from "./Units";
 import { DEFAULT_UNITS } from "./unitSettings";
+import {
+  convertBrakingForce,
+  convertDeceleration,
+  convertIncline,
+  convertSpeed,
+  convertVehicleMass,
+} from "./unitConversion";
 import { translations } from "./translations.jsx";
 
 export function useLocalStorage(key, initialValue) {
@@ -53,6 +60,10 @@ function Modal({ onClose, children }) {
       </section>
     </section>
   );
+}
+
+function formatUnitValue(value) {
+  return Number(value.toFixed(3));
 }
 
 // ==========================================
@@ -115,8 +126,18 @@ function Settings({
         <input
           type="number"
           id="deceleration"
-          value={localDeceleration}
-          onChange={(e) => setLocalDeceleration(Number(e.target.value))}
+          value={formatUnitValue(
+            convertDeceleration(localDeceleration, "m/s²", units.deceleration),
+          )}
+          onChange={(e) =>
+            setLocalDeceleration(
+              convertDeceleration(
+                Number(e.target.value),
+                units.deceleration,
+                "m/s²",
+              ),
+            )
+          }
         />
         {/* ZNAK ZAPYTANIA DLA OPÓŹNIENIA */}
         <span
@@ -161,8 +182,18 @@ function Settings({
         <input
           type="number"
           id="brakingForce"
-          value={localBrakingForce}
-          onChange={(e) => setLocalBrakingForce(Number(e.target.value))}
+          value={formatUnitValue(
+            convertBrakingForce(localBrakingForce, "N", units.brakingForce),
+          )}
+          onChange={(e) =>
+            setLocalBrakingForce(
+              convertBrakingForce(
+                Number(e.target.value),
+                units.brakingForce,
+                "N",
+              ),
+            )
+          }
         />
         {/* ZNAK ZAPYTANIA */}
         <span
@@ -180,8 +211,14 @@ function Settings({
         <input
           type="number"
           id="mass"
-          value={localMass}
-          onChange={(e) => setLocalMass(Number(e.target.value))}
+          value={formatUnitValue(
+            convertVehicleMass(localMass, "kg", units.mass),
+          )}
+          onChange={(e) =>
+            setLocalMass(
+              convertVehicleMass(Number(e.target.value), units.mass, "kg"),
+            )
+          }
         />
         {/* ZNAK ZAPYTANIA */}
         <span className="info-icon" onClick={() => setActiveModal("mass")}>
@@ -392,10 +429,19 @@ function App() {
             <input
               type="range"
               min="0"
-              max="160"
-              value={speedFromGPS ? Math.round(activeSpeed) : speed}
+              max={formatUnitValue(convertSpeed(160, "km/h", units.speed))}
+              step="any"
+              value={formatUnitValue(
+                convertSpeed(
+                  speedFromGPS ? activeSpeed : speed,
+                  "km/h",
+                  units.speed,
+                ),
+              )}
               onChange={(e) => {
-                setSpeed(Number(e.target.value));
+                setSpeed(
+                  convertSpeed(Number(e.target.value), units.speed, "km/h"),
+                );
                 setSpeedFromGPS(false);
               }}
             />
@@ -403,35 +449,64 @@ function App() {
               type={isFocusedSpeed ? "number" : "text"}
               value={
                 isFocusedSpeed
-                  ? speedFromGPS
-                    ? Math.round(activeSpeed)
-                    : speed
-                  : `${speedFromGPS ? (typeof activeSpeed === "number" ? activeSpeed.toFixed(1) : activeSpeed) : speed} ${units.speed}`
+                  ? formatUnitValue(
+                      convertSpeed(
+                        speedFromGPS ? activeSpeed : speed,
+                        "km/h",
+                        units.speed,
+                      ),
+                    )
+                  : `${formatUnitValue(
+                      convertSpeed(
+                        speedFromGPS ? activeSpeed : speed,
+                        "km/h",
+                        units.speed,
+                      ),
+                    )} ${units.speed}`
               }
               onFocus={() => setIsFocusedSpeed(true)}
               onBlur={() => setIsFocusedSpeed(false)}
               onChange={(e) => {
-                setSpeed(Number(e.target.value));
+                setSpeed(
+                  convertSpeed(Number(e.target.value), units.speed, "km/h"),
+                );
                 setSpeedFromGPS(false);
               }}
             />
           </section>
 
           <section className="incline">
-            <span>{t.incline}</span>
+            <span>
+              {t.incline} [{units.incline}]
+            </span>
             <input
               type="range"
-              min="-15"
-              max="15"
-              value={incline}
-              onChange={(e) => setIncline(e.target.value)}
+              min={formatUnitValue(convertIncline(-15, "%", units.incline))}
+              max={formatUnitValue(convertIncline(15, "%", units.incline))}
+              step="any"
+              value={formatUnitValue(
+                convertIncline(incline, "%", units.incline),
+              )}
+              onChange={(e) =>
+                setIncline(
+                  convertIncline(Number(e.target.value), units.incline, "%"),
+                )
+              }
             />
             <input
               type={isFocusedIncline ? "number" : "text"}
-              value={isFocusedIncline ? incline : `${incline}${units.incline}`}
+              value={
+                isFocusedIncline
+                  ? formatUnitValue(convertIncline(incline, "%", units.incline))
+                  : `${formatUnitValue(convertIncline(incline, "%", units.incline))}${units.incline}`
+              }
               onFocus={() => setIsFocusedIncline(true)}
               onBlur={() => setIsFocusedIncline(false)}
-              onChange={(e) => setIncline(Number(e.target.value))}
+              onChange={(e) =>
+                setIncline(
+                  convertIncline(Number(e.target.value), units.incline, "%"),
+                )
+              }
             />
 
             <span
@@ -449,7 +524,7 @@ function App() {
                 onClick={() => setIncline(num)}
                 className={`InclineButton_${incline === num ? "active" : ""}`}
               >
-                {num}
+                {formatUnitValue(convertIncline(num, "%", units.incline))}
                 {units.incline}
               </button>
             ))}

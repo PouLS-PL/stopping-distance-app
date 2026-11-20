@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Geolocation } from "@capacitor/geolocation";
+import { convertSpeed } from "./unitConversion";
 
 export function useSpeedTracker() {
   const [speed, setSpeed] = useState(0);
@@ -68,7 +69,9 @@ export function SpeedTracker({ speedUnit = "km/h" }) {
   return (
     <section>
       <p>GPS Status: {status}</p>
-      <h2>{speed.toFixed(1)} {speedUnit}</h2>
+      <h2>
+        {convertSpeed(speed, "km/h", speedUnit).toFixed(1)} {speedUnit}
+      </h2>
     </section>
   );
 }
