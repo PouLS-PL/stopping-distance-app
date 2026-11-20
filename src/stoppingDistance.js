@@ -1,5 +1,10 @@
+import {
+  convertSpeed,
+  STANDARD_GRAVITY_METERS_PER_SECOND_SQUARED,
+} from "./unitConversion";
+
 // Standard gravity in m/s^2
-export const g = 9.80665;
+export const g = STANDARD_GRAVITY_METERS_PER_SECOND_SQUARED;
 
 export function calculateMeasure({
   speed,
@@ -30,7 +35,7 @@ export function calculateMeasure({
     return { error: "Invalid speed value provided" };
   }
 
-  const v = kmh_to_ms(numericSpeed);
+  const v = convertSpeed(numericSpeed, "km/h", "m/s");
   const distance = display_stopping_distance(v, a, t, k, numericIncline);
 
   console.log(`v = ${v}`);
@@ -52,26 +57,6 @@ export const FRICTION_COEFFICIENTS = {
   Snow: 0.25,
   Ice: 0.1,
 };
-
-// Converts km/h to m/s
-export function kmh_to_ms(v) {
-  return (1000 * v) / 3600;
-}
-
-// Converts m/s to km/h
-export function ms_to_kmh(v) {
-  return v * 1000 * 3600;
-}
-
-// Converts fraction of g to m/s^2
-export function g_to_ms2(ag) {
-  return ag * g;
-}
-
-// Converts m/s^2 to fraction of g
-export function ms2_to_g(a) {
-  return a / g;
-}
 
 // v - speed in m/s
 // a - deceleration in m/s^2 (do not use negative values)

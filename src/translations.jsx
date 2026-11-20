@@ -2,15 +2,51 @@ export const translations = {
   en: {
     test: "English text",
     settingsTitle: "Settings",
+    unitsTitle: "Units",
+    speed: "Speed",
     incline: "Incline: ",
     appSettings: "App settings",
-    deceleration: `Deceleration [m/s²]`,
-    reactionTime: "Reaction time [s] ",
+    deceleration: "Deceleration",
+    reactionTime: "Reaction time",
     altCalcMethod:
       "Calculate deceleration based on braking force and vehicle mass",
-    brakingForce: "Braking force [N] ",
-    mass: "Total vehicle mass [kg] ",
+    brakingForce: "Braking force",
+    mass: "Total vehicle mass",
     back: "Back",
+    unitNames: {
+      speed: {
+        "km/h": "kilometres per hour (km/h)",
+        "m/s": "metres per second (m/s)",
+        mph: "miles per hour (mi/h)",
+      },
+      stoppingDistance: {
+        m: "metres (m)",
+        ft: "feet (ft)",
+        sv: "seconds at current speed (s)",
+        cars: "4-metre car lengths (cars)",
+      },
+      incline: {
+        "%": "percentage (%)",
+        "°": "degrees (°)",
+      },
+      deceleration: {
+        "m/s²": "metres per second squared (m/s²)",
+        g: "standard gravity (g)",
+      },
+      reactionTime: {
+        s: "seconds (s)",
+      },
+      brakingForce: {
+        N: "newtons (N)",
+        kgf: "kilograms-force (kgf)",
+        lbf: "pounds-force (lbf)",
+      },
+      mass: {
+        kg: "kilograms (kg)",
+        t: "tonnes (t)",
+        lb: "pounds (lb)",
+      },
+    },
     inclineModal: (
       <>
         Incline: Longitudinal gradient in percent (positive values: ascent;
@@ -134,14 +170,50 @@ export const translations = {
   pl: {
     test: "polski tekst",
     settingsTitle: "Ustawienia",
+    unitsTitle: "Jednostki",
+    speed: "Prędkość",
     incline: "Nachylenie: ",
     appSettings: "Ustawienia aplikacji",
-    deceleration: `Opóźnienie [m/s²]`,
-    reactionTime: "Czas reakcji [s] ",
+    deceleration: "Opóźnienie",
+    reactionTime: "Czas reakcji",
     altCalcMethod: "Oblicz opóźnienie na podstawie siły hamowania i RMC",
-    brakingForce: "Siła hamowania [N] ",
-    mass: "Rzeczywista masa całkowita [kg] ",
+    brakingForce: "Siła hamowania",
+    mass: "Rzeczywista masa całkowita",
     back: "Powrót",
+    unitNames: {
+      speed: {
+        "km/h": "kilometry na godzinę (km/h)",
+        "m/s": "metry na sekundę (m/s)",
+        mph: "mile na godzinę (mi/h)",
+      },
+      stoppingDistance: {
+        m: "metry (m)",
+        ft: "stopy (ft)",
+        sv: "sekundy przy obecnej prędkości (s)",
+        cars: "długości 4-metrowych samochodów (sam.)",
+      },
+      incline: {
+        "%": "procenty (%)",
+        "°": "stopnie (°)",
+      },
+      deceleration: {
+        "m/s²": "metry na sekundę kwadrat (m/s²)",
+        g: "przyspieszenie ziemskie (g)",
+      },
+      reactionTime: {
+        s: "sekundy (s)",
+      },
+      brakingForce: {
+        N: "niutony (N)",
+        kgf: "kilogram-siła (kgf)",
+        lbf: "funt-siła (lbf)",
+      },
+      mass: {
+        kg: "kilogramy (kg)",
+        t: "tony (t)",
+        lb: "funty (lb)",
+      },
+    },
     inclineModal: (
       <>
         Nachylenie: Nachylenie podłużne w procentach (dodatnie wartości:

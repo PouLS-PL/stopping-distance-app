@@ -1,7 +1,9 @@
 import { useState, useEffect } from "react";
 import { calculateMeasure } from "./stoppingDistance";
 import { SpeedTracker, useSpeedTracker } from "./SpeedMeasurement";
-import { SaveSettingsToFile, LoadSettingsFromFile } from "./Settings";
+import { SaveSettingsToFile, LoadSettingsFromFile } from "./SettingsStorage";
+import Units from "./Units";
+import { DEFAULT_UNITS } from "./unitSettings";
 import { translations } from "./translations.jsx";
 
 export function useLocalStorage(key, initialValue) {
@@ -63,6 +65,8 @@ function Settings({
   initialMass,
   initialUseBrakingForce,
   onSaveAndBack,
+  onOpenUnits,
+  units,
   t,
 }) {
   const [localDeceleration, setLocalDeceleration] =
@@ -89,13 +93,25 @@ function Settings({
     );
   };
 
+  const handleOpenUnits = () => {
+    onOpenUnits(
+      localDeceleration,
+      localReactionTime,
+      localBrakingForce,
+      localMass,
+      localUseBrakingForce,
+    );
+  };
+
   return (
     <section className="settings">
       <h2>{t.appSettings}</h2>
       {/* <h2>{t.test}</h2> */}
 
       <p>
-        <label htmlFor="deceleration">{t.deceleration} </label>
+        <label htmlFor="deceleration">
+          {t.deceleration} [{units.deceleration}]
+        </label>
         <input
           type="number"
           id="deceleration"
@@ -112,7 +128,9 @@ function Settings({
       </p>
 
       <p>
-        <label htmlFor="reactionTime">{t.reactionTime}</label>
+        <label htmlFor="reactionTime">
+          {t.reactionTime} [{units.reactionTime}]
+        </label>
         <input
           type="number"
           id="reactionTime"
@@ -137,7 +155,9 @@ function Settings({
         <label htmlFor="useBrakingForce">{t.altCalcMethod}</label>{" "}
       </p>
       <p>
-        <label htmlFor="brakingForce">{t.brakingForce}</label>
+        <label htmlFor="brakingForce">
+          {t.brakingForce} [{units.brakingForce}]
+        </label>
         <input
           type="number"
           id="brakingForce"
@@ -154,7 +174,9 @@ function Settings({
       </p>
 
       <p>
-        <label htmlFor="mass">{t.mass}</label>
+        <label htmlFor="mass">
+          {t.mass} [{units.mass}]
+        </label>
         <input
           type="number"
           id="mass"
@@ -165,6 +187,10 @@ function Settings({
         <span className="info-icon" onClick={() => setActiveModal("mass")}>
           ?
         </span>{" "}
+      </p>
+
+      <p>
+        <button onClick={handleOpenUnits}>{t.unitsTitle}</button>
       </p>
 
       <p>
@@ -221,34 +247,33 @@ function App() {
   const [isFocusedSpeed, setIsFocusedSpeed] = useState(false);
   const [isFocusedIncline, setIsFocusedIncline] = useState(false);
   const [useBrakingForce, setUseBrakingForce] = useState(false);
+  const [units, setUnits] = useState(DEFAULT_UNITS);
 
   const { speedGPS, status } = useSpeedTracker();
 
-  const handleSaveSettings = (newDeceleration, newReactionTime) => {
-    setDeceleration(newDeceleration);
-    setReactionTime(newReactionTime);
-    setPage(1); // Powrót na stronę główną
-  };
-
   useEffect(() => {
     async function fetchSettings() {
-      const args = await LoadSettingsFromFile();
+      const savedSettings = await LoadSettingsFromFile();
 
-      // Check if we actually received settings (i.e. not empty array from web fallback)
-      if (args && args.length > 0) {
-        const [
-          newDeceleration,
-          newReactionTime,
-          newBrakingForce,
-          newMass,
-          newUseBrakingForce,
-        ] = args;
-
-        setDeceleration(newDeceleration);
-        setReactionTime(newReactionTime);
-        setBrakingForce(newBrakingForce);
-        setMass(newMass);
-        setUseBrakingForce(newUseBrakingForce);
+      if (savedSettings) {
+        if (savedSettings.deceleration !== undefined) {
+          setDeceleration(savedSettings.deceleration);
+        }
+        if (savedSettings.reactionTime !== undefined) {
+          setReactionTime(savedSettings.reactionTime);
+        }
+        if (savedSettings.brakingForce !== undefined) {
+          setBrakingForce(savedSettings.brakingForce);
+        }
+        if (savedSettings.mass !== undefined) {
+          setMass(savedSettings.mass);
+        }
+        if (savedSettings.useBrakingForce !== undefined) {
+          setUseBrakingForce(savedSettings.useBrakingForce);
+        }
+        if (savedSettings.units) {
+          setUnits({ ...DEFAULT_UNITS, ...savedSettings.units });
+        }
       }
     }
 
@@ -356,10 +381,12 @@ function App() {
           <h1>
             <strong>{message || "Click the button"}</strong>
           </h1>
-          <SpeedTracker />
+          <SpeedTracker speedUnit={units.speed} />
 
           <section className="incline">
-            <span>Prędkość: </span>
+            <span>
+              {t.speed}: [{units.speed}]
+            </span>
             <input
               type="range"
               min="0"
@@ -377,7 +404,7 @@ function App() {
                   ? speedFromGPS
                     ? Math.round(activeSpeed)
                     : speed
-                  : `${speedFromGPS ? (typeof activeSpeed === "number" ? activeSpeed.toFixed(1) : activeSpeed) : speed} km/h`
+                  : `${speedFromGPS ? (typeof activeSpeed === "number" ? activeSpeed.toFixed(1) : activeSpeed) : speed} ${units.speed}`
               }
               onFocus={() => setIsFocusedSpeed(true)}
               onBlur={() => setIsFocusedSpeed(false)}
@@ -399,7 +426,9 @@ function App() {
             />
             <input
               type={isFocusedIncline ? "number" : "text"}
-              value={isFocusedIncline ? incline : `${incline}%`}
+              value={
+                isFocusedIncline ? incline : `${incline}${units.incline}`
+              }
               onFocus={() => setIsFocusedIncline(true)}
               onBlur={() => setIsFocusedIncline(false)}
               onChange={(e) => setIncline(Number(e.target.value))}
@@ -420,7 +449,7 @@ function App() {
                 onClick={() => setIncline(num)}
                 className={`InclineButton_${incline === num ? "active" : ""}`}
               >
-                {num}%
+                {num}{units.incline}
               </button>
             ))}
           </section>
@@ -499,15 +528,30 @@ function App() {
             <Modal onClose={() => setActiveModal(null)}>{t.surfaceModal}</Modal>
           )}
         </>
-      ) : (
+      ) : page === 2 ? (
         <Settings
           lang={lang}
           t={t}
+          units={units}
           initialDeceleration={deceleration}
           initialReactionTime={reactionTime}
           initialBrakingForce={brakingForce}
           initialMass={mass}
           initialUseBrakingForce={useBrakingForce}
+          onOpenUnits={(
+            newDeceleration,
+            newReactionTime,
+            newBrakingForce,
+            newMass,
+            newUseBrakingForce,
+          ) => {
+            setDeceleration(newDeceleration);
+            setReactionTime(newReactionTime);
+            setBrakingForce(newBrakingForce);
+            setMass(newMass);
+            setUseBrakingForce(newUseBrakingForce);
+            setPage(3);
+          }}
           onSaveAndBack={(...args) => {
             const [
               newDeceleration,
@@ -523,9 +567,34 @@ function App() {
             setMass(newMass);
             setUseBrakingForce(newUseBrakingForce);
 
-            SaveSettingsToFile(...args);
+            SaveSettingsToFile({
+              deceleration: newDeceleration,
+              reactionTime: newReactionTime,
+              brakingForce: newBrakingForce,
+              mass: newMass,
+              useBrakingForce: newUseBrakingForce,
+              units,
+            });
 
             setPage(1);
+          }}
+        />
+      ) : (
+        <Units
+          initialUnits={units}
+          lang={lang}
+          t={t}
+          onSaveAndBack={(newUnits) => {
+            setUnits(newUnits);
+            SaveSettingsToFile({
+              deceleration,
+              reactionTime,
+              brakingForce,
+              mass,
+              useBrakingForce,
+              units: newUnits,
+            });
+            setPage(2);
           }}
         />
       )}
