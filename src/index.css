@@ -32,9 +32,51 @@ body {
   text-align: center;
 }
 
-#main {
+.app-shell {
+  min-height: 100vh;
+}
+
+.app-header {
   display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 12px;
+}
+
+.header-icon-button {
+  display: inline-flex;
+  align-items: center;
   justify-content: center;
+  width: 44px;
+  height: 44px;
+  padding: 6px;
+  background: transparent;
+}
+
+.header-icon-button img {
+  display: block;
+  max-width: 100%;
+  max-height: 100%;
+}
+
+.header-icon-button:first-child img {
+  width: 32px;
+  height: 24px;
+}
+
+.header-icon-button:last-child img {
+  width: 32px;
+  height: 32px;
+}
+
+.main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.app-footer {
+  width: 100%;
 }
 
 h1 {
@@ -80,6 +122,12 @@ strong {
   }
   p {
     color: #555;
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  .header-icon-button:last-child img {
+    filter: invert(1);
   }
 }
 
