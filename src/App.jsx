@@ -446,212 +446,228 @@ function App() {
       <main className="main">
         {page === 1 ? (
           <>
-            <button
-              type="button"
-              className="gps-toggle"
-              aria-pressed={speedFromGPS}
-              onClick={() => {
-                const nextGPS = !speedFromGPS;
-                setSpeedFromGPS(nextGPS);
-                if (nextGPS && typeof speedGPS === "number") {
-                  setSpeed(speedGPS);
-                }
-              }}
-            >
-              {speedFromGPS ? "GPS ✓" : "GPS ✗"}
-            </button>
-            <h1>
-              <strong>{message || "Click the button"}</strong>
-            </h1>
-            <SpeedTracker speedUnit={units.speed} />
-
-            <section className="incline">
-              <span>
-                {t.speed}: [{units.speed}]
-              </span>
-              <input
-                type="range"
-                min="0"
-                max={formatUnitValue(convertSpeed(160, "km/h", units.speed))}
-                step="any"
-                value={formatUnitValue(
-                  convertSpeed(
-                    speedFromGPS ? activeSpeed : speed,
-                    "km/h",
-                    units.speed,
-                  ),
-                )}
-                onChange={(e) => {
-                  setSpeed(
-                    convertSpeed(Number(e.target.value), units.speed, "km/h"),
-                  );
-                  setSpeedFromGPS(false);
-                }}
-              />
-              <input
-                type={isFocusedSpeed ? "number" : "text"}
-                value={
-                  isFocusedSpeed
-                    ? formatUnitValue(
-                        convertSpeed(
-                          speedFromGPS ? activeSpeed : speed,
-                          "km/h",
-                          units.speed,
-                        ),
-                      )
-                    : `${formatUnitValue(
-                        convertSpeed(
-                          speedFromGPS ? activeSpeed : speed,
-                          "km/h",
-                          units.speed,
-                        ),
-                      )} ${units.speed}`
-                }
-                onFocus={() => setIsFocusedSpeed(true)}
-                onBlur={() => setIsFocusedSpeed(false)}
-                onChange={(e) => {
-                  setSpeed(
-                    convertSpeed(Number(e.target.value), units.speed, "km/h"),
-                  );
-                  setSpeedFromGPS(false);
-                }}
-              />
+            <section className="distance-data">
+              <h1>
+                <strong>{message || "Click the button"}</strong>
+              </h1>
+              <SpeedTracker speedUnit={units.speed} />
             </section>
 
-            <section className="incline">
-              <span>
-                {t.incline} [{units.incline}]
-              </span>
-              <input
-                type="range"
-                min={formatUnitValue(convertIncline(-15, "%", units.incline))}
-                max={formatUnitValue(convertIncline(15, "%", units.incline))}
-                step="any"
-                value={formatUnitValue(
-                  convertIncline(incline, "%", units.incline),
-                )}
-                onChange={(e) =>
-                  setIncline(
-                    convertIncline(Number(e.target.value), units.incline, "%"),
-                  )
-                }
-              />
-              <input
-                type={isFocusedIncline ? "number" : "text"}
-                value={
-                  isFocusedIncline
-                    ? formatUnitValue(
-                        convertIncline(incline, "%", units.incline),
-                      )
-                    : `${formatUnitValue(convertIncline(incline, "%", units.incline))}${units.incline}`
-                }
-                onFocus={() => setIsFocusedIncline(true)}
-                onBlur={() => setIsFocusedIncline(false)}
-                onChange={(e) =>
-                  setIncline(
-                    convertIncline(Number(e.target.value), units.incline, "%"),
-                  )
-                }
-              />
-
-              <span
-                className="info-icon"
-                onClick={() => setActiveModal("incline")}
+            <section className="input-options">
+              <button
+                type="button"
+                className="gps-toggle"
+                aria-pressed={speedFromGPS}
+                onClick={() => {
+                  const nextGPS = !speedFromGPS;
+                  setSpeedFromGPS(nextGPS);
+                  if (nextGPS && typeof speedGPS === "number") {
+                    setSpeed(speedGPS);
+                  }
+                }}
               >
-                ?
-              </span>
-            </section>
+                {speedFromGPS ? "GPS ✓" : "GPS ✗"}
+              </button>
 
-            <section className="inclineQuickButtons">
-              {buttonOptions.map((num) => (
-                <button
-                  key={num}
-                  onClick={() => setIncline(num)}
-                  className={`InclineButton_${incline === num ? "active" : ""}`}
-                >
-                  {formatUnitValue(convertIncline(num, "%", units.incline))}
-                  {units.incline}
-                </button>
-              ))}
-            </section>
-            <section className="road-signs">
-              <img src="/A-22.png" />
-              <img src="/A-23.png" />
-            </section>
-            <section className="Conditions">
-              {/* Tooltip Icon Container */}
-              <section className="conditions-tooltip-row">
+              <section className="incline">
+                <span>
+                  {t.speed}: [{units.speed}]
+                </span>
+                <input
+                  type="range"
+                  min="0"
+                  max={formatUnitValue(convertSpeed(160, "km/h", units.speed))}
+                  step="any"
+                  value={formatUnitValue(
+                    convertSpeed(
+                      speedFromGPS ? activeSpeed : speed,
+                      "km/h",
+                      units.speed,
+                    ),
+                  )}
+                  onChange={(e) => {
+                    setSpeed(
+                      convertSpeed(Number(e.target.value), units.speed, "km/h"),
+                    );
+                    setSpeedFromGPS(false);
+                  }}
+                />
+                <input
+                  type={isFocusedSpeed ? "number" : "text"}
+                  value={
+                    isFocusedSpeed
+                      ? formatUnitValue(
+                          convertSpeed(
+                            speedFromGPS ? activeSpeed : speed,
+                            "km/h",
+                            units.speed,
+                          ),
+                        )
+                      : `${formatUnitValue(
+                          convertSpeed(
+                            speedFromGPS ? activeSpeed : speed,
+                            "km/h",
+                            units.speed,
+                          ),
+                        )} ${units.speed}`
+                  }
+                  onFocus={() => setIsFocusedSpeed(true)}
+                  onBlur={() => setIsFocusedSpeed(false)}
+                  onChange={(e) => {
+                    setSpeed(
+                      convertSpeed(Number(e.target.value), units.speed, "km/h"),
+                    );
+                    setSpeedFromGPS(false);
+                  }}
+                />
+              </section>
+
+              <section className="incline">
+                <span>
+                  {t.incline} [{units.incline}]
+                </span>
+                <input
+                  type="range"
+                  min={formatUnitValue(convertIncline(-15, "%", units.incline))}
+                  max={formatUnitValue(convertIncline(15, "%", units.incline))}
+                  step="any"
+                  value={formatUnitValue(
+                    convertIncline(incline, "%", units.incline),
+                  )}
+                  onChange={(e) =>
+                    setIncline(
+                      convertIncline(
+                        Number(e.target.value),
+                        units.incline,
+                        "%",
+                      ),
+                    )
+                  }
+                />
+                <input
+                  type={isFocusedIncline ? "number" : "text"}
+                  value={
+                    isFocusedIncline
+                      ? formatUnitValue(
+                          convertIncline(incline, "%", units.incline),
+                        )
+                      : `${formatUnitValue(convertIncline(incline, "%", units.incline))}${units.incline}`
+                  }
+                  onFocus={() => setIsFocusedIncline(true)}
+                  onBlur={() => setIsFocusedIncline(false)}
+                  onChange={(e) =>
+                    setIncline(
+                      convertIncline(
+                        Number(e.target.value),
+                        units.incline,
+                        "%",
+                      ),
+                    )
+                  }
+                />
+
                 <span
-                  className="info-icon conditions-info-icon"
-                  onClick={() => setActiveModal("condition")}
+                  className="info-icon"
+                  onClick={() => setActiveModal("incline")}
                 >
                   ?
                 </span>
               </section>
 
-              {/* Buttons Container */}
-              <section className="conditions-buttons">
-                <button
-                  className={`condition-button ${condition === "Dry" ? "active" : ""}`}
-                  onClick={() => setCondition("Dry")}
-                >
-                  <img
-                    className="condition-icon"
-                    src="/weather_symbols_sunny.png"
-                  />
-                </button>
-
-                <button
-                  className={`condition-button ${condition === "Sand" ? "active" : ""}`}
-                  onClick={() => setCondition("Sand")}
-                >
-                  <img
-                    className="condition-icon condition-icon-sand"
-                    src="/heap-of-sand.png"
-                  />
-                </button>
-
-                <button
-                  className={`condition-button ${condition === "Wet" ? "active" : ""}`}
-                  onClick={() => setCondition("Wet")}
-                >
-                  <img
-                    className="condition-icon"
-                    src="/weather_symbols_rain.png"
-                  />
-                </button>
-
-                <button
-                  className={`condition-button ${condition === "Snow" ? "active" : ""}`}
-                  onClick={() => setCondition("Snow")}
-                >
-                  <img
-                    className="condition-icon"
-                    src="/weather_symbols_snow.png"
-                  />
-                </button>
-
-                <button
-                  className={`condition-button ${condition === "Ice" ? "active" : ""}`}
-                  onClick={() => setCondition("Ice")}
-                >
-                  <img className="condition-icon" src="/A-32.png" />
-                </button>
+              <section className="incline-presets">
+                <section className="road-signs">
+                  <img src="/A-22.png" />
+                  <img src="/A-23.png" />
+                </section>
+                <section className="inclineQuickButtons">
+                  {buttonOptions.map((num) => (
+                    <button
+                      key={num}
+                      data-incline={num}
+                      onClick={() => setIncline(num)}
+                      className={`InclineButton_${incline === num ? "active" : ""}`}
+                    >
+                      {formatUnitValue(convertIncline(num, "%", units.incline))}
+                      {units.incline}
+                    </button>
+                  ))}
+                </section>
               </section>
+              <section className="Conditions">
+                {/* Tooltip Icon Container */}
+                <section className="conditions-tooltip-row">
+                  <span
+                    className="info-icon conditions-info-icon"
+                    onClick={() => setActiveModal("condition")}
+                  >
+                    ?
+                  </span>
+                </section>
+
+                {/* Buttons Container */}
+                <section className="conditions-buttons">
+                  <button
+                    className={`condition-button ${condition === "Dry" ? "active" : ""}`}
+                    onClick={() => setCondition("Dry")}
+                  >
+                    <img
+                      className="condition-icon"
+                      src="/weather_symbols_sunny.png"
+                    />
+                  </button>
+
+                  <button
+                    className={`condition-button ${condition === "Sand" ? "active" : ""}`}
+                    onClick={() => setCondition("Sand")}
+                  >
+                    <img
+                      className="condition-icon condition-icon-sand"
+                      src="/heap-of-sand.png"
+                    />
+                  </button>
+
+                  <button
+                    className={`condition-button ${condition === "Wet" ? "active" : ""}`}
+                    onClick={() => setCondition("Wet")}
+                  >
+                    <img
+                      className="condition-icon"
+                      src="/weather_symbols_rain.png"
+                    />
+                  </button>
+
+                  <button
+                    className={`condition-button ${condition === "Snow" ? "active" : ""}`}
+                    onClick={() => setCondition("Snow")}
+                  >
+                    <img
+                      className="condition-icon"
+                      src="/weather_symbols_snow.png"
+                    />
+                  </button>
+
+                  <button
+                    className={`condition-button ${condition === "Ice" ? "active" : ""}`}
+                    onClick={() => setCondition("Ice")}
+                  >
+                    <img className="condition-icon" src="/A-32.png" />
+                  </button>
+                </section>
+              </section>
+
+              {/* RENDEROWANIE MODALI */}
+              {activeModal === "incline" && (
+                <Modal onClose={() => setActiveModal(null)}>
+                  {t.inclineModal}
+                </Modal>
+              )}
+
+              {activeModal === "condition" && (
+                <Modal onClose={() => setActiveModal(null)}>
+                  {t.surfaceModal}
+                </Modal>
+              )}
             </section>
-
-            {/* RENDEROWANIE MODALI */}
-            {activeModal === "incline" && (
-              <Modal onClose={() => setActiveModal(null)}>
-                {t.inclineModal}
-              </Modal>
-            )}
-
-            {activeModal === "condition" && (
-              <Modal onClose={() => setActiveModal(null)}>
-                {t.surfaceModal}
-              </Modal>
-            )}
           </>
         ) : null}
       </main>
