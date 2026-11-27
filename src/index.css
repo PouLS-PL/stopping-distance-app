@@ -15,6 +15,12 @@
   background-color: #f8fafc;
 }
 
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  color: #f3f4f6;
+  background-color: #15171c;
+}
+
 body {
   margin: 0;
   display: block;
@@ -177,6 +183,18 @@ body {
   padding: 6px 12px;
 }
 
+.gps-controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+}
+
+.gps-controls .info-icon {
+  flex-shrink: 0;
+  margin-left: 0;
+}
+
 .app-footer {
   width: 100%;
 }
@@ -203,6 +221,15 @@ strong {
   gap: 8px;
   width: 100%;
   min-height: 48px;
+}
+
+.incline {
+  grid-template-columns: minmax(0, 1.5fr) minmax(72px, 2fr) 80px auto;
+}
+
+.incline > span:first-child {
+  font-size: clamp(0.55rem, 3vw, 0.9rem);
+  white-space: nowrap;
 }
 
 :is(.incline, .speed) input:is([type="text"], [type="number"]) {

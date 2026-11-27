@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { Capacitor, registerPlugin } from "@capacitor/core";
 import { calculateMeasure } from "./stoppingDistance";
 import { SpeedTracker, useSpeedTracker } from "./SpeedMeasurement";
 import { SaveSettingsToFile, LoadSettingsFromFile } from "./SettingsStorage";
@@ -12,6 +13,8 @@ import {
   convertVehicleMass,
 } from "./unitConversion";
 import { translations } from "./translations.jsx";
+
+const SystemAppearance = registerPlugin("SystemAppearance");
 
 export function useLocalStorage(key, initialValue) {
   const [value, setValue] = useState(() => {
@@ -273,6 +276,27 @@ function App() {
     setLang(lang === "pl" ? "en" : "pl");
   };
   const isDarkMode = theme === "dark";
+  useEffect(() => {
+    const statusBarColor = isDarkMode ? "#20242b" : "#ffffff";
+    const navigationBarColor = isDarkMode ? "#15171c" : "#f8fafc";
+
+    document.documentElement.dataset.theme = isDarkMode ? "dark" : "light";
+    document.documentElement.style.colorScheme = isDarkMode ? "dark" : "light";
+    document
+      .querySelector('meta[name="theme-color"]')
+      ?.setAttribute("content", statusBarColor);
+
+    if (Capacitor.getPlatform() === "android") {
+      SystemAppearance.setTheme({
+        dark: isDarkMode,
+        statusBarColor,
+        navigationBarColor,
+      }).catch((error) => {
+        console.error("Failed to update Android system appearance:", error);
+      });
+    }
+  }, [isDarkMode]);
+
   const [page, setPage] = useState(1);
   const [condition, setCondition] = useState("Dry");
   const [deceleration, setDeceleration] = useState(8.0);
@@ -454,20 +478,28 @@ function App() {
             </section>
 
             <section className="input-options">
-              <button
-                type="button"
-                className="gps-toggle"
-                aria-pressed={speedFromGPS}
-                onClick={() => {
-                  const nextGPS = !speedFromGPS;
-                  setSpeedFromGPS(nextGPS);
-                  if (nextGPS && typeof speedGPS === "number") {
-                    setSpeed(speedGPS);
-                  }
-                }}
-              >
-                {speedFromGPS ? "GPS ✓" : "GPS ✗"}
-              </button>
+              <div className="gps-controls">
+                <button
+                  type="button"
+                  className="gps-toggle"
+                  aria-pressed={speedFromGPS}
+                  onClick={() => {
+                    const nextGPS = !speedFromGPS;
+                    setSpeedFromGPS(nextGPS);
+                    if (nextGPS && typeof speedGPS === "number") {
+                      setSpeed(speedGPS);
+                    }
+                  }}
+                >
+                  {speedFromGPS ? "GPS ✓" : "GPS ✗"}
+                </button>
+                <span
+                  className="info-icon"
+                  onClick={() => setActiveModal("incline")}
+                >
+                  ?
+                </span>
+              </div>
 
               <section className="incline">
                 <span>
@@ -565,13 +597,6 @@ function App() {
                     )
                   }
                 />
-
-                <span
-                  className="info-icon"
-                  onClick={() => setActiveModal("incline")}
-                >
-                  ?
-                </span>
               </section>
 
               <section className="incline-presets">
