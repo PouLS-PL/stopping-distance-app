@@ -1,9 +1,6 @@
 export default function Settings({ onBack }) {
   return (
-    <section
-      className="settings"
-      style={{ padding: "20px", background: "#f0f0f0", color: "#000" }}
-    >
+    <section className="settings">
       <h2>Ustawienia aplikacji</h2>
 
       <button onClick={onBack}>Powrót</button>

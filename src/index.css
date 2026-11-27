@@ -1,4 +1,3 @@
-/* Reset defaults and set dark/light background defaults */
 :root {
   font-family:
     system-ui,
@@ -11,9 +10,9 @@
     Cantarell,
     sans-serif;
   line-height: 1.5;
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
+  color-scheme: light;
+  color: #1f2937;
+  background-color: #f8fafc;
 }
 
 body {
@@ -33,7 +32,35 @@ body {
 }
 
 .app-shell {
+  --app-bg: #f8fafc;
+  --app-surface: #ffffff;
+  --app-text: #1f2937;
+  --app-muted: #4b5563;
+  --app-border: #9ca3af;
+  --app-control-bg: #ffffff;
+  --app-control-text: #111827;
+  --app-accent: #4f46e5;
+  --app-header-button-bg: #9ca3af;
+  --app-header-button-border: #76777c;
+  color: var(--app-text);
+  background-color: var(--app-bg);
+  color-scheme: light;
+  accent-color: var(--app-accent);
   min-height: 100vh;
+}
+
+.app-shell[data-theme="dark"] {
+  --app-bg: #15171c;
+  --app-surface: #20242b;
+  --app-text: #f3f4f6;
+  --app-muted: #c1c8d2;
+  --app-border: #687386;
+  --app-control-bg: #2b3038;
+  --app-control-text: #f9fafb;
+  --app-accent: #a5b4fc;
+  --app-header-button-bg: #374151;
+  --app-header-button-border: #6b7280;
+  color-scheme: dark;
 }
 
 .app-header {
@@ -50,7 +77,6 @@ body {
   width: 44px;
   height: 44px;
   padding: 6px;
-  background: transparent;
 }
 
 .header-icon-button img {
@@ -69,10 +95,63 @@ body {
   height: 32px;
 }
 
+.theme-toggle {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  min-width: 88px;
+  padding: 2px 8px;
+  border: none !important;
+  background: transparent;
+  color: var(--app-text);
+}
+
+.theme-toggle-track {
+  display: flex;
+  align-items: center;
+  width: 40px;
+  height: 22px;
+  padding: 2px;
+  border-radius: 999px;
+  background-color: var(--app-border);
+  transition: background-color 150ms ease;
+}
+
+.theme-toggle[aria-checked="true"] .theme-toggle-track {
+  background-color: var(--app-accent);
+}
+
+.theme-toggle-thumb {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background-color: #ffffff;
+  box-shadow: 0 1px 3px rgb(0 0 0 / 30%);
+  transition: transform 150ms ease;
+}
+
+.theme-toggle[aria-checked="true"] .theme-toggle-thumb {
+  transform: translateX(18px);
+}
+
+.theme-toggle-label {
+  font-size: 0.6rem;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: 0.04em;
+}
+
 .main {
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+
+.gps-toggle {
+  margin: 4px 0;
+  padding: 6px 12px;
 }
 
 .app-footer {
@@ -86,11 +165,11 @@ h1 {
 
 p {
   font-size: 1.1rem;
-  color: #a1a1aa;
+  color: var(--app-muted);
 }
 
 strong {
-  color: #646cff;
+  color: var(--app-accent);
 }
 
 .incline,
@@ -114,21 +193,8 @@ strong {
   justify-content: center;
 }
 
-/* Light mode overrides */
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
-  p {
-    color: #555;
-  }
-}
-
-@media (prefers-color-scheme: dark) {
-  .header-icon-button:last-child img {
-    filter: invert(1);
-  }
+.app-shell[data-theme="dark"] .header-icon-button:last-child img {
+  filter: invert(1);
 }
 
 .condition-button {
@@ -155,8 +221,37 @@ strong {
 
 .settings {
   padding: 20px;
-  background: #f0f0f0;
-  color: #000;
+  background: var(--app-surface);
+  color: var(--app-text);
+}
+
+.app-shell button,
+.app-shell input:not([type="range"]):not([type="checkbox"]),
+.app-shell select {
+  color: var(--app-control-text);
+  background-color: var(--app-control-bg);
+}
+
+.app-shell button {
+  border-color: var(--app-border) !important;
+}
+
+.app-shell .header-icon-button {
+  border: 1px solid var(--app-header-button-border) !important;
+  background-color: var(--app-header-button-bg);
+}
+
+.app-shell .theme-toggle {
+  color: var(--app-text);
+  background-color: transparent;
+}
+
+.app-shell .theme-toggle-track {
+  background-color: var(--app-border);
+}
+
+.app-shell .theme-toggle[aria-checked="true"] .theme-toggle-track {
+  background-color: var(--app-accent);
 }
 
 .modal-backdrop {
@@ -179,8 +274,8 @@ strong {
   overflow-y: auto;
   padding: 20px 25px;
   border-radius: 8px;
-  background-color: #333;
-  color: #fff;
+  background-color: var(--app-surface);
+  color: var(--app-text);
   font-size: 14px;
   line-height: 1.5;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
@@ -192,7 +287,7 @@ strong {
   right: 10px;
   border: none;
   background: none;
-  color: #fff;
+  color: var(--app-text);
   font-size: 18px;
   font-weight: bold;
   cursor: pointer;
@@ -241,7 +336,8 @@ button {
 }
 .condition-button.active,
 .InclineButton_active {
-  background-color: #646cff;
+  background-color: #4f46e5;
+  color: #ffffff;
 }
 
 .condition-button + .condition-button {

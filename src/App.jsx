@@ -267,10 +267,12 @@ function App() {
   // Use your existing hook to remember the choice (defaults to "pl")
   const [lang, setLang] = useLocalStorage("appLang", "pl");
   const t = translations[lang];
+  const [theme, setTheme] = useLocalStorage("appTheme", "light");
 
   const toggleLanguage = () => {
     setLang(lang === "pl" ? "en" : "pl");
   };
+  const isDarkMode = theme === "dark";
   const [page, setPage] = useState(1);
   const [condition, setCondition] = useState("Dry");
   const [deceleration, setDeceleration] = useState(8.0);
@@ -397,7 +399,7 @@ function App() {
   }, [speedGPS, speedFromGPS, page]);
 
   return (
-    <div className="app-shell">
+    <div className="app-shell" data-theme={isDarkMode ? "dark" : "light"}>
       <header className="app-header">
         <button
           type="button"
@@ -414,15 +416,21 @@ function App() {
         </button>
 
         <button
-          onClick={() => {
-            const nextGPS = !speedFromGPS;
-            setSpeedFromGPS(nextGPS);
-            if (nextGPS && typeof speedGPS === "number") {
-              setSpeed(speedGPS);
-            }
-          }}
+          type="button"
+          role="switch"
+          aria-checked={isDarkMode}
+          aria-label={
+            isDarkMode ? "Switch to light mode" : "Switch to dark mode"
+          }
+          className="theme-toggle"
+          onClick={() => setTheme(isDarkMode ? "light" : "dark")}
         >
-          {speedFromGPS ? "GPS ✓" : "GPS ✗"}
+          <span className="theme-toggle-track" aria-hidden="true">
+            <span className="theme-toggle-thumb" />
+          </span>
+          <span className="theme-toggle-label">
+            {isDarkMode ? "DARK MODE" : "LIGHT MODE"}
+          </span>
         </button>
 
         <button
@@ -438,6 +446,20 @@ function App() {
       <main className="main">
         {page === 1 ? (
           <>
+            <button
+              type="button"
+              className="gps-toggle"
+              aria-pressed={speedFromGPS}
+              onClick={() => {
+                const nextGPS = !speedFromGPS;
+                setSpeedFromGPS(nextGPS);
+                if (nextGPS && typeof speedGPS === "number") {
+                  setSpeed(speedGPS);
+                }
+              }}
+            >
+              {speedFromGPS ? "GPS ✓" : "GPS ✗"}
+            </button>
             <h1>
               <strong>{message || "Click the button"}</strong>
             </h1>
